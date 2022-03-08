@@ -4,7 +4,7 @@
             <th scope="row">{{ a.id }}</th>
             <td>{{ a.name }}</td>
             <td>{{ a.description }}</td>
-            <td><my-button class="btn-sm btn-danger"><i class="bi bi-basket"></i></my-button></td>
+            <td><my-button class="btn-sm btn-danger"><i class="bi bi-trash"></i></my-button></td>
         </tr>
 
 </template>

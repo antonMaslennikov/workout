@@ -4,11 +4,11 @@ import router from "./router/router";
 import components from './components/UI';
 // import directives from "@/directives";
 // import store from "@/store";
-import fancyBox from "vue-fancybox/src/fancyBox";
 
 const app = createApp(App);
 
 components.forEach(component => {
+    console.log(component);
     app.component(component.name, component);
 })
 

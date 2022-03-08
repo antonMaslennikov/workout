@@ -1,6 +1,6 @@
 <template>
   <input type="text"
-         class="input"
+         class="form-control input"
          :value="modelValue"
          @input="updateInput"
   >
@@ -22,9 +22,6 @@ export default {
 
 <style scoped>
 .input {
-  width: 100%;
-  border: 1px solid teal;
-  padding: 10px 15px;
-  margin-top: 15px;
+  margin-bottom: 15px;
 }
 </style>

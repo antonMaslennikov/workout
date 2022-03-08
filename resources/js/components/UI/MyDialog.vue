@@ -2,12 +2,13 @@
   <div class="dialog" v-if="show === true" @click="hideDialog">
     <div class="dialog__content" @click.stop>
       <slot></slot>
+        <i class="dialog--hidebutton bi bi-x-circle" @click="hideDialog"></i>
     </div>
   </div>
 </template>
 
 <script>
-import toggleMixin from "@/mixins/toggleMixin";
+import toggleMixin from "../../mixins/toggleMixin";
 
 export default {
   name: "my-dialog",
@@ -29,9 +30,17 @@ export default {
 .dialog__content {
   margin: auto;
   background: white;
-  border-radius: 12px;
+  border-radius: 6px;
   min-height: 50px;
   min-width: 300px;
-  padding: 20px;
+  padding: 40px 20px 20px 20px;
+    position: relative;
+}
+
+.dialog--hidebutton {
+    cursor: pointer;
+    position: absolute;
+    top:10px;
+    right:10px;
 }
 </style>

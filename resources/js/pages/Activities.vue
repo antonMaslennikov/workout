@@ -2,8 +2,12 @@
     <h1>Список упражнений</h1>
 
     <p>
-        <my-button class="btn-success" @click="">Добавить</my-button>
+        <my-button class="btn-success" @click="openModal">Добавить</my-button>
     </p>
+
+    <my-dialog v-model:show="dialogVisible">
+        <activitie-form @create="createActivitie" />
+    </my-dialog>
 
     <activities-list
         v-bind:activities="activities"
@@ -13,17 +17,18 @@
 </template>
 
 <script>
-import ActivitiesList from "../components/activities/List";
 import axios from "axios";
-import MyButton from "../components/UI/MyButton";
+import ActivitiesList from "../components/activities/List";
+import ActivitieForm from "../components/activities/Form";
 
 export default {
     name: "Activities",
-    components: {MyButton, ActivitiesList},
+    components: {ActivitieForm, ActivitiesList},
     data() {
         return {
             activities: [],
             isLoading: true,
+            dialogVisible: false,
         }
     },
     methods: {
@@ -39,8 +44,25 @@ export default {
             }
         },
         openModal() {
+            this.dialogVisible = true;
+        },
+        createActivitie(activitie) {
 
-        }
+            axios
+                .post('/api/activities', activitie, {
+                    headers: {
+                        'Content-type':'application/json'
+                    }
+                })
+                .then(res => {
+                    if (res.data.status == 'ok') {
+                        console.log(res.data.a.id);
+                        activitie.id = res.data.a.id;
+                        this.activities.push(activitie);
+                        this.dialogVisible = false;
+                    }
+                });
+        },
     },
     mounted() {
         this.fetchActivities();
