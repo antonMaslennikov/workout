@@ -1,0 +1,24 @@
+import { createApp } from 'vue';
+import App from "./components/App";
+import router from "./router/router";
+import components from './components/UI';
+// import directives from "@/directives";
+// import store from "@/store";
+import fancyBox from "vue-fancybox/src/fancyBox";
+
+const app = createApp(App);
+
+components.forEach(component => {
+    app.component(component.name, component);
+})
+
+// directives.forEach(directive => {
+//     app.directive(directive.name, directive);
+// });
+
+app
+    .use(router)
+    // .use(store)
+    .mount('#app');
+
+require('./bootstrap');
