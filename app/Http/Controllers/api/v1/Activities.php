@@ -105,6 +105,7 @@ class Activities extends Controller
      */
     public function destroy($id)
     {
-        //
+        $a = Activitie::find($id);
+        $a->delete();
     }
 }

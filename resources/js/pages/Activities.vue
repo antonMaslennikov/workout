@@ -11,6 +11,7 @@
 
     <activities-list
         v-bind:activities="activities"
+        @remove="removeActivitie"
         v-if="!isLoading"
     />
     <div v-else>Идёт загрузка</div>
@@ -47,7 +48,6 @@ export default {
             this.dialogVisible = true;
         },
         createActivitie(activitie) {
-
             axios
                 .post('/api/activities', activitie, {
                     headers: {
@@ -56,12 +56,22 @@ export default {
                 })
                 .then(res => {
                     if (res.data.status == 'ok') {
-                        console.log(res.data.a.id);
                         activitie.id = res.data.a.id;
                         this.activities.push(activitie);
                         this.dialogVisible = false;
                     }
                 });
+        },
+        removeActivitie(activitie) {
+            if (confirm('Подтверждаете удаление?')) {
+                axios
+                    .post('/api/activities/' + activitie.id, {
+                        _method: 'DELETE'
+                    })
+                    .then(response => {
+                        this.activities = this.activities.filter(a => a.id !== activitie.id)
+                    });
+            }
         },
     },
     mounted() {
