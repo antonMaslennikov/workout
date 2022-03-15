@@ -2,16 +2,21 @@
     <h1>Список упражнений</h1>
 
     <p>
-        <my-button class="btn-success" @click="openModal">Добавить</my-button>
+        <my-button class="btn-success" @click="openClearModal">Добавить</my-button>
     </p>
 
     <my-dialog v-model:show="dialogVisible">
-        <activitie-form @create="createActivitie" />
+        <activitie-form
+            v-model:a="currentItem"
+            @create="createActivitie"
+            @update="updateActivitie"
+        />
     </my-dialog>
 
     <activities-list
         v-bind:activities="activities"
         @remove="removeActivitie"
+        @edit="editActivitie"
         v-if="!isLoading"
     />
     <div v-else>Идёт загрузка</div>
@@ -30,6 +35,7 @@ export default {
             activities: [],
             isLoading: true,
             dialogVisible: false,
+            currentItem: null,
         }
     },
     methods: {
@@ -47,6 +53,9 @@ export default {
         openModal() {
             this.dialogVisible = true;
         },
+        closeModal() {
+            this.dialogVisible = false;
+        },
         createActivitie(activitie) {
             axios
                 .post('/api/activities', activitie, {
@@ -58,7 +67,27 @@ export default {
                     if (res.data.status == 'ok') {
                         activitie.id = res.data.a.id;
                         this.activities.push(activitie);
-                        this.dialogVisible = false;
+                        this.closeModal();
+                    }
+                });
+        },
+        updateActivitie(activitie) {
+            axios
+                .post('/api/activities/' + activitie.id, {
+                    name : activitie.name,
+                    description : activitie.description,
+                    _method: 'PUT'
+                })
+                .then(res => {
+                    if (res.data.status == 'ok') {
+                        this.activities = this.activities.map(item => {
+                            if (item.id == activitie.id) {
+                                return activitie;
+                            } else {
+                                return item;
+                            }
+                        });
+                        this.closeModal();
                     }
                 });
         },
@@ -72,6 +101,14 @@ export default {
                         this.activities = this.activities.filter(a => a.id !== activitie.id)
                     });
             }
+        },
+        openClearModal() {
+            this.currentItem = null;
+            this.openModal();
+        },
+        editActivitie(activitie) {
+            this.currentItem = activitie;
+            this.openModal();
         },
     },
     mounted() {

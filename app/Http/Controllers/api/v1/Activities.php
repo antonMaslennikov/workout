@@ -94,7 +94,30 @@ class Activities extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'name' => ['required'],
+            ]
+        );
+
+        if ($validator->fails()) {
+            return [
+                'status' => 'errors',
+                'messages' => $validator->messages()
+            ];
+        }
+
+        $a = Activitie::find($id);
+
+        $a->name = $request->name;
+        $a->description = $request->description;
+        $a->save();
+
+        return [
+            'status' => 'ok',
+            'a' => $a,
+        ];
     }
 
     /**

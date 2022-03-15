@@ -14,6 +14,7 @@
                     v-for="a in activities"
                     :a="a"
                     :key="a.id"
+                    @edit="$emit('edit', a)"
                     @remove="$emit('remove', a)"
                 />
             </tbody>

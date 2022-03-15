@@ -14,7 +14,7 @@
             v-model="aa.description"
         />
 
-        <my-button @click="createActivitie" class="btn-success">Создать</my-button>
+        <my-button @click="saveActivitie" class="btn-success">Создать</my-button>
     </form>
 </template>
 
@@ -22,23 +22,46 @@
 export default {
     name: "ActivitieForm",
     components: {},
+    props: {
+        a: {
+            type: Object,
+        }
+    },
     data() {
         return {
             aa: {
+                id: '',
                 name: '',
                 description: '',
             }
         }
     },
+    mounted() {
+        if (this.a) {
+            this.aa.id = this.a.id;
+            this.aa.name = this.a.name;
+            this.aa.description = this.a.description;
+        } else {
+            this.clearForm();
+        }
+    },
     methods: {
-        createActivitie() {
-            this.$emit('create', this.aa)
+        saveActivitie() {
+            if (!this.aa.id) {
+                this.$emit('create', this.aa)
+            } else {
+                this.$emit('update', this.aa)
+            }
 
+            this.clearForm();
+        },
+        clearForm() {
             this.aa = {
+                id: '',
                 name: '',
                 description: ''
             };
-        },
+        }
     }
 }
 </script>
