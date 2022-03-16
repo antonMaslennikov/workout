@@ -15,3 +15,4 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::resource('activities', \App\Http\Controllers\api\v1\Activities::class);
+Route::resource('dates', \App\Http\Controllers\api\v1\Days::class);
