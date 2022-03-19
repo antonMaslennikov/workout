@@ -19,7 +19,9 @@ export default {
     padding: 0;
     box-sizing: border-box;
 }
-
+h1  {
+    margin-bottom: 30px;
+}
 .app {
     padding: 20px;
 }
