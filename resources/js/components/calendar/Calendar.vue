@@ -13,7 +13,7 @@
             </div>
         </div>
 
-        <div class="days-wrapper" v-if="!isCalendarLoading">
+        <div class="days-wrapper col-sm-5" v-if="!isCalendarLoading">
             <Day
                 v-for="day in dates"
                 :day="day"
@@ -34,9 +34,6 @@ export default {
     data() {
         return {
             dates: [
-                {id: 1, date: '01-03'},
-                {id: 2, date: '02-03'},
-                {id: 3, date: '03-03'},
             ],
             // данные с запланнированными/проведёнными на выбранный период днями с тренировками
             activities: [],
@@ -52,6 +49,14 @@ export default {
                 this.isCalendarLoading = true;
                 const response = await axios.get('/api/days?y=' + this.currentYear + '&m=' + this.currentMonth, {});
                 this.activities = response.data;
+
+                this.dates = [];
+
+                let days = new Date(this.currentYear, this.currentMonth, 0).getDate();
+
+                for (let i = 1; i <= days; i++) {
+                    this.dates.push({id: i, day: i});
+                }
             } catch (e) {
                 alert('Ошибка');
             } finally {

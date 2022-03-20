@@ -1,6 +1,6 @@
 <template>
     <div class="calendar--day">
-        Один день {{ day.date }}
+        <span class="day">{{ day.day }}</span>
     </div>
 </template>
 
@@ -24,8 +24,15 @@ export default {
         width:100px;
         height: 100px;
         margin-right: 10px;
+        margin-bottom: 10px;
         box-sizing: border-box;
-        padding: 10px;
+        padding: 5px 10px;
         cursor: pointer;
+    }
+
+    .day {
+        font-size: 30px;
+        font-style: italic;
+        font-weight: bold;
     }
 </style>
