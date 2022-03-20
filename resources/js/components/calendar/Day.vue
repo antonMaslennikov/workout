@@ -1,5 +1,5 @@
 <template>
-    <div class="calendar--day">
+    <div class="calendar--day" :class="dayClass">
         <span class="day">{{ day.day }}</span>
     </div>
 </template>
@@ -11,6 +11,11 @@ export default {
         day: {
             type: Object,
             required: true
+        }
+    },
+    computed: {
+        dayClass() {
+            return this.day.day > 0 ? '' : 'hidden'
         }
     }
 }
@@ -28,6 +33,10 @@ export default {
         box-sizing: border-box;
         padding: 5px 10px;
         cursor: pointer;
+    }
+
+    .calendar--day.hidden {
+        visibility: hidden;
     }
 
     .day {

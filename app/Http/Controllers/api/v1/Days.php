@@ -10,12 +10,14 @@ class Days extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param $y integer Год
+     * @param $m integer Месяц
      * @return \Illuminate\Http\Response
      */
-    public function index($y, $m)
+    public function index($y = null, $m = null)
     {
         //
-        exit("$year, $month");
+        exit("$y, $m");
     }
 
     /**
