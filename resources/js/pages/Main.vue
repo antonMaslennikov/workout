@@ -9,6 +9,7 @@
 
 <script>
 import Calendar from "../components/calendar/Calendar";
+import axios from "axios";
 
 export default {
     name: "Main",

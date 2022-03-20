@@ -14,24 +14,30 @@
         </div>
 
         <div class="days-wrapper col-sm-5">
+            <div class="calendar--daysname">
+                <div>ПН</div>
+                <div>ВТ</div>
+                <div>СР</div>
+                <div>ЧТ</div>
+                <div>ПТ</div>
+                <div>СБ</div>
+                <div>ВС</div>
+            </div>
             <div v-if="!isCalendarLoading">
-                <div class="calendar--daysname">
-                    <div>ПН</div>
-                    <div>ВТ</div>
-                    <div>СР</div>
-                    <div>ЧТ</div>
-                    <div>ПТ</div>
-                    <div>СБ</div>
-                    <div>ВС</div>
-                </div>
                 <Day
                     v-for="day in dates"
                     :day="day"
                     :key="day.id"
+                    @showDayModal="openModal"
                 ></Day>
             </div>
             <div v-else class="callendar--loader">Идёт загрузка</div>
         </div>
+
+
+        <my-dialog v-model:show="dialogVisible">
+            111111
+        </my-dialog>
     </div>
 </template>
 
@@ -106,7 +112,13 @@ export default {
                 this.currentMonth = 1;
                 this.currentYear++;
             }
-        }
+        },
+        openModal() {
+            this.dialogVisible = true;
+        },
+        closeModal() {
+            this.dialogVisible = false;
+        },
     },
     mounted() {
         this.fetchCalendarDays();

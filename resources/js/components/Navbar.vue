@@ -12,6 +12,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#" @click="$router.push('/activities')">Упражнения</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" @click="$router.push('/food')">Питание</a>
+                    </li>
                 </ul>
             </div>
         </div>
