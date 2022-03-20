@@ -13,23 +13,25 @@
             </div>
         </div>
 
-        <div class="days-wrapper col-sm-5" v-if="!isCalendarLoading">
-            <div class="calendar--daysname">
-                <div>ПН</div>
-                <div>ВТ</div>
-                <div>СР</div>
-                <div>ЧТ</div>
-                <div>ПТ</div>
-                <div>СБ</div>
-                <div>ВС</div>
+        <div class="days-wrapper col-sm-5">
+            <div v-if="!isCalendarLoading">
+                <div class="calendar--daysname">
+                    <div>ПН</div>
+                    <div>ВТ</div>
+                    <div>СР</div>
+                    <div>ЧТ</div>
+                    <div>ПТ</div>
+                    <div>СБ</div>
+                    <div>ВС</div>
+                </div>
+                <Day
+                    v-for="day in dates"
+                    :day="day"
+                    :key="day.id"
+                ></Day>
             </div>
-            <Day
-                v-for="day in dates"
-                :day="day"
-                :key="day.id"
-            ></Day>
+            <div v-else class="callendar--loader">Идёт загрузка</div>
         </div>
-        <div v-else>Идёт загрузка</div>
     </div>
 </template>
 
@@ -129,6 +131,11 @@ export default {
     }
     .days-wrapper {
         margin-top: 30px;
+    }
+
+    .callendar--loader {
+        text-align: center;
+        padding: 100px 0;
     }
 
     .calendar--daysname div {
