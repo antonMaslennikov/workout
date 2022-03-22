@@ -35,19 +35,28 @@
         </div>
 
 
-        <my-dialog v-model:show="dialogVisible">
-            111111
+        <my-dialog v-model:show="dialogVisible" class="-large">
+            <DayView
+                v-bind:year="currentYear"
+                v-bind:month="currentMonth"
+                v-bind:day="currentDay">
+            </DayView>
         </my-dialog>
+
+<!--        <my-modal v-model:show="dialogVisible" id="day-modal">-->
+<!--            222222-->
+<!--        </my-modal>-->
     </div>
 </template>
 
 <script>
 import axios from "axios";
 import Day from "./Day";
+import DayView from "./DayView";
 
 export default {
     name: "Calendar",
-    components: {Day},
+    components: {DayView, Day},
     data() {
         return {
             dates: [
@@ -72,6 +81,8 @@ export default {
             dialogVisible: false,
             currentMonth: new Date().getMonth() + 1,
             currentYear: new Date().getFullYear(),
+            currentDay: null,
+            // myModal: new bootstrap.Modal(document.getElementById('#day-modal'), options),
         }
     },
     methods: {
@@ -115,9 +126,11 @@ export default {
         },
         openModal() {
             this.dialogVisible = true;
+            this.currentDay = 11111;
         },
         closeModal() {
             this.dialogVisible = false;
+            this.currentDay = null;
         },
     },
     mounted() {

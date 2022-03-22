@@ -37,6 +37,11 @@ export default {
     position: relative;
 }
 
+
+.dialog.-large .dialog__content {
+    min-width: 700px;
+}
+
 .dialog--hidebutton {
     cursor: pointer;
     position: absolute;

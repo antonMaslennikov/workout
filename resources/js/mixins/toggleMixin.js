@@ -1,8 +1,4 @@
 export default {
-    // data: {
-    // },
-    // mounted() {
-    // },
     methods: {
         hideDialog(event) {
             this.$emit('update:show', false);
