@@ -124,9 +124,9 @@ export default {
                 this.currentYear++;
             }
         },
-        openModal() {
+        openModal(day) {
             this.dialogVisible = true;
-            this.currentDay = 11111;
+            this.currentDay = day;
         },
         closeModal() {
             this.dialogVisible = false;

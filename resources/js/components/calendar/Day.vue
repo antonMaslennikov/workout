@@ -1,5 +1,5 @@
 <template>
-    <div class="calendar--day" :class="dayClass" @click="$emit('showDayModal')">
+    <div class="calendar--day" :class="dayClass" @click="$emit('showDayModal', day.day)">
         <span class="day">{{ day.day }}</span>
     </div>
 </template>

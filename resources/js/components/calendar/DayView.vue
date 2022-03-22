@@ -1,5 +1,14 @@
 <template>
-    пум-пурум {{ year }} {{ month }} {{ day }}
+    <h4>{{ year }}-{{ month }}-{{ day }}</h4>
+    <hr>
+    <div class="row">
+        <div class="col-sm-6">
+
+        </div>
+        <div class="col-sm-6">
+
+        </div>
+    </div>
 </template>
 
 <script>
@@ -19,6 +28,9 @@ export default {
             required: true
         }
     },
+    mounted() {
+
+    }
 }
 </script>
 
