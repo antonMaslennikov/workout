@@ -6,14 +6,16 @@
 
         </div>
         <div class="col-sm-6">
-
+            <NewActivitieForm ></NewActivitieForm>
         </div>
     </div>
 </template>
 
 <script>
+import NewActivitieForm from "./NewActivitieForm";
 export default {
     name: "DayView",
+    components: {NewActivitieForm},
     props: {
         year: {
             type: Number,

@@ -39,7 +39,7 @@ export default {
 
 
 .dialog.-large .dialog__content {
-    min-width: 700px;
+    min-width: 900px;
 }
 
 .dialog--hidebutton {
