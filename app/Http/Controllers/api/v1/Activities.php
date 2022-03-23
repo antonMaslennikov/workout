@@ -17,7 +17,7 @@ class Activities extends Controller
     public function index()
     {
         //
-        return Activitie::all();
+        return Activitie::orderBy('sort')->get();
     }
 
     /**
@@ -55,6 +55,7 @@ class Activities extends Controller
         $a = Activitie::create([
             'name' => $request->name,
             'description' => $request->description,
+            'sort' => Activitie::getMaxSort() + 1,
         ]);
 
         return [
@@ -130,5 +131,21 @@ class Activities extends Controller
     {
         $a = Activitie::find($id);
         $a->delete();
+    }
+
+    public function savesort(Request $request)
+    {
+        if ($request->order) {
+            foreach ($request->order as $sort => $id) {
+                if ($a = Activitie::find($id)) {
+                    $a->sort = $sort;
+                    $a->save();
+                }
+            }
+        }
+
+        return [
+            'status' => 'ok',
+        ];
     }
 }

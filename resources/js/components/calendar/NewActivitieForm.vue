@@ -32,7 +32,7 @@ import axios from "axios";
 
 export default {
     name: "NewActivitieForm",
-    components: {MyTextarea, MyInput},
+    components: {},
     data() {
         return {
             isLoading: false,

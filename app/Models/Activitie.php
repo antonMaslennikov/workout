@@ -9,5 +9,14 @@ class Activitie extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'description'];
+    protected $fillable = ['name', 'description', 'sort'];
+
+    public static function getMaxSort() {
+        $last = Activitie::select('sort')
+            ->orderByDesc('sort')
+            ->limit(1)
+            ->first();
+
+        return $last->sort;
+    }
 }

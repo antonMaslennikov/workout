@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::post('/activities/savesort', [\App\Http\Controllers\api\v1\Activities::class, 'savesort']);
 Route::resource('activities', \App\Http\Controllers\api\v1\Activities::class);
-//Route::resource('days', \App\Http\Controllers\api\v1\Days::class);
 
 Route::get('/days/{y?}/{m?}', [\App\Http\Controllers\api\v1\Days::class, 'index']);

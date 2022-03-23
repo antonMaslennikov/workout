@@ -17,6 +17,7 @@
         v-bind:activities="activities"
         @remove="removeActivitie"
         @edit="editActivitie"
+        @saveSort="saveSort"
         v-if="!isLoading"
     />
     <div v-else>Идёт загрузка</div>
@@ -101,6 +102,15 @@ export default {
                         this.activities = this.activities.filter(a => a.id !== activitie.id)
                     });
             }
+        },
+        saveSort(order) {
+            console.log(order);
+
+            axios
+                .post('/api/activities/savesort', {'order' : order})
+                .then(response => {
+                    // this.activities = this.activities.filter(a => a.id !== activitie.id)
+                });
         },
         openClearModal() {
             this.currentItem = null;

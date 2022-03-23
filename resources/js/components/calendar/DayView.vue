@@ -3,7 +3,9 @@
     <hr>
     <div class="row">
         <div class="col-sm-6">
-
+            <div>Тренировка 1</div>
+            <div>Тренировка 2</div>
+            <div><button class="btn btn-success">Новая тренировка</button></div>
         </div>
         <div class="col-sm-6">
             <NewActivitieForm ></NewActivitieForm>
