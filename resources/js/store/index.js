@@ -13,9 +13,9 @@ export default createStore({
         ]
     },
     getters: {
-        doubleLikes(state) {
-            return state.likes * 2;
-        }
+        // doubleLikes(state) {
+        //     return state.likes * 2;
+        // }
     },
     // mutations: {
     //     incrementLikes(state) {
