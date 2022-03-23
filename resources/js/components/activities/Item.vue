@@ -3,6 +3,7 @@
     <tr>
         <th scope="row">{{ a.id }}</th>
         <td>{{ a.name }}</td>
+        <td>{{ bodyPart }}</td>
         <td>{{ a.description }}</td>
         <td>
             <my-button class="btn-sm btn-warning" @click="$emit('edit', a)"><i class="bi bi-pen"></i></my-button>
@@ -26,7 +27,17 @@ export default {
             type: Object,
             required: true
         }
-    }
+    },
+    computed: {
+        bodyPart() {
+            if (this.a.body_part) {
+                let bp = this.$store.state.body_parts.filter(p => p.id == this.a.body_part);
+                return bp[0].name;
+            } else {
+                return ;
+            }
+        }
+    },
 }
 </script>
 

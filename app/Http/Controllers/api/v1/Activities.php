@@ -55,6 +55,7 @@ class Activities extends Controller
         $a = Activitie::create([
             'name' => $request->name,
             'description' => $request->description,
+            'body_part' => (int) $request->body_part,
             'sort' => Activitie::getMaxSort() + 1,
         ]);
 
@@ -113,6 +114,7 @@ class Activities extends Controller
 
         $a->name = $request->name;
         $a->description = $request->description;
+        $a->body_part = (int)$request->body_part;
         $a->save();
 
         return [

@@ -77,6 +77,7 @@ export default {
                 .post('/api/activities/' + activitie.id, {
                     name : activitie.name,
                     description : activitie.description,
+                    body_part : activitie.body_part,
                     _method: 'PUT'
                 })
                 .then(res => {
@@ -104,12 +105,9 @@ export default {
             }
         },
         saveSort(order) {
-            console.log(order);
-
             axios
                 .post('/api/activities/savesort', {'order' : order})
                 .then(response => {
-                    // this.activities = this.activities.filter(a => a.id !== activitie.id)
                 });
         },
         openClearModal() {

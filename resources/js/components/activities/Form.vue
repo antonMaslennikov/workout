@@ -4,24 +4,39 @@
 
         <br>
 
-        <my-input
-            placeholder="Название"
-            v-model="aa.name"
-        />
+        <div class="mb-3">
+            <label for="" class="form-label">Название</label>
+            <my-input
+                placeholder="Название"
+                v-model="aa.name"
+            />
+        </div>
 
-        <my-textarea
-            placeholder="Описание"
-            v-model="aa.description"
-        />
+        <div class="mb-3">
+            <label for="" class="form-label">Часть тела</label>
+            <my-select
+                v-model="aa.body_part"
+                :options="bodyParts">
+            </my-select>
+        </div>
+
+        <div class="mb-3">
+            <label for="" class="form-label">Комментарий</label>
+            <my-textarea
+                placeholder="Описание"
+                v-model="aa.description"
+            />
+        </div>
 
         <my-button @click="saveActivitie" class="btn-success">Создать</my-button>
     </form>
 </template>
 
 <script>
+import MySelect from "../UI/MySelect";
 export default {
     name: "ActivitieForm",
-    components: {},
+    components: {MySelect},
     props: {
         a: {
             type: Object,
@@ -32,6 +47,7 @@ export default {
             aa: {
                 id: '',
                 name: '',
+                body_part: '',
                 description: '',
             }
         }
@@ -40,6 +56,7 @@ export default {
         if (this.a) {
             this.aa.id = this.a.id;
             this.aa.name = this.a.name;
+            this.aa.body_part = this.a.body_part;
             this.aa.description = this.a.description;
         } else {
             this.clearForm();
@@ -59,8 +76,18 @@ export default {
             this.aa = {
                 id: '',
                 name: '',
+                body_part: '',
                 description: ''
             };
+        }
+    },
+    computed: {
+        bodyParts() {
+            let bp = [];
+            this.$store.state.body_parts.forEach(i => {
+                bp.push({'value' : i.id, 'name' : i.name});
+            })
+            return bp;
         }
     }
 }
@@ -70,5 +97,6 @@ export default {
 form {
     display: flex;
     flex-direction: column;
+    width: 500px;
 }
 </style>

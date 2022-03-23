@@ -26,6 +26,7 @@
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">Название</th>
+                <th scope="col">Часть тела</th>
                 <th scope="col">Описание</th>
                 <th scope="col"></th>
                 <th scope="col"></th>

@@ -23,7 +23,4 @@ export default {
 </script>
 
 <style scoped>
-.input {
-    margin-bottom: 15px;
-}
 </style>
