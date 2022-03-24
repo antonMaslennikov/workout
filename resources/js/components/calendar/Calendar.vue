@@ -52,7 +52,7 @@
 <script>
 import axios from "axios";
 import Day from "./Day";
-import DayView from "./DayView";
+import DayView from "./view/View";
 
 export default {
     name: "Calendar",
