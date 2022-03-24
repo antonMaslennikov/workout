@@ -12,12 +12,12 @@
                          :key="training.id"
                     >
                         <h2 class="accordion-header" id="headingOne">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                Тренировка #1
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" aria-expanded="true" v-bind:aria-controls="'collapse' + training.id" v-bind:data-bs-target="'#collapse' + training.id">
+                                Тренировка #{{ training.id }}
                             </button>
                         </h2>
 <!--                        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">-->
-                        <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                        <div v-bind:id="'collapse' + training.id" class="accordion-collapse collapse" v-bind:aria-labelledby="'heading' + training.id" data-bs-parent="#accordionExample">
                             <div class="accordion-body">
                                 <strong>This is the first item's accordion body.</strong> It is shown by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
                             </div>
@@ -41,12 +41,12 @@
                         <my-input placeholder="ММ" size="2"></my-input>
                     </div>
                     <div class="col-auto">
-                        <my-button class="btn-dark">Сохранить</my-button>
+                        <my-button class="btn-dark"><i class="bi bi-check-lg"></i></my-button>
                     </div>
                 </div>
             </div>
             <div class="col-sm-5">
-                <NewActivitieForm ></NewActivitieForm>
+                <NewActivitieForm v-if="false"></NewActivitieForm>
             </div>
         </div>
     </div>
