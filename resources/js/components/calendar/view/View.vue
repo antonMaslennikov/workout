@@ -6,45 +6,42 @@
             <div class="col-sm-7">
 
                 <div class="accordion mb-3" id="accordionExample">
-                    <div class="accordion-item">
+
+                    <div class="accordion-item"
+                         v-for="training in trainings"
+                         :key="training.id"
+                    >
                         <h2 class="accordion-header" id="headingOne">
-                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                                 Тренировка #1
                             </button>
                         </h2>
-                        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+<!--                        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">-->
+                        <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                             <div class="accordion-body">
                                 <strong>This is the first item's accordion body.</strong> It is shown by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
                             </div>
                         </div>
                     </div>
-                    <div class="accordion-item">
-                        <h2 class="accordion-header" id="headingTwo">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                Тренировка #2
-                            </button>
-                        </h2>
-                        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-                            <div class="accordion-body">
-                                <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-                            </div>
-                        </div>
-                    </div>
+
                 </div>
 
                 <div class="mb-3">
-                    <a href="#">Новая тренировка</a>
+                    <a href="#" @click="newTrainingShow = !newTrainingShow">Новая тренировка</a>
                 </div>
 
-                <div class="mb-3 row">
+                <div class="mb-3 row" v-if="newTrainingShow">
                     <div class="col-auto">
-                    <my-input placeholder="название"></my-input>
+                        <my-input placeholder="название"></my-input>
                     </div>
                     <div class="col-auto">
-                    <my-input placeholder="ЧЧ" size="2"></my-input>
+                        <my-input placeholder="ЧЧ" size="2"></my-input>
                     </div>
                     <div class="col-auto">
-                    <my-input placeholder="ММ" size="2"></my-input>
+                        <my-input placeholder="ММ" size="2"></my-input>
+                    </div>
+                    <div class="col-auto">
+                        <my-button class="btn-dark">Сохранить</my-button>
                     </div>
                 </div>
             </div>
@@ -58,9 +55,21 @@
 <script>
 import NewActivitieForm from "./NewActivitieForm";
 import MyInput from "../../UI/MyInput";
+import MyButton from "../../UI/MyButton";
 export default {
     name: "DayView",
-    components: {MyInput, NewActivitieForm},
+    components: {MyButton, MyInput, NewActivitieForm},
+    data() {
+        return {
+            newTrainingShow: false,
+            trainings: [
+                {id:1},
+                {id:2},
+                {id:3},
+                {id:4},
+            ],
+        }
+    },
     props: {
         year: {
             type: Number,
@@ -83,6 +92,6 @@ export default {
 
 <style scoped>
 .dayView--wrapper {
-    max-width: 800px;
+    max-width: 900px;
 }
 </style>

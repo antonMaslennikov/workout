@@ -23,7 +23,7 @@
         </div>
 
 
-        <my-button @click="saveActivitie" class="btn-success">Создать</my-button>
+        <my-button @click="saveActivitie" class="btn-dark">Создать</my-button>
     </form>
 </template>
 
