@@ -61,20 +61,6 @@ export default {
         return {
             dates: [
             ],
-            months: [
-                'Январь',
-                'Февраль',
-                'Март',
-                'Апрель',
-                'Май',
-                'Июнь',
-                'Июль',
-                'Август',
-                'Сентябрь',
-                'Октябрь',
-                'Ноябрь',
-                'Декабрь',
-            ],
             // данные с запланнированными/проведёнными на выбранный период днями с тренировками
             activities: [],
             isCalendarLoading: true,
@@ -139,7 +125,7 @@ export default {
     computed: {
         currentMonthFormated() {
             // return this.currentMonth < 10 ? '0' + this.currentMonth : this.currentMonth;
-            return this.months[this.currentMonth - 1];
+            return this.$store.state.months[this.currentMonth - 1];
         }
     },
     watch: {

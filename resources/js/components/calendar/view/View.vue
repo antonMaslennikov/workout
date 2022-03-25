@@ -1,6 +1,6 @@
 <template>
     <div class="dayView--wrapper">
-        <h4>{{ year }}-{{ month }}-{{ day }}</h4>
+        <h4>{{ currentDateFormated }}</h4>
         <hr>
         <div class="row">
             <div class="col-sm-7">
@@ -101,6 +101,11 @@ export default {
                 this.isTrainingsLoading = false;
             }
         },
+        clearTrainingForm() {
+            this.newTrainingForm.name = '';
+            this.newTrainingForm.hour = '';
+            this.newTrainingForm.minute = '';
+        },
         saveTraining() {
             axios
                 .post('/api/trainings', this.newTrainingForm, {
@@ -115,6 +120,7 @@ export default {
                         t.start_at = res.data.t.start_at;
                         this.trainings.push(t);
                         this.newTrainingShow = false;
+                        this.clearTrainingForm();
                     }
                 });
         },
@@ -155,7 +161,12 @@ export default {
     },
     mounted() {
         this.fetchTrainings();
-    }
+    },
+    computed: {
+        currentDateFormated() {
+            return this.day + ' ' + this.$store.state.months[this.month - 1] + ', ' + this.year;
+        }
+    },
 }
 </script>
 
