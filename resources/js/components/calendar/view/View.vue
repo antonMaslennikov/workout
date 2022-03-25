@@ -8,15 +8,14 @@
                 <div class="accordion mb-3" id="accordionExample" v-if="!isTrainingsLoading">
 
                     <div class="accordion-item"
-                         v-for="training in trainings"
+                         v-for="(training, index) in trainings"
                          :key="training.id"
                     >
                         <h2 class="accordion-header" id="headingOne">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" aria-expanded="true" v-bind:aria-controls="'collapse' + training.id" v-bind:data-bs-target="'#collapse' + training.id">
-                                {{ training.name }}
+                                {{ training.name ? training.name : 'Тренировка #' + (index + 1) }}
                             </button>
                         </h2>
-<!--                        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">-->
                         <div v-bind:id="'collapse' + training.id" class="accordion-collapse collapse" v-bind:aria-labelledby="'heading' + training.id" data-bs-parent="#accordionExample">
                             <div class="accordion-body">
                                 {{ training.start_at }}

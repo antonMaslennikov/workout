@@ -64,7 +64,7 @@ class TrainingController extends Controller
             ];
         }
 
-        $d = new \DateTimeImmutable($request->year . '-' . $request->month . '-' . $request->day . ' ' . $request->hour . ':' . $request->minute . ':00');
+        $d = new \DateTimeImmutable($request->year . '-' . $request->month . '-' . $request->day . ' ' . ($request->hour ?? '00') . ':' . ($request->minute ?? '00') . ':00');
 
         $t = Training::create([
             'name' => $request->name,
