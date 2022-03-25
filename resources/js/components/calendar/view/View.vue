@@ -17,7 +17,7 @@
                                     <div class="col-10">{{ training.name ? training.name : 'Тренировка #' + (index + 1) }}</div>
                                     <div class="col-2 -actions">
                                         <a href="#" style="margin-right: 10px"><i class="bi bi-pen"></i></a>
-                                        <a href="#" @click="removeTraining(training.id)"><i class="bi bi-trash"></i></a>
+                                        <a href="#" @click="removeTraining(training)"><i class="bi bi-trash"></i></a>
                                     </div>
                                 </div>
                             </button>
@@ -120,12 +120,14 @@ export default {
                 })
                 .then(res => {
                     if (res.data.status == 'ok') {
-                        let t = this.newTrainingForm;
+                        let t = {};
+                        Object.assign(t,  this.newTrainingForm);
                         t.id = res.data.t.id;
                         t.start_at = res.data.t.start_at;
                         this.trainings.push(t);
                         this.newTrainingShow = false;
-                        this.clearTrainingForm();
+                        this.clearTrainingForm();console.log(t);
+
                     }
                 });
         },
@@ -155,11 +157,11 @@ export default {
         removeTraining(training) {
             if (confirm('Подтверждаете удаление?')) {
                 axios
-                    .post('/api/activities/' + activitie.id, {
+                    .post('/api/trainings/' + training.id, {
                         _method: 'DELETE'
                     })
                     .then(response => {
-                        this.activities = this.activities.filter(a => a.id !== activitie.id)
+                        this.trainings = this.trainings.filter(a => a.id !== training.id)
                     });
             }
         },

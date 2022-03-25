@@ -14,9 +14,7 @@ export default {
         }
     },
     computed: {
-
         dayClass() {
-            console.log(new Date().getMonth());
             return this.day.day > 0 ? (this.day.year == new Date().getFullYear() && this.day.month == new Date().getMonth() + 1 && this.day.day == new Date().getDate() ? 'currentDay' : '') : 'hidden'
         }
     }

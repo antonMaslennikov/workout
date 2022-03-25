@@ -115,11 +115,12 @@ class TrainingController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Training  $training
+     * @param  integer  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Training $training)
+    public function destroy($id)
     {
-        //
+        $t = Training::find($id);
+        $t->delete();
     }
 }
