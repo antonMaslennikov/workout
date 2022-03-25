@@ -13,7 +13,13 @@
                     >
                         <h2 class="accordion-header" id="headingOne">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" aria-expanded="true" v-bind:aria-controls="'collapse' + training.id" v-bind:data-bs-target="'#collapse' + training.id">
-                                {{ training.name ? training.name : 'Тренировка #' + (index + 1) }}
+                                <div class="row" style="width: 90%">
+                                    <div class="col-10">{{ training.name ? training.name : 'Тренировка #' + (index + 1) }}</div>
+                                    <div class="col-2 -actions">
+                                        <a href="#" style="margin-right: 10px"><i class="bi bi-pen"></i></a>
+                                        <a href="#"><i class="bi bi-trash"></i></a>
+                                    </div>
+                                </div>
                             </button>
                         </h2>
                         <div v-bind:id="'collapse' + training.id" class="accordion-collapse collapse" v-bind:aria-labelledby="'heading' + training.id" data-bs-parent="#accordionExample">
@@ -172,5 +178,13 @@ export default {
 <style scoped>
 .dayView--wrapper {
     max-width: 900px;
+}
+
+#accordionExample .accordion-item .-actions {
+    display: none;
+}
+
+#accordionExample .accordion-item:hover .-actions {
+    display: flex;
 }
 </style>
