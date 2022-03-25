@@ -85,7 +85,7 @@ export default {
                 }
 
                 for (let i = 1; i <= new Date(this.currentYear, this.currentMonth, 0).getDate(); i++) {
-                    this.dates.push({id: i, day: i});
+                    this.dates.push({id: i, day: i, month: this.currentMonth, year: this.currentYear});
                 }
 
             } catch (e) {

@@ -17,7 +17,7 @@
                                     <div class="col-10">{{ training.name ? training.name : 'Тренировка #' + (index + 1) }}</div>
                                     <div class="col-2 -actions">
                                         <a href="#" style="margin-right: 10px"><i class="bi bi-pen"></i></a>
-                                        <a href="#"><i class="bi bi-trash"></i></a>
+                                        <a href="#" @click="removeTraining(training.id)"><i class="bi bi-trash"></i></a>
                                     </div>
                                 </div>
                             </button>
@@ -151,6 +151,7 @@ export default {
                     }
                 });
         },
+         */
         removeTraining(training) {
             if (confirm('Подтверждаете удаление?')) {
                 axios
@@ -162,7 +163,6 @@ export default {
                     });
             }
         },
-         */
     },
     mounted() {
         this.fetchTrainings();
@@ -186,5 +186,9 @@ export default {
 
 #accordionExample .accordion-item:hover .-actions {
     display: flex;
+}
+
+.accordion-body {
+    background: #fff;
 }
 </style>

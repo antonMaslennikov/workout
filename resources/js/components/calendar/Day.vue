@@ -14,8 +14,10 @@ export default {
         }
     },
     computed: {
+
         dayClass() {
-            return this.day.day > 0 ? '' : 'hidden'
+            console.log(new Date().getMonth());
+            return this.day.day > 0 ? (this.day.year == new Date().getFullYear() && this.day.month == new Date().getMonth() + 1 && this.day.day == new Date().getDate() ? 'currentDay' : '') : 'hidden'
         }
     }
 }
@@ -37,6 +39,10 @@ export default {
 
     .calendar--day.hidden {
         visibility: hidden;
+    }
+
+    .calendar--day.currentDay {
+        background: #e1e1e1;
     }
 
     .day {
