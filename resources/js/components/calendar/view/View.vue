@@ -5,7 +5,7 @@
         <div class="row">
             <div class="col-sm-7">
 
-                <div class="accordion mb-3" id="accordionExample">
+                <div class="accordion mb-3" id="accordionExample" v-if="!isTrainingsLoading">
 
                     <div class="accordion-item"
                          v-for="training in trainings"
@@ -13,18 +13,19 @@
                     >
                         <h2 class="accordion-header" id="headingOne">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" aria-expanded="true" v-bind:aria-controls="'collapse' + training.id" v-bind:data-bs-target="'#collapse' + training.id">
-                                Тренировка #{{ training.id }}
+                                {{ training.name }}
                             </button>
                         </h2>
 <!--                        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">-->
                         <div v-bind:id="'collapse' + training.id" class="accordion-collapse collapse" v-bind:aria-labelledby="'heading' + training.id" data-bs-parent="#accordionExample">
                             <div class="accordion-body">
-                                <strong>This is the first item's accordion body.</strong> It is shown by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+                                {{ training.start_at }}
                             </div>
                         </div>
                     </div>
 
                 </div>
+                <div v-else>Тренировки загружаются</div>
 
                 <div class="mb-3">
                     <a href="#" @click="newTrainingShow = !newTrainingShow">Новая тренировка</a>
@@ -32,16 +33,16 @@
 
                 <div class="mb-3 row" v-if="newTrainingShow">
                     <div class="col-auto">
-                        <my-input placeholder="название"></my-input>
+                        <my-input placeholder="название" v-model="newTrainingForm.name"></my-input>
                     </div>
                     <div class="col-auto">
-                        <my-input placeholder="ЧЧ" size="2"></my-input>
+                        <my-input placeholder="ЧЧ" size="2" v-model="newTrainingForm.hour"></my-input>
                     </div>
                     <div class="col-auto">
-                        <my-input placeholder="ММ" size="2"></my-input>
+                        <my-input placeholder="ММ" size="2" v-model="newTrainingForm.minute"></my-input>
                     </div>
                     <div class="col-auto">
-                        <my-button class="btn-dark"><i class="bi bi-check-lg"></i></my-button>
+                        <my-button class="btn-dark" @click="saveTraining"><i class="bi bi-check-lg"></i></my-button>
                     </div>
                 </div>
             </div>
@@ -54,19 +55,23 @@
 
 <script>
 import NewActivitieForm from "./NewActivitieForm";
-import MyInput from "../../UI/MyInput";
-import MyButton from "../../UI/MyButton";
+import axios from "axios";
 export default {
     name: "DayView",
-    components: {MyButton, MyInput, NewActivitieForm},
+    components: {NewActivitieForm},
     data() {
         return {
+            isTrainingsLoading: false,
             newTrainingShow: false,
+            newTrainingForm: {
+                year: this.year,
+                month: this.month,
+                day: this.day,
+                name: '',
+                hour: '',
+                minute: '',
+            },
             trainings: [
-                {id:1},
-                {id:2},
-                {id:3},
-                {id:4},
             ],
         }
     },
@@ -84,8 +89,72 @@ export default {
             required: true
         }
     },
+    methods: {
+        async fetchTrainings() {
+            try {
+                this.isTrainingsLoading = true;
+                const response = await axios.get('/api/trainings/' + this.year + '/' + this.month + '/' + this.day, {});
+                this.trainings = response.data;
+            } catch (e) {
+                alert('Ошибка');
+            } finally {
+                this.isTrainingsLoading = false;
+            }
+        },
+        saveTraining() {
+            axios
+                .post('/api/trainings', this.newTrainingForm, {
+                    headers: {
+                        'Content-type':'application/json'
+                    }
+                })
+                .then(res => {
+                    if (res.data.status == 'ok') {
+                        let t = this.newTrainingForm;
+                        t.id = res.data.t.id;
+                        t.start_at = res.data.t.start_at;
+                        this.trainings.push(t);
+                        this.newTrainingShow = false;
+                    }
+                });
+        },
+        /*
+        updateTraining() {
+            axios
+                .post('/api/activities/' + activitie.id, {
+                    name : activitie.name,
+                    description : activitie.description,
+                    body_part : activitie.body_part,
+                    _method: 'PUT'
+                })
+                .then(res => {
+                    if (res.data.status == 'ok') {
+                        this.activities = this.activities.map(item => {
+                            if (item.id == activitie.id) {
+                                return activitie;
+                            } else {
+                                return item;
+                            }
+                        });
+                        this.closeModal();
+                    }
+                });
+        },
+        removeTraining(training) {
+            if (confirm('Подтверждаете удаление?')) {
+                axios
+                    .post('/api/activities/' + activitie.id, {
+                        _method: 'DELETE'
+                    })
+                    .then(response => {
+                        this.activities = this.activities.filter(a => a.id !== activitie.id)
+                    });
+            }
+        },
+         */
+    },
     mounted() {
-
+        this.fetchTrainings();
     }
 }
 </script>
