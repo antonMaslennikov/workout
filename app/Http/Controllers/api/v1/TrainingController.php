@@ -115,6 +115,8 @@ class TrainingController extends Controller
                 'year' => ['required', 'integer', 'between:' . date('Y') . ',' . (date('Y') + 10)],
                 'month' => ['required', 'integer', 'between:0,12'],
                 'day' => ['required', 'integer', 'between:1,31'],
+//                'hour' => ['integer', 'between:0,24'],
+//                'minute' => ['integer', 'between:0,60'],
             ]
         );
 

@@ -155,13 +155,15 @@ export default {
                     .then(res => {
                         if (res.data.status == 'ok') {
 
-                            // this.activities = this.activities.map(item => {
-                            //     if (item.id == activitie.id) {
-                            //         return activitie;
-                            //     } else {
-                            //         return item;
-                            //     }
-                            // });
+                            this.trainings = this.trainings.map(item => {
+                                if (item.id == this.newTrainingForm.id) {
+                                    item.name = this.newTrainingForm.name;
+                                    item.hour = this.newTrainingForm.hour;
+                                    item.minute = this.newTrainingForm.minute;
+                                    item.start_at = res.data.a.start_at;
+                                }
+                                return item;
+                            });
 
                         }
                     });
