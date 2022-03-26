@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Activitie extends Model
 {
@@ -12,7 +13,8 @@ class Activitie extends Model
     protected $fillable = ['name', 'description', 'body_part', 'sort'];
 
     public static function getMaxSort() {
-        $last = self::select('sort')
+        $last = DB::table('activities')
+            ->select('sort')
             ->orderByDesc('sort')
             ->limit(1)
             ->first();
