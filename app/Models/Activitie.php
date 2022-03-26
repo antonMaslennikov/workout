@@ -12,7 +12,7 @@ class Activitie extends Model
     protected $fillable = ['name', 'description', 'body_part', 'sort'];
 
     public static function getMaxSort() {
-        $last = Activitie::select('sort')
+        $last = self::select('sort')
             ->orderByDesc('sort')
             ->limit(1)
             ->first();
