@@ -104,12 +104,39 @@ class TrainingController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Training  $training
+     * @param  integer  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Training $training)
+    public function update(Request $request, $id)
     {
-        //
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'year' => ['required', 'integer', 'between:' . date('Y') . ',' . (date('Y') + 10)],
+                'month' => ['required', 'integer', 'between:0,12'],
+                'day' => ['required', 'integer', 'between:1,31'],
+            ]
+        );
+
+        if ($validator->fails()) {
+            return [
+                'status' => 'errors',
+                'messages' => $validator->messages()
+            ];
+        }
+
+        $d = new \DateTimeImmutable($request->year . '-' . $request->month . '-' . $request->day . ' ' . ($request->hour ?? '00') . ':' . ($request->minute ?? '00') . ':00');
+
+        $a = Training::find($id);
+
+        $a->name = $request->name;
+        $a->start_at = $d->format('Y-m-d H:i:00');
+        $a->save();
+
+        return [
+            'status' => 'ok',
+            'a' => $a,
+        ];
     }
 
     /**

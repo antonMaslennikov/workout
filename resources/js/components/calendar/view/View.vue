@@ -16,8 +16,8 @@
                                 <div class="row" style="width: 90%">
                                     <div class="col-10">{{ training.name ? training.name : 'Тренировка #' + (index + 1) }}</div>
                                     <div class="col-2 -actions">
-                                        <a href="#" style="margin-right: 10px"><i class="bi bi-pen"></i></a>
-                                        <a href="#" @click="removeTraining(training)"><i class="bi bi-trash"></i></a>
+                                        <a href="#" @click.stop.prevent="editTraining(training)" style="margin-right: 10px;"><i class="bi bi-pen"></i></a>
+                                        <a href="#" @click.stop.prevent="removeTraining(training)"><i class="bi bi-trash"></i></a>
                                     </div>
                                 </div>
                             </button>
@@ -33,7 +33,7 @@
                 <div v-else>Тренировки загружаются</div>
 
                 <div class="mb-3">
-                    <a href="#" @click="newTrainingShow = !newTrainingShow">Новая тренировка</a>
+                    <a href="#" @click="showNewTrainingForm" v-if="!newTrainingShow">Новая тренировка</a>
                 </div>
 
                 <div class="mb-3 row" v-if="newTrainingShow">
@@ -47,7 +47,8 @@
                         <my-input placeholder="ММ" size="2" v-model="newTrainingForm.minute"></my-input>
                     </div>
                     <div class="col-auto">
-                        <my-button class="btn-dark" @click="saveTraining"><i class="bi bi-check-lg"></i></my-button>
+                        <my-button class="btn-success me-2" @click="saveTraining"><i class="bi bi-check-lg"></i></my-button>
+                        <my-button class="btn-dark" @click="hideNewTrainingForm"><i class="bi bi-x-lg"></i></my-button>
                     </div>
                 </div>
             </div>
@@ -106,54 +107,84 @@ export default {
                 this.isTrainingsLoading = false;
             }
         },
+        showNewTrainingForm() {
+            this.newTrainingShow = true;
+            if (this.newTrainingForm.id > 0) {
+                this.clearTrainingForm();
+            }
+        },
+        hideNewTrainingForm() {
+            this.newTrainingShow = false;
+            if (this.newTrainingForm.id > 0) {
+                this.clearTrainingForm();
+            }
+        },
         clearTrainingForm() {
+            this.newTrainingForm.id = 0;
             this.newTrainingForm.name = '';
             this.newTrainingForm.hour = '';
             this.newTrainingForm.minute = '';
         },
         saveTraining() {
-            axios
-                .post('/api/trainings', this.newTrainingForm, {
-                    headers: {
-                        'Content-type':'application/json'
-                    }
-                })
-                .then(res => {
-                    if (res.data.status == 'ok') {
-                        let t = {};
-                        Object.assign(t,  this.newTrainingForm);
-                        t.id = res.data.t.id;
-                        t.start_at = res.data.t.start_at;
-                        this.trainings.push(t);
-                        this.newTrainingShow = false;
-                        this.clearTrainingForm();console.log(t);
+            if (!this.newTrainingForm.id) {
+                axios
+                    .post('/api/trainings', this.newTrainingForm, {
+                        headers: {
+                            'Content-type': 'application/json'
+                        }
+                    })
+                    .then(res => {
+                        if (res.data.status == 'ok') {
+                            let t = {};
+                            Object.assign(t, this.newTrainingForm);
+                            t.id = res.data.t.id;
+                            t.start_at = res.data.t.start_at;
+                            this.trainings.push(t);
+                            this.newTrainingShow = false;
+                            this.clearTrainingForm();
 
-                    }
-                });
+                        }
+                    });
+            } else {
+
+                this.newTrainingForm._method = 'PUT';
+                console.log(this.newTrainingForm);
+
+                axios
+                    .post('/api/trainings/' + this.newTrainingForm.id, this.newTrainingForm)
+                    .then(res => {
+                        if (res.data.status == 'ok') {
+
+                            // this.activities = this.activities.map(item => {
+                            //     if (item.id == activitie.id) {
+                            //         return activitie;
+                            //     } else {
+                            //         return item;
+                            //     }
+                            // });
+
+                        }
+                    });
+            }
         },
-        /*
-        updateTraining() {
-            axios
-                .post('/api/activities/' + activitie.id, {
-                    name : activitie.name,
-                    description : activitie.description,
-                    body_part : activitie.body_part,
-                    _method: 'PUT'
-                })
-                .then(res => {
-                    if (res.data.status == 'ok') {
-                        this.activities = this.activities.map(item => {
-                            if (item.id == activitie.id) {
-                                return activitie;
-                            } else {
-                                return item;
-                            }
-                        });
-                        this.closeModal();
-                    }
-                });
+        editTraining(training) {
+            this.newTrainingForm.id = training.id;
+            this.newTrainingForm.name = training.name;
+
+            if (training.start_at) {
+                let d = new Date(training.start_at);
+
+                if (d.getHours()) {
+                    this.newTrainingForm.hour = d.getHours();
+                }
+
+                if (d.getMinutes()) {
+                    this.newTrainingForm.minute = d.getMinutes();
+                }
+            }
+
+            this.newTrainingShow = true;
         },
-         */
         removeTraining(training) {
             if (confirm('Подтверждаете удаление?')) {
                 axios
@@ -184,6 +215,7 @@ export default {
 
 #accordionExample .accordion-item .-actions {
     display: none;
+    z-index: 9999999;
 }
 
 #accordionExample .accordion-item:hover .-actions {
