@@ -14,7 +14,7 @@ class Set extends Model
      *
      * @var string
      */
-    protected $table = 'trainigs__sets';
+    protected $table = 'trainings__sets';
 
     protected $fillable = ['training_id', 'sort'];
 }

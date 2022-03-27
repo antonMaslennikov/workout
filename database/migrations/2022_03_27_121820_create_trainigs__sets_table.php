@@ -13,7 +13,7 @@ class CreateTrainigsSetsTable extends Migration
      */
     public function up()
     {
-        Schema::create('trainigs__sets', function (Blueprint $table) {
+        Schema::create('trainings__sets', function (Blueprint $table) {
             $table->id();
 
 //            $table->foreign('training_id')->references('id')->on('trainings');
@@ -37,10 +37,10 @@ class CreateTrainigsSetsTable extends Migration
      */
     public function down()
     {
-        Schema::table('trainigs__sets', function (Blueprint $table) {
+        Schema::table('trainings__sets', function (Blueprint $table) {
             $table->dropForeign(['training_id']);
         });
 
-        Schema::dropIfExists('trainigs__sets');
+        Schema::dropIfExists('trainings__sets');
     }
 }
