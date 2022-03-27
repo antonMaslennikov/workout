@@ -79,7 +79,10 @@
                     </div>
                 </div>
 
-                <NewActivitieForm v-if="addActivitieForm"></NewActivitieForm>
+                <NewActivitieForm
+                    v-if="addActivitieForm"
+                    @hideNewActivitieForm='hideNewActivitieForm'
+                ></NewActivitieForm>
             </div>
         </div>
     </div>
@@ -237,6 +240,9 @@ export default {
         showNewActivitieForm() {
             this.addActivitieForm = true;
             this.newTrainingShow = false;
+        },
+        hideNewActivitieForm() {
+            this.addActivitieForm = false;
         }
     },
     mounted() {

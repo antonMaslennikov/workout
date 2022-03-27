@@ -2,7 +2,7 @@
     <form @submit.prevent>
         <h5>Добавить упражнение</h5>
         <div class="mb-3">
-            <label for="" class="form-label">Упражнение</label>
+            <label class="form-label">Упражнение</label>
             <my-select
                 v-model="form.activitie_id"
                 :options="activities"
@@ -10,14 +10,14 @@
         </div>
 
         <div class="mb-3">
-            <label for="" class="form-label">Кол-во повторений</label>
+            <label class="form-label">Кол-во повторений</label>
             <my-input
                 v-model="form.quantity"
             ></my-input>
         </div>
 
         <div class="mb-3">
-            <label for="" class="form-label">Комментарий</label>
+            <label class="form-label">Комментарий</label>
             <my-textarea
                 v-model="form.comment"
             ></my-textarea>
@@ -30,7 +30,7 @@
                     <my-button class="btn-success me-2" @click="saveActivitie"><i class="bi bi-check-lg"></i> сохранить</my-button>
                 </div>
                 <div class="col-6 text-end">
-                    <my-button class="btn-dark" @click=""><i class="bi bi-x-lg"></i> отменить</my-button>
+                    <my-button class="btn-dark" @click="$emit('hideNewActivitieForm')"><i class="bi bi-x-lg"></i> отменить</my-button>
                 </div>
             </div>
         </div>
