@@ -43,13 +43,13 @@ import axios from "axios";
 export default {
     name: "new-activitie-form",
     components: {},
+    props: {
+    },
     data() {
         return {
             isLoading: false,
             activities: [],
             form: {
-                training_id: 0,
-                set_id: 0,
                 activitie_id: 0,
                 quantity: 1,
                 comment: '',
@@ -71,6 +71,9 @@ export default {
             } finally {
                 this.isLoading = false;
             }
+        },
+        saveActivitie() {
+            this.$emit('saveNewActivitie', this.form);
         },
     },
     mounted() {
