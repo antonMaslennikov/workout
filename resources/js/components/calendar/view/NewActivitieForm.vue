@@ -1,5 +1,6 @@
 <template>
     <form @submit.prevent>
+        <h5>Добавить упражнение</h5>
         <div class="mb-3">
             <label for="" class="form-label">Упражнение</label>
             <my-select
@@ -23,7 +24,16 @@
         </div>
 
 
-        <my-button @click="saveActivitie" class="btn-dark">Создать</my-button>
+        <div class="mb-3">
+            <div class="row">
+                <div class="col-6">
+                    <my-button class="btn-success me-2" @click="saveActivitie"><i class="bi bi-check-lg"></i> сохранить</my-button>
+                </div>
+                <div class="col-6 text-end">
+                    <my-button class="btn-dark" @click=""><i class="bi bi-x-lg"></i> отменить</my-button>
+                </div>
+            </div>
+        </div>
     </form>
 </template>
 
@@ -31,13 +41,15 @@
 import axios from "axios";
 
 export default {
-    name: "NewActivitieForm",
+    name: "new-activitie-form",
     components: {},
     data() {
         return {
             isLoading: false,
             activities: [],
             form: {
+                training_id: 0,
+                set_id: 0,
                 activitie_id: 0,
                 quantity: 1,
                 comment: '',

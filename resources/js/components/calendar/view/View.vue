@@ -29,7 +29,7 @@
                             <div class="accordion-body">
                                 <div class="training-sets--list"
                                      v-for="(set, set_index) in training.sets">
-                                    Сет: {{ set_index + 1 }}
+                                    Сет: {{ set_index + 1 }}. <a href="#" @click="showNewActivitieForm"><i class="bi bi-plus-circle"></i></a>
 
                                     <div class="training-activities--list"
                                          v-for="(activitie, a_index) in set.activities">
@@ -79,7 +79,7 @@
                     </div>
                 </div>
 
-                <NewActivitieForm v-if="false"></NewActivitieForm>
+                <NewActivitieForm v-if="addActivitieForm"></NewActivitieForm>
             </div>
         </div>
     </div>
@@ -103,6 +103,7 @@ export default {
                 hour: '',
                 minute: '',
             },
+            addActivitieForm: false,
             trainings: [
             ],
         }
@@ -135,6 +136,7 @@ export default {
         },
         showNewTrainingForm() {
             this.newTrainingShow = true;
+            this.addActivitieForm = false;
             if (this.newTrainingForm.id > 0) {
                 this.clearTrainingForm();
             }
@@ -206,6 +208,7 @@ export default {
                 this.newTrainingForm.minute = d.getMinutes() ? d.getMinutes() : '';
             }
 
+            this.addActivitieForm = false;
             this.newTrainingShow = true;
         },
         removeTraining(training) {
@@ -230,6 +233,10 @@ export default {
                     }
                     training.sets.push(response.data.set);
                 });
+        },
+        showNewActivitieForm() {
+            this.addActivitieForm = true;
+            this.newTrainingShow = false;
         }
     },
     mounted() {
