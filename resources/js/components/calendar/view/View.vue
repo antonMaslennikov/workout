@@ -48,6 +48,7 @@
             <div class="col-sm-6">
 
                 <div class="mb-3 row" v-if="newTrainingShow">
+                    <h5>{{ newTrainingForm.id > 0 ? 'Редактировать тренировку' : 'Новая тренировка' }}</h5>
                     <div class="mb-3">
                         <label class="form-label">Название тренировки</label>
                         <my-input v-model="newTrainingForm.name"></my-input>
@@ -196,6 +197,9 @@ export default {
                 if (d.getMinutes()) {
                     this.newTrainingForm.minute = d.getMinutes();
                 }
+            } else {
+                this.newTrainingForm.hour = '';
+                this.newTrainingForm.minute = '';
             }
 
             this.newTrainingShow = true;
