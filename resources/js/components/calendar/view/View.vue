@@ -190,16 +190,8 @@ export default {
             if (training.start_at) {
                 let d = new Date(training.start_at);
 
-                if (d.getHours()) {
-                    this.newTrainingForm.hour = d.getHours();
-                }
-
-                if (d.getMinutes()) {
-                    this.newTrainingForm.minute = d.getMinutes();
-                }
-            } else {
-                this.newTrainingForm.hour = '';
-                this.newTrainingForm.minute = '';
+                this.newTrainingForm.hour = d.getHours() ? d.getHours() : '';
+                this.newTrainingForm.minute = d.getMinutes() ? d.getMinutes() : '';
             }
 
             this.newTrainingShow = true;
