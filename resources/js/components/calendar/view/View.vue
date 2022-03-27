@@ -3,7 +3,7 @@
         <h4>{{ currentDateFormated }}</h4>
         <hr>
         <div class="row">
-            <div class="col-sm-7">
+            <div class="col-sm-6">
 
                 <div class="accordion mb-3" id="accordionExample" v-if="!isTrainingsLoading">
 
@@ -25,6 +25,15 @@
                         <div v-bind:id="'collapse' + training.id" class="accordion-collapse collapse" v-bind:aria-labelledby="'heading' + training.id" data-bs-parent="#accordionExample">
                             <div class="accordion-body">
                                 {{ training.start_at }}
+                                <div class="training-sets--list"
+                                     v-for="(set, set_index) in training.sets">
+                                    Сет: {{ set_index + 1 }}
+
+                                    <div class="training-activities--list"
+                                         v-for="(activitie, a_index) in set.activities">
+                                        Упражнение: {{ a_index + 1 }}
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -35,24 +44,28 @@
                 <div class="mb-3">
                     <a href="#" @click="showNewTrainingForm" v-if="!newTrainingShow">Новая тренировка</a>
                 </div>
+            </div>
+            <div class="col-sm-6">
 
                 <div class="mb-3 row" v-if="newTrainingShow">
-                    <div class="col-auto">
-                        <my-input placeholder="название" v-model="newTrainingForm.name"></my-input>
+                    <div class="mb-3">
+                        <label class="form-label">Название тренировки</label>
+                        <my-input v-model="newTrainingForm.name"></my-input>
                     </div>
-                    <div class="col-auto">
-                        <my-input placeholder="ЧЧ" size="2" v-model="newTrainingForm.hour"></my-input>
+                    <div class="mb-3">
+                        <label class="form-label">Время проведения</label>
+                        <div>
+                            <my-input placeholder="ЧЧ" size="2" class="time-input" v-model="newTrainingForm.hour"></my-input>
+                            :
+                            <my-input placeholder="ММ" size="2" class="time-input" v-model="newTrainingForm.minute"></my-input>
+                        </div>
                     </div>
-                    <div class="col-auto">
-                        <my-input placeholder="ММ" size="2" v-model="newTrainingForm.minute"></my-input>
-                    </div>
-                    <div class="col-auto">
-                        <my-button class="btn-success me-2" @click="saveTraining"><i class="bi bi-check-lg"></i></my-button>
-                        <my-button class="btn-dark" @click="hideNewTrainingForm"><i class="bi bi-x-lg"></i></my-button>
+                    <div class="mb-3">
+                        <my-button class="btn-success me-2" @click="saveTraining"><i class="bi bi-check-lg"></i> сохранить</my-button>
+                        <my-button class="btn-dark" @click="hideNewTrainingForm"><i class="bi bi-x-lg"></i> отменить</my-button>
                     </div>
                 </div>
-            </div>
-            <div class="col-sm-5">
+
                 <NewActivitieForm v-if="false"></NewActivitieForm>
             </div>
         </div>
@@ -212,7 +225,7 @@ export default {
 
 <style scoped>
 .dayView--wrapper {
-    max-width: 900px;
+    max-width: 1000px;
 }
 
 #accordionExample .accordion-item .-actions {

@@ -21,4 +21,8 @@ export default {
 </script>
 
 <style scoped>
+.time-input {
+    width: 50px;
+    display: inline-block;
+}
 </style>

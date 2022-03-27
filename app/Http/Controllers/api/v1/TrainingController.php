@@ -21,11 +21,38 @@ class TrainingController extends Controller
             ->orderBy('start_at')
             ->get();
 
-//        foreach ($trainings AS $k => $t) {
-//            if (!$t->name) {
-//                $t->name = 'Тренировка #' . $k;
-//            }
-//        }
+        foreach ($trainings AS $k => $t) {
+            $t['sets'] = [
+                [
+                    'id' => 1,
+                    'activities' => [
+                        [
+                            'id' => 1,
+                            'name' => 'Упр 1',
+                            'quantity' => 2,
+                            'comment' => 'ккк 1',
+                        ]
+                    ]
+                ],
+                [
+                    'id' => 2,
+                    'activities' => [
+                        [
+                            'id' => 1,
+                            'name' => 'Упр 1',
+                            'quantity' => 1,
+                            'comment' => 'ккк 1',
+                        ],
+                        [
+                            'id' => 2,
+                            'name' => 'Упр 2',
+                            'quantity' => 3,
+                            'comment' => 'ккк 2',
+                        ]
+                    ]
+                ],
+            ];
+        }
 
         return $trainings;
     }
