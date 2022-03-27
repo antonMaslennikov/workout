@@ -14,7 +14,10 @@
                         <h2 class="accordion-header" id="headingOne">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" aria-expanded="true" v-bind:aria-controls="'collapse' + training.id" v-bind:data-bs-target="'#collapse' + training.id">
                                 <div class="row" style="width: 90%">
-                                    <div class="col-10">{{ training.name ? training.name : 'Тренировка #' + (index + 1) }}</div>
+                                    <div class="col-10">
+                                        {{ training.name ? training.name : 'Тренировка #' + (index + 1) }}
+                                        {{ training.hour && training.hour !== '00' && training.minute && training.minute !== '00' ? '(' + training.hour + ':' + training.minute + ')' : '' }}
+                                    </div>
                                     <div class="col-2 -actions">
                                         <a href="#" @click.stop.prevent="editTraining(training)" style="margin-right: 10px;"><i class="bi bi-pen"></i></a>
                                         <a href="#" @click.stop.prevent="removeTraining(training)"><i class="bi bi-trash"></i></a>
@@ -24,7 +27,6 @@
                         </h2>
                         <div v-bind:id="'collapse' + training.id" class="accordion-collapse collapse" v-bind:aria-labelledby="'heading' + training.id" data-bs-parent="#accordionExample">
                             <div class="accordion-body">
-                                {{ training.start_at }}
                                 <div class="training-sets--list"
                                      v-for="(set, set_index) in training.sets">
                                     Сет: {{ set_index + 1 }}
@@ -33,6 +35,10 @@
                                          v-for="(activitie, a_index) in set.activities">
                                         Упражнение: {{ a_index + 1 }}
                                     </div>
+                                </div>
+
+                                <div class="mt-3">
+                                    <a href="#" @click="addSet(training)">Добавить сет</a>
                                 </div>
                             </div>
                         </div>
@@ -62,8 +68,14 @@
                         </div>
                     </div>
                     <div class="mb-3">
-                        <my-button class="btn-success me-2" @click="saveTraining"><i class="bi bi-check-lg"></i> сохранить</my-button>
-                        <my-button class="btn-dark" @click="hideNewTrainingForm"><i class="bi bi-x-lg"></i> отменить</my-button>
+                        <div class="row">
+                            <div class="col-6">
+                                <my-button class="btn-success me-2" @click="saveTraining"><i class="bi bi-check-lg"></i> сохранить</my-button>
+                            </div>
+                            <div class="col-6 text-end">
+                                <my-button class="btn-dark" @click="hideNewTrainingForm"><i class="bi bi-x-lg"></i> отменить</my-button>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -77,7 +89,7 @@
 import NewActivitieForm from "./NewActivitieForm";
 import axios from "axios";
 export default {
-    name: "DayView",
+    name: "day-view",
     components: {NewActivitieForm},
     data() {
         return {
@@ -207,6 +219,18 @@ export default {
                     });
             }
         },
+        addSet(training) {
+            axios
+                .post('/api/trainings/addset', {
+                    training_id: training.id,
+                })
+                .then(response => {
+                    if (!training.sets) {
+                        training.sets = [];
+                    }
+                    training.sets.push(response.data.set);
+                });
+        }
     },
     mounted() {
         this.fetchTrainings();

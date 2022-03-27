@@ -5,6 +5,7 @@ namespace App\Http\Controllers\api\v1;
 use App\Http\Controllers\Controller;
 use App\Models\Activitie;
 use App\Models\Training;
+use App\Models\training\Set;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -22,6 +23,12 @@ class TrainingController extends Controller
             ->get();
 
         foreach ($trainings AS $k => $t) {
+            $d = new \DateTimeImmutable($t['start_at']);
+            $t['hour'] = $d->format('H');
+            $t['minute'] = $d->format('i');
+            $t['sets'] = Set::where('training_id', $t->id)->get();
+
+            /*
             $t['sets'] = [
                 [
                     'id' => 1,
@@ -52,6 +59,7 @@ class TrainingController extends Controller
                     ]
                 ],
             ];
+            */
         }
 
         return $trainings;
@@ -178,5 +186,17 @@ class TrainingController extends Controller
     {
         $t = Training::find($id);
         $t->delete();
+    }
+
+    public function addset(Request $request)
+    {
+        $Set = new Set();
+        $Set->training_id = (int) $request->training_id;
+        $Set->save();
+
+        return [
+            'status' => 'ok',
+            'set' => $Set,
+        ];
     }
 }

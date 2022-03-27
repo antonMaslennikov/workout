@@ -36,11 +36,11 @@
 
 
         <my-dialog v-model:show="dialogVisible" class="-large">
-            <DayView
+            <day-view
                 v-bind:year="currentYear"
                 v-bind:month="currentMonth"
                 v-bind:day="currentDay">
-            </DayView>
+            </day-view>
         </my-dialog>
 
 <!--        <my-modal v-model:show="dialogVisible" id="day-modal">-->

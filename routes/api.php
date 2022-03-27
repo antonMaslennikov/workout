@@ -18,6 +18,7 @@ Route::post('/activities/savesort', [\App\Http\Controllers\api\v1\Activities::cl
 Route::resource('activities', \App\Http\Controllers\api\v1\Activities::class);
 
 Route::get('/trainings/{y}/{m}/{d}', [\App\Http\Controllers\api\v1\TrainingController::class, 'index']);
+Route::post('/trainings/addset', [\App\Http\Controllers\api\v1\TrainingController::class, 'addset']);
 Route::resource('trainings', \App\Http\Controllers\api\v1\TrainingController::class);
 
 Route::get('/days/{y?}/{m?}', [\App\Http\Controllers\api\v1\Days::class, 'index']);
