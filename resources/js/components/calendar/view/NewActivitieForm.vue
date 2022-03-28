@@ -44,6 +44,9 @@ export default {
     name: "new-activitie-form",
     components: {},
     props: {
+        set: {
+            type: Object
+        }
     },
     data() {
         return {

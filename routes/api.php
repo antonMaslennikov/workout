@@ -21,4 +21,6 @@ Route::get('/trainings/{y}/{m}/{d}', [\App\Http\Controllers\api\v1\TrainingContr
 Route::post('/trainings/addset', [\App\Http\Controllers\api\v1\TrainingController::class, 'addset']);
 Route::resource('trainings', \App\Http\Controllers\api\v1\TrainingController::class);
 
+Route::resource('trainings/activities', \App\Http\Controllers\api\v1\trainings\ActivitiesController::class);
+
 Route::get('/days/{y?}/{m?}', [\App\Http\Controllers\api\v1\Days::class, 'index']);

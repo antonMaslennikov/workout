@@ -29,11 +29,11 @@
                             <div class="accordion-body">
                                 <div class="training-sets--list"
                                      v-for="(set, set_index) in training.sets">
-                                    Сет: {{ set_index + 1 }}. <a href="#" @click="showNewActivitieForm(set)"><i class="bi bi-plus-circle"></i></a>
+                                    Сет: {{ set_index + 1 }}. <a href="#" @click="showNewActivitieForm(set)" v-if="!currentSet || set.id != currentSet.id"><i class="bi bi-plus-circle"></i></a>
 
                                     <div class="training-activities--list"
                                          v-for="(activitie, a_index) in set.activities">
-                                        Упражнение: {{ a_index + 1 }}
+                                        {{ a_index + 1 }}: {{ activitie.activitie_id }}
                                     </div>
                                 </div>
 
@@ -81,6 +81,7 @@
 
                 <NewActivitieForm
                     v-if="addActivitieForm"
+                    :set="currentSet"
                     @hideNewActivitieForm="hideNewActivitieForm"
                     @saveNewActivitie="saveNewActivitie"
                 ></NewActivitieForm>
@@ -142,6 +143,7 @@ export default {
         showNewTrainingForm() {
             this.newTrainingShow = true;
             this.addActivitieForm = false;
+            this.currentSet = null;
             if (this.newTrainingForm.id > 0) {
                 this.clearTrainingForm();
             }
@@ -181,7 +183,6 @@ export default {
             } else {
 
                 this.newTrainingForm._method = 'PUT';
-                console.log(this.newTrainingForm);
 
                 axios
                     .post('/api/trainings/' + this.newTrainingForm.id, this.newTrainingForm)
@@ -245,10 +246,16 @@ export default {
             this.newTrainingShow = false;
         },
         hideNewActivitieForm() {
+            this.currentSet = null;
             this.addActivitieForm = false;
         },
-        saveNewActivitie(a) {
-            console.log(a);
+        saveNewActivitie(form) {
+            form.set_id = this.currentSet.id;
+            axios
+                .post('/api/trainings/activities', form)
+                .then(response => {
+                    this.currentSet.activities.push(response.data.a);
+                });
         }
     },
     mounted() {

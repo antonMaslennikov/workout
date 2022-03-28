@@ -28,38 +28,11 @@ class TrainingController extends Controller
             $t['minute'] = $d->format('i');
             $t['sets'] = Set::where('training_id', $t->id)->get();
 
-            /*
-            $t['sets'] = [
-                [
-                    'id' => 1,
-                    'activities' => [
-                        [
-                            'id' => 1,
-                            'name' => 'Упр 1',
-                            'quantity' => 2,
-                            'comment' => 'ккк 1',
-                        ]
-                    ]
-                ],
-                [
-                    'id' => 2,
-                    'activities' => [
-                        [
-                            'id' => 1,
-                            'name' => 'Упр 1',
-                            'quantity' => 1,
-                            'comment' => 'ккк 1',
-                        ],
-                        [
-                            'id' => 2,
-                            'name' => 'Упр 2',
-                            'quantity' => 3,
-                            'comment' => 'ккк 2',
-                        ]
-                    ]
-                ],
-            ];
-            */
+            if ($t['sets']) {
+                foreach ($t['sets'] as $ks => $s) {
+                    $t['sets'][$ks]['activities'] = \App\Models\training\Activitie::where('set_id', $s->id)->get();
+                }
+            }
         }
 
         return $trainings;
