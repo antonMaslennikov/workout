@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\api\v1;
 
 use App\Http\Controllers\Controller;
-use App\Models\Activitie;
 use App\Models\Training;
+use App\Models\training\Activitie;
 use App\Models\training\Set;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -18,22 +18,19 @@ class TrainingController extends Controller
      */
     public function index($y, $m, $d)
     {
-        $trainings = Training::whereBetween('start_at', ["$y-$m-$d 00:00:00", "$y-$m-$d 23:59:59"])
+        $trainings = Training::
+            with('sets.activities.activitie')
+            ->whereBetween('start_at', ["$y-$m-$d 00:00:00", "$y-$m-$d 23:59:59"])
             ->orderBy('start_at')
             ->get();
 
         foreach ($trainings AS $k => $t) {
-            $d = new \DateTimeImmutable($t['start_at']);
-            $t['hour'] = $d->format('H');
-            $t['minute'] = $d->format('i');
-            $t['sets'] = Set::where('training_id', $t->id)->get();
-
-            if ($t['sets']) {
-                foreach ($t['sets'] as $ks => $s) {
-                    $t['sets'][$ks]['activities'] = \App\Models\training\Activitie::where('set_id', $s->id)->get();
-                }
-            }
+            $d = new \DateTimeImmutable($t->start_at);
+            $t->hour = $d->format('H');
+            $t->minute = $d->format('i');
         }
+
+        //dd($trainings);
 
         return $trainings;
     }

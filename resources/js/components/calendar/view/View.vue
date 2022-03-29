@@ -33,7 +33,7 @@
 
                                     <div class="training-activities--list"
                                          v-for="(activitie, a_index) in set.activities">
-                                        {{ a_index + 1 }}: {{ activitie.activitie_id }}
+                                        {{ a_index + 1 }}: {{ activitie.activitie.name }} ({{ activitie.quantity }} раз) {{ activitie.comment }}
                                     </div>
                                 </div>
 
@@ -254,7 +254,11 @@ export default {
             axios
                 .post('/api/trainings/activities', form)
                 .then(response => {
+                    if (!this.currentSet.activities) {
+                        this.currentSet.activities = [];
+                    }
                     this.currentSet.activities.push(response.data.a);
+                    this.hideNewActivitieForm();
                 });
         }
     },

@@ -50,6 +50,9 @@ class ActivitiesController extends Controller
             'comment' => $request->comment,
         ]);
 
+        // чтобы извлечь данные об упраженении в модель
+        $a->activitie;
+
         return [
             'status' => 'ok',
             'a' => $a,

@@ -16,5 +16,15 @@ class Activitie extends Model
      */
     protected $table = 'trainings__activities';
 
-    protected $fillable = ['set_id', 'activitie_id', 'quantity', 'comment', 'complited', ];
+    protected $fillable = ['set_id', 'activitie_id', 'quantity', 'comment', 'complited',];
+
+    public function set()
+    {
+        return $this->belongsTo(Set::class);
+    }
+
+    public function activitie()
+    {
+        return $this->belongsTo(\App\Models\Activitie::class);
+    }
 }
