@@ -12,6 +12,12 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#" @click="$router.push('/activities')">Упражнения</a>
                     </li>
+<!--                    <li class="nav-item">-->
+<!--                        <a class="nav-link" href="#" @click="$router.push('/activities-composition')">Упражнения (composition Api)</a>-->
+<!--                    </li>-->
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" @click="$router.push('/activities-store')">Упражнения (store)</a>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#" @click="$router.push('/plans')">Тренировочные планы</a>
                     </li>

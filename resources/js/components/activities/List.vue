@@ -75,6 +75,11 @@ export default {
             required: true
         }
     },
+    setup(props) {
+        console.log(props) // { user: '' }
+
+        return {} // всё что возвращается здесь, станет доступно остальной части компонента
+    },
     methods: {
         saveSort(e) {
             // console.log(e);

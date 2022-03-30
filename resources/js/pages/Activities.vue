@@ -123,9 +123,6 @@ export default {
         this.fetchActivities();
     },
     computed: {
-        activities() {
-            return this.activities;
-        }
     },
 }
 </script>

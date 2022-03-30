@@ -1,5 +1,5 @@
 import {createStore} from "vuex";
-// import {postModule} from "./store/postModule";
+import { activitieModule } from "./modules/activitieModule";
 
 export default createStore({
     state: {
@@ -26,21 +26,8 @@ export default createStore({
             'Декабрь',
         ],
     },
-    getters: {
-        // doubleLikes(state) {
-        //     return state.likes * 2;
-        // }
-    },
-    // mutations: {
-    //     incrementLikes(state) {
-    //         state.likes++;
-    //     },
-    //     decrementLikes(state) {
-    //         state.likes--;
-    //     }
-    // }
 
     modules: {
-        // post: postModule
+        activitie : activitieModule
     }
 })

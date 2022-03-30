@@ -30,7 +30,7 @@ export default {
     },
     computed: {
         bodyPart() {
-            if (this.a.body_part) {
+            if (this.a.body_part && this.a.body_part > 0) {
                 let bp = this.$store.state.body_parts.filter(p => p.id == this.a.body_part);
                 return bp[0].name;
             } else {
