@@ -8,8 +8,8 @@
     <my-dialog v-model:show="dialogVisible">
         <activitie-form
             v-model:a="currentItem"
-            @create="createActivitie"
-            @update="updateActivitie"
+            @create="createActivitie1"
+            @update="updateActivitie1"
         />
     </my-dialog>
 
@@ -24,7 +24,6 @@
 </template>
 
 <script>
-import axios from "axios";
 import ActivitiesList from "../components/activities/List";
 import ActivitieForm from "../components/activities/Form";
 import { mapState, mapActions, mapGetters, mapMutations } from "vuex";
@@ -39,6 +38,15 @@ export default {
         }
     },
     methods: {
+
+        ...mapActions({
+            fetchActivities: 'activitie/fetchActivities',
+            createActivitie: 'activitie/createActivitie',
+            updateActivitie: 'activitie/updateActivitie',
+            removeActivitie: 'activitie/removeActivitie',
+            saveSort: 'activitie/saveSort',
+        }),
+
         openModal() {
             this.dialogVisible = true;
         },
@@ -53,14 +61,15 @@ export default {
             this.currentItem = activitie;
             this.openModal();
         },
-
-        ...mapActions({
-            fetchActivities: 'activitie/fetchActivities',
-            createActivitie: 'activitie/createActivitie',
-            updateActivitie: 'activitie/updateActivitie',
-            removeActivitie: 'activitie/removeActivitie',
-            saveSort: 'activitie/saveSort',
-        }),
+        createActivitie1(activitie) {
+            this.createActivitie(activitie);
+            this.closeModal();
+        },
+        updateActivitie1(activitie) {
+            // this.$store.dispatch('updateActivitie', activitie);
+            this.updateActivitie(activitie);
+            this.closeModal();
+        },
     },
     mounted() {
         this.fetchActivities();

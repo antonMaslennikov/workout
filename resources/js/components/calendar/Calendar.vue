@@ -13,7 +13,7 @@
             </div>
         </div>
 
-        <div class="days-wrapper col-sm-5">
+        <div class="days-wrapper col-6">
             <div class="calendar--daysname">
                 <div>ПН</div>
                 <div>ВТ</div>

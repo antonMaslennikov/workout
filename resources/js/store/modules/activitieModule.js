@@ -81,8 +81,6 @@ export const activitieModule = {
                     if (res.data.status == 'ok') {
                         activitie.id = res.data.a.id;
                         commit('addNewActivitie', activitie);
-                        // TODO XXXXX
-                        this.closeModal();
                     }
                 });
         },
@@ -98,8 +96,6 @@ export const activitieModule = {
                 .then(res => {
                     if (res.data.status == 'ok') {
                         commit('updateActivitie', activitie);
-                        // TODO XXXXX
-                        this.closeModal();
                     }
                 });
         },

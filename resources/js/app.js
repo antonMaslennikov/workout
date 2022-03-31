@@ -3,6 +3,7 @@ import App from "./components/App";
 import router from "./router/router";
 import components from './components/UI';
 import store from "./store";
+import axios from "axios";
 
 // import directives from "@/directives";
 
@@ -15,6 +16,13 @@ components.forEach(component => {
 // directives.forEach(directive => {
 //     app.directive(directive.name, directive);
 // });
+
+const token = localStorage.getItem('token')
+
+if (token) {
+    // устанавливаем по дефолту для axios заголовок авторизации с токеном
+    axios.defaults.headers.common['Authorization'] = token
+}
 
 app
     .use(router)

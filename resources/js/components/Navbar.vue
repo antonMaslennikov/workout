@@ -9,20 +9,31 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#" @click="$router.push('/')">Главная</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" @click="$router.push('/activities')">Упражнения</a>
+                    <li class="nav-item" v-if="isLoggedIn">
+                        <a class="nav-link" href="#" @click="$router.push('/calendar')">Календарь</a>
                     </li>
+<!--                    <li class="nav-item">-->
+<!--                        <a class="nav-link" href="#" @click="$router.push('/activities')">Упражнения</a>-->
+<!--                    </li>-->
 <!--                    <li class="nav-item">-->
 <!--                        <a class="nav-link" href="#" @click="$router.push('/activities-composition')">Упражнения (composition Api)</a>-->
 <!--                    </li>-->
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" @click="$router.push('/activities-store')">Упражнения (store)</a>
+                    <li class="nav-item" v-if="isLoggedIn">
+                        <a class="nav-link" href="#" @click="$router.push('/activities')">Упражнения</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" v-if="isLoggedIn">
                         <a class="nav-link" href="#" @click="$router.push('/plans')">Тренировочные планы</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" v-if="isLoggedIn">
                         <a class="nav-link" href="#" @click="$router.push('/food')">Питание</a>
+                    </li>
+                    <li class="nav-item">
+                        <template v-if="isLoggedIn">
+                            <a class="nav-link" href="#" @click="logout">Выход</a>
+                        </template>
+                        <template v-else>
+                            <a class="nav-link" href="#" @click="$router.push('/login')">Вход</a>
+                        </template>
                     </li>
                 </ul>
             </div>
@@ -32,7 +43,18 @@
 
 <script>
 export default {
-  name: "Navbar"
+  name: "Navbar",
+    computed : {
+        isLoggedIn : function(){ return this.$store.getters.isLoggedIn}
+    },
+    methods: {
+        logout: function () {
+            this.$store.dispatch('logout')
+                .then(() => {
+                    this.$router.push('/login')
+                })
+        }
+    },
 }
 </script>
 
