@@ -43,6 +43,7 @@ export default {
                 name: this.name,
                 email: this.email,
                 password: this.password,
+                password_confirmation: this.password_confirmation,
                 is_admin: this.is_admin
             }
             this.$store.dispatch('register', data)

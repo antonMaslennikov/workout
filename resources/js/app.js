@@ -21,7 +21,7 @@ const token = localStorage.getItem('token')
 
 if (token) {
     // устанавливаем по дефолту для axios заголовок авторизации с токеном
-    axios.defaults.headers.common['Authorization'] = token
+    axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
 }
 
 app

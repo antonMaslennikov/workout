@@ -52,12 +52,13 @@ export default createStore({
         login({commit}, user) {
             return new Promise((resolve, reject) => {
                 commit('auth_request')
-                axios({url: '/api/login', data: user, method: 'POST'})
+                axios({url: '/api/auth/login', data: user, method: 'POST'})
                     .then(resp => {
-                        const token = resp.data.token
+                        const token = resp.data.access_token
                         const user = resp.data.user
                         localStorage.setItem('token', token)
-                        axios.defaults.headers.common['Authorization'] = token
+                        localStorage.setItem('user', JSON.stringify(user))
+                        axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
                         commit('auth_success', token, user)
                         resolve(resp)
                     })
@@ -79,12 +80,13 @@ export default createStore({
         register({commit}, user) {
             return new Promise((resolve, reject) => {
                 commit('auth_request')
-                axios({url: '/api/register', data: user, method: 'POST'})
+                axios({url: '/api/auth/register', data: user, method: 'POST'})
                     .then(resp => {
                         const token = resp.data.token
                         const user = resp.data.user
                         localStorage.setItem('token', token)
-                        axios.defaults.headers.common['Authorization'] = token
+                        localStorage.setItem('user', JSON.stringify(user))
+                        axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
                         commit('auth_success', token, user)
                         resolve(resp)
                     })
