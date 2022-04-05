@@ -45,7 +45,6 @@ export default createStore({
         auth_error(state, error) {
             state.status = 'error'
             state.auth_error = error
-            register_errors
         },
         register_error(state, errors) {
             state.status = 'error'
