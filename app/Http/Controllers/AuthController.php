@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\RegistForm;
 use App\Models\User;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
@@ -14,7 +18,7 @@ class AuthController extends Controller
      * @return void
      */
     public function __construct() {
-        $this->middleware('auth:api', ['except' => ['login', 'register']]);
+        $this->middleware('auth:api', ['except' => ['login', 'register', 'verify']]);
     }
 
     /**
@@ -44,19 +48,23 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function register(Request $request) {
-        $validator = Validator::make($request->all(), [
-            'name' => 'string|between:5,100',
-            'email' => 'required|string|email|max:100|unique:users',
-            'password' => 'required|string|confirmed|min:5',
-        ]);
-        if($validator->fails()){
-            return response()->json($validator->errors(), 400);
-        }
+    public function register(RegistForm $request) {
+
         $user = User::create(array_merge(
-            $validator->validated(),
-            ['password' => bcrypt($request->password)]
+            $request->validated(),
+            [
+                'password' => bcrypt($request->password),
+                'verify_token' => Str::random(),
+            ]
         ));
+
+        event(new Registered($user));
+
+//        if (!$token = auth()->attempt($request->validated())) {
+//            return response()->json(['error' => 'Unauthorized'], 401);
+//        }
+//        return $this->createNewToken($token);
+
         return response()->json([
             'message' => 'User successfully registered',
             'user' => $user
@@ -88,6 +96,23 @@ class AuthController extends Controller
     public function userProfile() {
         return response()->json(auth()->user());
     }
+
+    public function verify(Request $request) {
+        if (!$user = User::where('verify_token', $request->token)->first()) {
+            return response()->json(['message' => 'Данный токен подтверждения не обнаружен'], 422);
+        }
+
+        $user->email_verified_at = time();
+        $user->verify_token = null;
+        $user->save();
+
+        if (!$token = auth()->login($user)) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+
+        return $this->createNewToken($token);
+    }
+
     /**
      * Get the token array structure.
      *

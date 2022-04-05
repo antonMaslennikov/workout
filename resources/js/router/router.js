@@ -3,6 +3,7 @@ import ActivitiesStore from "../pages/ActivitiesStore";
 import CalendarPage from "../pages/CalendarPage";
 import Login from "../components/Login";
 import Register from "../components/Register";
+import RegisterVerify from "../components/auth/RegisterVerify";
 import store from "../store";
 
 import {createRouter, createWebHistory} from "vue-router";
@@ -23,6 +24,10 @@ const routes = [
         path: '/login',
 		name: 'login',
         component: Login
+    },
+    {
+        path: '/register/verify/:token',
+        component: RegisterVerify
     },
     {
         path: '/register',

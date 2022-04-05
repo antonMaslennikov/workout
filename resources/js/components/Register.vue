@@ -8,7 +8,7 @@
                             <div class="col-md-12 col-lg-12 d-flex align-items-center">
                                 <div class="card-body p-4 p-lg-5 text-black">
 
-                                    <form @submit.prevent="register">
+                                    <form @submit.prevent="register" v-if="$store.state.status != 'success'">
 
                                         <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Регистрация</h5>
 
@@ -39,6 +39,10 @@
                                             <button class="btn btn-dark btn-lg btn-block">Войти</button>
                                         </div>
                                     </form>
+                                    <div v-else>
+                                        <p>Регистрация прошла успешно</p>
+                                        <p>На указанный Email {{ email }} было отправлено письмо со ссылкой на подтверждение</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -71,7 +75,9 @@ export default {
                 is_admin: this.is_admin
             }
             this.$store.dispatch('register', data)
-                .then(() => this.$router.push('/'))
+                .then(() => {
+                    // this.$router.push('/')
+                })
                 .catch(err => console.log(err))
         }
     }

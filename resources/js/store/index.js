@@ -51,6 +51,11 @@ export default createStore({
             state.status = 'error'
             state.register_errors = errors
         },
+        register_success(state, user) {
+            state.status = 'success'
+            state.user = user
+            state.register_errors = ''
+        },
         logout(state) {
             state.status = ''
             state.token = ''
@@ -91,17 +96,37 @@ export default createStore({
                 commit('auth_request')
                 axios({url: '/api/v1/auth/register', data: user, method: 'POST'})
                     .then(resp => {
-                        // const token = resp.data.token
-                        // const user = resp.data.user
+                        const user = resp.data.user
+                        // const token = resp.data.access_token
                         // localStorage.setItem('token', token)
                         // localStorage.setItem('user', JSON.stringify(user))
                         // axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
                         // commit('auth_success', token, user)
+                        commit('register_success', user);
                         resolve(resp)
                     })
                     .catch(err => {
-                        commit('register_error', err.response.data)
+                        commit('register_error', err.response.data.errors)
                         localStorage.removeItem('token')
+                        reject(err)
+                    })
+            })
+        },
+        verify({commit}, token) {
+            return new Promise((resolve, reject) => {
+                commit('auth_request')
+                axios({url: '/api/v1/auth/verify', data: {'token' : token}, method: 'POST'})
+                    .then(resp => {
+                        const user = resp.data.user
+                        const token = resp.data.access_token
+                        localStorage.setItem('token', token)
+                        localStorage.setItem('user', JSON.stringify(user))
+                        axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
+                        commit('auth_success', token, user)
+                        resolve(resp)
+                    })
+                    .catch(err => {
+                        // commit('verify_error', err.response.data.message)
                         reject(err)
                     })
             })

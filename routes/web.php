@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -12,5 +14,7 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::get('/register/verify/{token}', [\App\Http\Controllers\SpaController::class, 'index'])->name('register.verify');
 
 Route::get('/{any}', [\App\Http\Controllers\SpaController::class, 'index'])->where('any', '.*');
