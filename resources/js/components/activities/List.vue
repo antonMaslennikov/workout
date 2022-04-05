@@ -95,7 +95,10 @@ export default {
             this.$emit('saveSort', order);
         },
         setPage(page) {
-            this.$store.dispatch('activitie/setPage', page);
+            this.$store.dispatch('activitie/setPage', page)
+                .then(() => {
+                    this.$router.push({name: 'activities', params: {'page' : page > 1 ? page : ''}})
+                })
         }
     }
 }

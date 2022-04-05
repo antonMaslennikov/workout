@@ -11,7 +11,7 @@
                 :key="page"
                 class="page-item"
                 :class="{
-                 'active' : page === pageNumber
+                 'active' : page == pageNumber
                  }"
                 @click="changePage(pageNumber)"><a class="page-link" href="#">{{ pageNumber }}</a></li>
 <!--            <li class="page-item">-->
@@ -44,7 +44,7 @@ export default {
     },
     totalPages: Number
   },
-  methods: {
+    methods: {
     changePage(number) {
       this.$emit('setPage', number);
       this.$emit('update:page', number);
@@ -54,17 +54,5 @@ export default {
 </script>
 
 <style scoped>
-  .page__wrapper {
-    display: flex;
-    margin-top: 15px;
-  }
-  .page {
-    border:1px solid black;
-    padding: 6px 10px;
-    cursor: pointer;
-    margin-right: 5px;
-  }
-  .current-page {
-    border:2px solid teal;
-  }
+
 </style>

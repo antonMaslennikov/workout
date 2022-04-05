@@ -7,6 +7,7 @@ import RegisterVerify from "../components/auth/RegisterVerify";
 import store from "../store";
 
 import {createRouter, createWebHistory} from "vue-router";
+import Page404 from "../pages/Page404";
 
 const routes = [
     {
@@ -32,18 +33,24 @@ const routes = [
     {
         path: '/register',
         name: 'register',
-        component: Register
+        component: Register,
     },
     // {
     //     path: '/activities',
     //     component: Activities
     // },
     {
-        path: '/activities',
+        path: '/activities/:page(\\d+)*',
+        name: 'activities',
         component: ActivitiesStore,
         meta: {
             requiresAuth: true
         }
+    },
+    {
+        path: '/:pathMatch(.*)*',
+        name: '404',
+        component: Page404,
     },
 ];
 

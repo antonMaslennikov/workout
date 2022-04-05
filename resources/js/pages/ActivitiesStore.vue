@@ -72,7 +72,7 @@ export default {
         },
     },
     mounted() {
-        this.fetchActivities();
+        this.$store.dispatch('activitie/setPage', this.$route.params.page[0] ?? 1);
     },
     computed: {
         ...mapGetters({
