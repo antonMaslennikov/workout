@@ -75,8 +75,8 @@ export default {
         async fetchCalendarDays() {
             try {
                 this.isCalendarLoading = true;
-                const response = await axios.get('/api/days/' + this.currentYear + '/' + this.currentMonth, {});
-                this.activities = response.data;
+                // const response = await axios.get('/api/days/' + this.currentYear + '/' + this.currentMonth, {});
+                // this.activities = response.data;
 
                 this.dates = [];
 

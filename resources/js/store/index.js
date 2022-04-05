@@ -4,6 +4,8 @@ import {activitieModule} from "./modules/activitieModule";
 export default createStore({
     state: {
         status: '',
+        auth_error: '',
+        register_errors: '',
         token: localStorage.getItem('token') || '',
         user: {},
         body_parts: [
@@ -38,9 +40,16 @@ export default createStore({
             state.status = 'success'
             state.token = token
             state.user = user
+            state.auth_error = ''
         },
-        auth_error(state) {
+        auth_error(state, error) {
             state.status = 'error'
+            state.auth_error = error
+            register_errors
+        },
+        register_error(state, errors) {
+            state.status = 'error'
+            state.register_errors = errors
         },
         logout(state) {
             state.status = ''
@@ -52,7 +61,7 @@ export default createStore({
         login({commit}, user) {
             return new Promise((resolve, reject) => {
                 commit('auth_request')
-                axios({url: '/api/auth/login', data: user, method: 'POST'})
+                axios({url: '/api/v1/auth/login', data: user, method: 'POST'})
                     .then(resp => {
                         const token = resp.data.access_token
                         const user = resp.data.user
@@ -63,7 +72,7 @@ export default createStore({
                         resolve(resp)
                     })
                     .catch(err => {
-                        commit('auth_error')
+                        commit('auth_error', 'Не удалось авторизоваться')
                         localStorage.removeItem('token')
                         reject(err)
                     })
@@ -80,18 +89,18 @@ export default createStore({
         register({commit}, user) {
             return new Promise((resolve, reject) => {
                 commit('auth_request')
-                axios({url: '/api/auth/register', data: user, method: 'POST'})
+                axios({url: '/api/v1/auth/register', data: user, method: 'POST'})
                     .then(resp => {
-                        const token = resp.data.token
-                        const user = resp.data.user
-                        localStorage.setItem('token', token)
-                        localStorage.setItem('user', JSON.stringify(user))
-                        axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
-                        commit('auth_success', token, user)
+                        // const token = resp.data.token
+                        // const user = resp.data.user
+                        // localStorage.setItem('token', token)
+                        // localStorage.setItem('user', JSON.stringify(user))
+                        // axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
+                        // commit('auth_success', token, user)
                         resolve(resp)
                     })
                     .catch(err => {
-                        commit('auth_error', err)
+                        commit('register_error', err.response.data)
                         localStorage.removeItem('token')
                         reject(err)
                     })
@@ -100,8 +109,26 @@ export default createStore({
     },
 
     getters: {
-        isLoggedIn: state => !!state.token,
+        isLoggedIn: state => !!state.token && state.token != 'undefined',
         authStatus: state => state.status,
+        nameError(state) {
+            if (typeof state.register_errors.name !== 'undefined')
+                return state.register_errors.name.join(',')
+            else
+                return '';
+        },
+        emailError(state) {
+            if (typeof state.register_errors.email !== 'undefined')
+                return state.register_errors.email.join(',')
+            else
+                return '';
+        },
+        passwordError(state) {
+            if (typeof state.register_errors.password !== 'undefined')
+                return state.register_errors.password.join(',')
+            else
+                return '';
+        }
     },
 
     modules: {

@@ -1,28 +1,52 @@
 <template>
-    <div>
-        <h4>Register</h4>
-        <form @submit.prevent="register">
-            <label for="name">Name</label>
-            <div>
-                <input id="name" type="text" v-model="name" required autofocus>
+    <section>
+        <div class="container py-5 h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col col-xl-10">
+                    <div class="card" style="border-radius: 1rem;">
+                        <div class="row g-0">
+                            <div class="col-md-12 col-lg-12 d-flex align-items-center">
+                                <div class="card-body p-4 p-lg-5 text-black">
+
+                                    <form @submit.prevent="register">
+
+                                        <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Регистрация</h5>
+
+                                        <div class="form-outline mb-4">
+                                            <label class="form-label" for="form2Example1">Имя</label>
+                                            <input type="text" id="form2Example1" class="form-control form-control-lg" v-model="name" />
+                                            <div class="text-danger">{{ $store.getters['nameError'] }}</div>
+                                        </div>
+
+                                        <div class="form-outline mb-4">
+                                            <label class="form-label" for="form2Example2">Email</label>
+                                            <input type="email" id="form2Example2" class="form-control form-control-lg" v-model="email" required autofocus />
+                                            <div class="text-danger">{{ $store.getters['emailError'] }}</div>
+                                        </div>
+
+                                        <div class="form-outline mb-4">
+                                            <label class="form-label" for="form2Example3">Пароль</label>
+                                            <input type="password" id="form2Example3" class="form-control form-control-lg" v-model="password" require />
+                                            <div class="text-danger">{{ $store.getters['passwordError'] }}</div>
+                                        </div>
+
+                                        <div class="form-outline mb-4">
+                                            <label class="form-label" for="form2Example4">Пароль ещё раз</label>
+                                            <input type="password" id="form2Example4" class="form-control form-control-lg" v-model="password_confirmation" require />
+                                        </div>
+
+                                        <div class="pt-1 mb-4">
+                                            <button class="btn btn-dark btn-lg btn-block">Войти</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <label for="email" >E-Mail Address</label>
-            <div>
-                <input id="email" type="email" v-model="email" required>
-            </div>
-            <label for="password">Password</label>
-            <div>
-                <input id="password" type="password" v-model="password" required>
-            </div>
-            <label for="password-confirm">Confirm Password</label>
-            <div>
-                <input id="password-confirm" type="password" v-model="password_confirmation" required>
-            </div>
-            <div>
-                <button type="submit">Register</button>
-            </div>
-        </form>
-    </div>
+        </div>
+    </section>
 </template>
 
 <script>

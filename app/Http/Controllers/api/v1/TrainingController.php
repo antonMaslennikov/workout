@@ -25,6 +25,7 @@ class TrainingController extends Controller
         $trainings = Training::
             with('sets.activities.activitie')
             ->whereBetween('start_at', ["$y-$m-$d 00:00:00", "$y-$m-$d 23:59:59"])
+            ->where(['user_id' => auth()->user()->id])
             ->orderBy('start_at')
             ->get();
 
@@ -77,6 +78,7 @@ class TrainingController extends Controller
 
         $t = Training::create([
             'name' => $request->name,
+            'user_id' => auth()->user()->id,
             'start_at' => $d->format('Y-m-d H:i:00'),
             'end_at' => null,
         ]);

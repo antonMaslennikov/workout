@@ -21,6 +21,7 @@ const routes = [
     },
     {
         path: '/login',
+		name: 'login',
         component: Login
     },
     {
@@ -34,7 +35,10 @@ const routes = [
     // },
     {
         path: '/activities',
-        component: ActivitiesStore
+        component: ActivitiesStore,
+        meta: {
+            requiresAuth: true
+        }
     },
 ];
 

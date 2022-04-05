@@ -132,7 +132,7 @@ export default {
         async fetchTrainings() {
             try {
                 this.isTrainingsLoading = true;
-                const response = await axios.get('/api/trainings/' + this.year + '/' + this.month + '/' + this.day, {});
+                const response = await axios.get('/api/v1/trainings/' + this.year + '/' + this.month + '/' + this.day, {});
                 this.trainings = response.data;
             } catch (e) {
                 alert('Ошибка');
@@ -163,7 +163,7 @@ export default {
         saveTraining() {
             if (!this.newTrainingForm.id) {
                 axios
-                    .post('/api/trainings', this.newTrainingForm, {
+                    .post('/api/v1/trainings', this.newTrainingForm, {
                         headers: {
                             'Content-type': 'application/json'
                         }
@@ -185,7 +185,7 @@ export default {
                 this.newTrainingForm._method = 'PUT';
 
                 axios
-                    .post('/api/trainings/' + this.newTrainingForm.id, this.newTrainingForm)
+                    .post('/api/v1/trainings/' + this.newTrainingForm.id, this.newTrainingForm)
                     .then(res => {
                         if (res.data.status == 'ok') {
 
@@ -220,7 +220,7 @@ export default {
         removeTraining(training) {
             if (confirm('Подтверждаете удаление?')) {
                 axios
-                    .post('/api/trainings/' + training.id, {
+                    .post('/api/v1/trainings/' + training.id, {
                         _method: 'DELETE'
                     })
                     .then(response => {
@@ -230,7 +230,7 @@ export default {
         },
         addSet(training) {
             axios
-                .post('/api/trainings/addset', {
+                .post('/api/v1/trainings/addset', {
                     training_id: training.id,
                 })
                 .then(response => {
@@ -252,7 +252,7 @@ export default {
         saveNewActivitie(form) {
             form.set_id = this.currentSet.id;
             axios
-                .post('/api/trainings/activities', form)
+                .post('/api/v1/trainings/activities', form)
                 .then(response => {
                     if (!this.currentSet.activities) {
                         this.currentSet.activities = [];

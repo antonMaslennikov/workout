@@ -1,15 +1,37 @@
 <template>
-  <div class="page__wrapper">
-    <div
-        v-for="pageNumber in totalPages"
-        :key="page"
-        class="page"
-        :class="{
-            'current-page' : page === pageNumber
-          }"
-        @click="changePage(pageNumber)"
-    >{{ pageNumber }}</div>
-  </div>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+<!--            <li class="page-item">-->
+<!--                <a class="page-link" href="#" aria-label="Previous">-->
+<!--                    <span aria-hidden="true">&laquo;</span>-->
+<!--                </a>-->
+<!--            </li>-->
+            <li
+                v-for="pageNumber in totalPages"
+                :key="page"
+                class="page-item"
+                :class="{
+                 'active' : page === pageNumber
+                 }"
+                @click="changePage(pageNumber)"><a class="page-link" href="#">{{ pageNumber }}</a></li>
+<!--            <li class="page-item">-->
+<!--                <a class="page-link" href="#" aria-label="Next">-->
+<!--                    <span aria-hidden="true">&raquo;</span>-->
+<!--                </a>-->
+<!--            </li>-->
+        </ul>
+    </nav>
+<!--  <div class="page__wrapper">-->
+<!--    <div-->
+<!--        v-for="pageNumber in totalPages"-->
+<!--        :key="page"-->
+<!--        class="page"-->
+<!--        :class="{-->
+<!--            'current-page' : page === pageNumber-->
+<!--          }"-->
+<!--        @click="changePage(pageNumber)"-->
+<!--    >{{ pageNumber }}</div>-->
+<!--  </div>-->
 </template>
 
 <script>
@@ -24,9 +46,10 @@ export default {
   },
   methods: {
     changePage(number) {
+      this.$emit('setPage', number);
       this.$emit('update:page', number);
     }
-  }
+  },
 }
 </script>
 

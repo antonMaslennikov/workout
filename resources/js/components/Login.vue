@@ -13,20 +13,25 @@
                                         <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Вход</h5>
 
                                         <div class="form-outline mb-4">
-                                            <input type="email" id="form2Example17" class="form-control form-control-lg" v-model="email" />
                                             <label class="form-label" for="form2Example17">Email</label>
+                                            <input type="email" id="form2Example17" class="form-control form-control-lg" v-model="email" />
                                         </div>
 
                                         <div class="form-outline mb-4">
-                                            <input type="password" id="form2Example27" class="form-control form-control-lg" v-model="password" />
                                             <label class="form-label" for="form2Example27">Пароль</label>
+                                            <input type="password" id="form2Example27" class="form-control form-control-lg" v-model="password" />
                                         </div>
 
                                         <div class="pt-1 mb-4">
                                             <button class="btn btn-dark btn-lg btn-block">Войти</button>
                                         </div>
 
+                                        <div class="pt-1 mb-4 text-danger" v-if="$store.state.auth_error">
+                                            {{ $store.state.auth_error }}
+                                        </div>
+
                                         <p class="" style="color: #393f81;"><a href="#" @click="$router.push('/register')" style="color: #393f81;">Регистрация</a></p>
+
                                     </form>
 
                                 </div>

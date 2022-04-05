@@ -13,15 +13,22 @@ export default {
     name: "App",
     components: {Navbar},
     created: function () {
+
+        let store = this.$store;
+        let router = this.$router;
         // проверка не протух ли токен
         axios.interceptors.response.use(undefined, function (err) {
             return new Promise(function (resolve, reject) {
-                if (err.status === 401 && err.config && !err.config.__isRetryRequest) {
-                    this.$store.dispatch("logout")
+                if ((err.status === 401 || err == 'Error: Request failed with status code 401') && err.config && !err.config.__isRetryRequest) {
+                    router.push('login')
+                    store.dispatch('logout');
                 }
                 throw err;
             });
         });
+    },
+    mounted() {
+        // console.log(this.$store)
     }
 }
 </script>

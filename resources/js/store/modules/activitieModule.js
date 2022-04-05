@@ -1,4 +1,5 @@
 import axios from "axios";
+import {commit} from "lodash/seq";
 
 export const activitieModule = {
     state: () => ({
@@ -12,6 +13,12 @@ export const activitieModule = {
     getters: {
         list(state) {
             return state.activities;
+        },
+        page(state) {
+            return state.page;
+        },
+        totalPages(state) {
+            return state.totalPages;
         }
     },
     mutations: {
@@ -51,28 +58,25 @@ export const activitieModule = {
     },
     actions: {
         async fetchActivities({state, commit}) {
-            try {
                 commit('setLoading', true);
 
-                const response = await axios.get('/api/activities', {
+                const response = await axios.get('/api/v1/activities', {
                     params: {
                         limit: state.limit,
                         page: state.page,
+                    },
+                    headers: {
+                        'Content-type':'application/json'
                     }
                 });
 
-                // commit('setTotalPages', Math.ceil(response.headers['x-total-count'] / state.limit));
-                commit('setActivities', response.data);
-            } catch (e) {
-                alert('Ошибка');
-            } finally {
-                commit('setLoading', false);
-            }
+                commit('setTotalPages', Math.ceil(response.data.total / state.limit));
+                commit('setActivities', response.data.data);
         },
 
         createActivitie({state, commit}, activitie) {
             axios
-                .post('/api/activities', activitie, {
+                .post('/api/v1/activities', activitie, {
                     headers: {
                         'Content-type':'application/json'
                     }
@@ -87,7 +91,7 @@ export const activitieModule = {
 
         updateActivitie({state, commit}, activitie) {
             axios
-                .post('/api/activities/' + activitie.id, {
+                .post('/api/v1/activities/' + activitie.id, {
                     name : activitie.name,
                     description : activitie.description,
                     body_part : activitie.body_part,
@@ -103,7 +107,7 @@ export const activitieModule = {
         removeActivitie({state, commit}, activitie) {
             if (confirm('Подтверждаете удаление?')) {
                 axios
-                    .post('/api/activities/' + activitie.id, {
+                    .post('/api/v1/activities/' + activitie.id, {
                         _method: 'DELETE'
                     })
                     .then(response => {
@@ -114,10 +118,15 @@ export const activitieModule = {
 
         saveSort({state}, order) {
             axios
-                .post('/api/activities/savesort', {'order' : order})
+                .post('/api/v1/activities/savesort', {'order' : order})
                 .then(response => {
                 });
         },
+
+        setPage({state, commit, dispatch}, page) {
+            commit('setPage', page);
+            dispatch('fetchActivities');
+        }
     },
     namespaced: true
 }

@@ -51,19 +51,26 @@
                 </template>
             </draggable>
         </table>
+
+        <my-pagination
+            :page="$store.getters['activitie/page']"
+            :totalPages="$store.getters['activitie/totalPages']"
+            @setPage="setPage"
+        ></my-pagination>
     </div>
     <p v-else>
-        Список постов пуст
+        Список упражнений пуст
     </p>
 </template>
 
 <script>
 import Item from "./Item";
 import draggable from 'vuedraggable';
+import MyPagination from "../UI/MyPagination";
 
 export default {
     name: "ActivitiesList",
-    components: {Item, draggable},
+    components: {MyPagination, Item, draggable},
     data() {
         return {
             drag: false,
@@ -74,11 +81,6 @@ export default {
             type: Array,
             required: true
         }
-    },
-    setup(props) {
-        console.log(props) // { user: '' }
-
-        return {} // всё что возвращается здесь, станет доступно остальной части компонента
     },
     methods: {
         saveSort(e) {
@@ -91,6 +93,9 @@ export default {
             });
 
             this.$emit('saveSort', order);
+        },
+        setPage(page) {
+            this.$store.dispatch('activitie/setPage', page);
         }
     }
 }

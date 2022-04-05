@@ -63,7 +63,7 @@ export default {
         async fetchActivities() {
             try {
                 this.isLoading = true;
-                const response = await axios.get('/api/activities', {});
+                const response = await axios.get('/api/v1/activities', {});
 
                 response.data.forEach(i => {
                     this.activities.push({'name' : i.name, 'value' : i.id});

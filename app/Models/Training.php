@@ -10,10 +10,15 @@ class Training extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'start_at', 'end_at', 'complited'];
+    protected $fillable = ['name', 'start_at', 'end_at', 'complited', 'user_id'];
 
     public function sets()
     {
         return $this->hasMany(Set::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

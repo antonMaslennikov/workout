@@ -43,7 +43,7 @@ export default {
         async fetchActivities() {
             try {
                 this.isLoading = true;
-                const response = await axios.get('/api/activities', {});
+                const response = await axios.get('/api/v1/activities', {});
                 this.activities = response.data;
             } catch (e) {
                 alert('Ошибка');
@@ -59,7 +59,7 @@ export default {
         },
         createActivitie(activitie) {
             axios
-                .post('/api/activities', activitie, {
+                .post('/api/v1/activities', activitie, {
                     headers: {
                         'Content-type':'application/json'
                     }
@@ -74,7 +74,7 @@ export default {
         },
         updateActivitie(activitie) {
             axios
-                .post('/api/activities/' + activitie.id, {
+                .post('/api/v1/activities/' + activitie.id, {
                     name : activitie.name,
                     description : activitie.description,
                     body_part : activitie.body_part,
@@ -96,7 +96,7 @@ export default {
         removeActivitie(activitie) {
             if (confirm('Подтверждаете удаление?')) {
                 axios
-                    .post('/api/activities/' + activitie.id, {
+                    .post('/api/v1/activities/' + activitie.id, {
                         _method: 'DELETE'
                     })
                     .then(response => {
@@ -106,7 +106,7 @@ export default {
         },
         saveSort(order) {
             axios
-                .post('/api/activities/savesort', {'order' : order})
+                .post('/api/v1/activities/savesort', {'order' : order})
                 .then(response => {
                 });
         },

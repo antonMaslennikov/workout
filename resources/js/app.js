@@ -18,8 +18,7 @@ components.forEach(component => {
 // });
 
 const token = localStorage.getItem('token')
-
-if (token) {
+if (token && token != 'undefined') {
     // устанавливаем по дефолту для axios заголовок авторизации с токеном
     axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
 }
