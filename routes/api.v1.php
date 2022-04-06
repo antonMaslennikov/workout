@@ -19,7 +19,9 @@ Route::group([
     'middleware' => 'api',
     'prefix' => 'auth'
 ], function ($router) {
-    Route::post('/login', [AuthController::class, 'login']);
+    Route::post('/login', [AuthController::class, 'login'])
+//        ->middleware('verified')
+        ;
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/refresh', [AuthController::class, 'refresh']);
@@ -27,6 +29,7 @@ Route::group([
     Route::get('/user-profile', [AuthController::class, 'userProfile']);
 });
 
+Route::get('/activities/all', [\App\Http\Controllers\api\v1\Activities::class, 'all']);
 Route::post('/activities/savesort', [\App\Http\Controllers\api\v1\Activities::class, 'savesort']);
 Route::resource('activities', \App\Http\Controllers\api\v1\Activities::class);
 

@@ -27,14 +27,20 @@
                     <li class="nav-item" v-if="isLoggedIn">
                         <a class="nav-link" href="#" @click="$router.push('/food')">Питание</a>
                     </li>
-                    <li class="nav-item">
-                        <template v-if="isLoggedIn">
+                    <template v-if="isLoggedIn">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" @click="$router.push('/profile')">Профиль ({{ $store.getters.userLogin }})</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="#" @click="logout">Выход</a>
-                        </template>
-                        <template v-else>
+                        </li>
+                    </template>
+                    <template v-else>
+                        <li class="nav-item">
                             <a class="nav-link" href="#" @click="$router.push('/login')">Вход</a>
-                        </template>
-                    </li>
+                        </li>
+                    </template>
+
                 </ul>
             </div>
         </div>

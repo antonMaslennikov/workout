@@ -7,7 +7,7 @@ export default createStore({
         auth_error: '',
         register_errors: '',
         token: localStorage.getItem('token') || '',
-        user: {},
+        user: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : {},
         body_parts: [
             {'id': 1, 'name': 'Руки'},
             {'id': 2, 'name': 'Ноги'},
@@ -135,6 +135,11 @@ export default createStore({
     getters: {
         isLoggedIn: state => !!state.token && state.token != 'undefined',
         authStatus: state => state.status,
+        userLogin(state) {
+            if (state.user) {
+                return state.user.name || state.user.email;
+            }
+        },
         nameError(state) {
             if (typeof state.register_errors.name !== 'undefined')
                 return state.register_errors.name.join(',')

@@ -20,7 +20,12 @@ class Activities extends Controller
      */
     public function index()
     {
-        return Activitie::orderBy('sort')->paginate(10  );
+        return Activitie::orderBy('sort')->paginate(10);
+    }
+
+    public function all()
+    {
+        return Activitie::orderBy('sort')->get();
     }
 
     /**
