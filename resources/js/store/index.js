@@ -36,10 +36,10 @@ export default createStore({
         auth_request(state) {
             state.status = 'loading'
         },
-        auth_success(state, token, user) {
+        auth_success(state, data) {
             state.status = 'success'
-            state.token = token
-            state.user = user
+            state.token = data.token
+            state.user = data.user
             state.auth_error = ''
         },
         auth_error(state, error) {
@@ -58,6 +58,7 @@ export default createStore({
         logout(state) {
             state.status = ''
             state.token = ''
+            state.user = {}
         },
     },
 
@@ -68,16 +69,16 @@ export default createStore({
                 axios({url: '/api/v1/auth/login', data: user, method: 'POST'})
                     .then(resp => {
                         const token = resp.data.access_token
-                        const user = resp.data.user
                         localStorage.setItem('token', token)
-                        localStorage.setItem('user', JSON.stringify(user))
+                        localStorage.setItem('user', JSON.stringify(resp.data.user))
                         axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
-                        commit('auth_success', token, user)
+                        commit('auth_success', {'token': token, 'user': resp.data.user})
                         resolve(resp)
                     })
                     .catch(err => {
                         commit('auth_error', 'Не удалось авторизоваться')
                         localStorage.removeItem('token')
+                        localStorage.removeItem('user')
                         reject(err)
                     })
             })
@@ -86,6 +87,7 @@ export default createStore({
             return new Promise((resolve, reject) => {
                 commit('logout')
                 localStorage.removeItem('token')
+                localStorage.removeItem('user')
                 delete axios.defaults.headers.common['Authorization']
                 resolve()
             })

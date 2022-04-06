@@ -1,19 +1,19 @@
 <template>
     <div class="calendar">
 
-        <div class="row">
-            <div class="col-sm-2">
-                <button class="btn btn-dark" v-on:click="minusMonth"><i class="bi bi-arrow-left"></i> предыдущий месяц</button>
+        <div class="calendar--navigation">
+            <div>
+                <button class="btn btn-dark" v-on:click="minusMonth"><i class="bi bi-arrow-left"></i> <span class="label">предыдущий месяц</span></button>
             </div>
-            <div class="col-sm-2" v-bind:title="currentYear + '-' + currentMonth">
+            <div v-bind:title="currentYear + '-' + currentMonth">
                 Текущая дата: <b>{{ currentMonthFormated }} {{ currentYear }}</b>
             </div>
-            <div class="col-sm-2">
-                <button class="btn btn-dark" @click="plusMonth">следующий месяц <i class="bi bi-arrow-right"></i></button>
+            <div>
+                <button class="btn btn-dark" @click="plusMonth"><span class="label">следующий месяц</span> <i class="bi bi-arrow-right"></i></button>
             </div>
         </div>
 
-        <div class="days-wrapper col-6">
+        <div class="days-wrapper">
             <div class="calendar--daysname">
                 <div>ПН</div>
                 <div>ВТ</div>
@@ -138,12 +138,23 @@ export default {
 
 <style scoped>
     .calendar {
-
+        max-width: 770px;
     }
+
+    .calendar--navigation {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    @media screen and (max-width: 600px) {
+        .calendar--navigation .label {
+            display: none;
+        }
+    }
+
     .days-wrapper {
         margin-top: 30px;
     }
-
     .callendar--loader {
         text-align: center;
         padding: 100px 0;

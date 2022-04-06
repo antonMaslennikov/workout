@@ -19,9 +19,7 @@ Route::group([
     'middleware' => 'api',
     'prefix' => 'auth'
 ], function ($router) {
-    Route::post('/login', [AuthController::class, 'login'])
-//        ->middleware('verified')
-        ;
+    Route::post('/login', [AuthController::class, 'login']);
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/refresh', [AuthController::class, 'refresh']);
@@ -29,14 +27,18 @@ Route::group([
     Route::get('/user-profile', [AuthController::class, 'userProfile']);
 });
 
-Route::get('/activities/all', [\App\Http\Controllers\api\v1\Activities::class, 'all']);
-Route::post('/activities/savesort', [\App\Http\Controllers\api\v1\Activities::class, 'savesort']);
-Route::resource('activities', \App\Http\Controllers\api\v1\Activities::class);
+//Route::group([
+//    'middleware' => 'verified',
+//], function ($router) {
+    Route::get('/activities/all', [\App\Http\Controllers\api\v1\Activities::class, 'all']);
+    Route::post('/activities/savesort', [\App\Http\Controllers\api\v1\Activities::class, 'savesort']);
+    Route::resource('activities', \App\Http\Controllers\api\v1\Activities::class);
 
-Route::get('/trainings/{y}/{m}/{d}', [\App\Http\Controllers\api\v1\TrainingController::class, 'index']);
-Route::post('/trainings/addset', [\App\Http\Controllers\api\v1\TrainingController::class, 'addset']);
-Route::resource('trainings', \App\Http\Controllers\api\v1\TrainingController::class);
+    Route::get('/trainings/{y}/{m}/{d}', [\App\Http\Controllers\api\v1\TrainingController::class, 'index']);
+    Route::post('/trainings/addset', [\App\Http\Controllers\api\v1\TrainingController::class, 'addset']);
+    Route::resource('trainings', \App\Http\Controllers\api\v1\TrainingController::class);
 
-Route::resource('trainings/activities', \App\Http\Controllers\api\v1\trainings\ActivitiesController::class);
+    Route::resource('trainings/activities', \App\Http\Controllers\api\v1\trainings\ActivitiesController::class);
 
-Route::get('/days/{y?}/{m?}', [\App\Http\Controllers\api\v1\Days::class, 'index']);
+    Route::get('/days/{y?}/{m?}', [\App\Http\Controllers\api\v1\Days::class, 'index']);
+//});
