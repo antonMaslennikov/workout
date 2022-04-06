@@ -76,17 +76,31 @@ export default {
         async fetchCalendarDays() {
             try {
                 this.isCalendarLoading = true;
-                // const response = await axios.get('/api/days/' + this.currentYear + '/' + this.currentMonth, {});
-                // this.activities = response.data;
+
+                const response = await axios.get(this.$store.state.api_url + '/days/' + this.currentYear + '/' + this.currentMonth, {});
+                this.activities = response.data;
 
                 this.dates = [];
 
-                for (let i = -1 * (new Date(this.currentYear, this.currentMonth - 1, 1).getDay()) + 1; i < 0; i++) {
+                let fakeDays = (new Date(this.currentYear, this.currentMonth - 1, 1).getDay()) + 1;
+
+                for (let i = -1 * fakeDays; i < 0; i++) {
                     this.dates.push({id: i, day: i});
                 }
 
                 for (let i = 1; i <= new Date(this.currentYear, this.currentMonth, 0).getDate(); i++) {
-                    this.dates.push({id: i, day: i, month: this.currentMonth, year: this.currentYear});
+                    this.dates.push(
+                        {
+                            id: i,
+                            day: i,
+                            month: this.currentMonth,
+                            year: this.currentYear
+                        }
+                    );
+
+                    if (this.activities[i]) {
+                        this.dates[fakeDays + i - 1].trainings = this.activities[i].trainings
+                    }
                 }
 
             } catch (e) {
@@ -186,6 +200,7 @@ export default {
         box-sizing: border-box;
         padding: 5px 10px;
         cursor: pointer;
+        vertical-align: middle;
     }
 
     .calendar--day.hidden {

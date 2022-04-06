@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\RegistForm;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Auth\Events\Verified;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
@@ -60,15 +61,17 @@ class AuthController extends Controller
 
         event(new Registered($user));
 
-//        if (!$token = auth()->attempt($request->validated())) {
-//            return response()->json(['error' => 'Unauthorized'], 401);
-//        }
-//        return $this->createNewToken($token);
+        // авторизуем
+        if (!$token = auth()->attempt($request->validated())) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
 
-        return response()->json([
-            'message' => 'User successfully registered',
-            'user' => $user
-        ], 201);
+        return $this->createNewToken($token);
+
+//        return response()->json([
+//            'message' => 'User successfully registered',
+//            'user' => $user
+//        ], 201);
     }
 
     /**
@@ -105,6 +108,8 @@ class AuthController extends Controller
         $user->email_verified_at = time();
         $user->verify_token = null;
         $user->save();
+
+        event(new Verified($user));
 
         if (!$token = auth()->login($user)) {
             return response()->json(['error' => 'Unauthorized'], 401);

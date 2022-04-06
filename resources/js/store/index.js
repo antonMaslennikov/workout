@@ -1,8 +1,10 @@
 import {createStore} from "vuex";
 import {activitieModule} from "./modules/activitieModule";
+import calendarModule from "./modules/calendarModule";
 
 export default createStore({
     state: {
+        api_url: '/api/v1',
         status: '',
         auth_error: '',
         register_errors: '',
@@ -50,9 +52,10 @@ export default createStore({
             state.status = 'error'
             state.register_errors = errors
         },
-        register_success(state, user) {
+        register_success(state, data) {
             state.status = 'success'
-            state.user = user
+            state.user = data.user
+            state.token = data.token
             state.register_errors = ''
         },
         logout(state) {
@@ -98,12 +101,12 @@ export default createStore({
                 axios({url: '/api/v1/auth/register', data: user, method: 'POST'})
                     .then(resp => {
                         const user = resp.data.user
-                        // const token = resp.data.access_token
-                        // localStorage.setItem('token', token)
-                        // localStorage.setItem('user', JSON.stringify(user))
-                        // axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
-                        // commit('auth_success', token, user)
-                        commit('register_success', user);
+                        const token = resp.data.access_token
+                        localStorage.setItem('token', token)
+                        localStorage.setItem('user', JSON.stringify(user))
+                        axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
+                        // commit('auth_success', {'token': token, 'user': user})
+                        commit('register_success', {'token': token, 'user': user});
                         resolve(resp)
                     })
                     .catch(err => {
@@ -163,6 +166,7 @@ export default createStore({
     },
 
     modules: {
-        activitie: activitieModule
+        activitie: activitieModule,
+        calendar: calendarModule
     }
 })

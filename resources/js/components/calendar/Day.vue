@@ -1,6 +1,7 @@
 <template>
     <div :class="dayClass" @click="$emit('showDayModal', day.day)">
         <span class="day">{{ day.day }}</span>
+        <div class="trainings-counter" v-if="day.trainings > 0">{{ day.trainings }}</div>
     </div>
 </template>
 
@@ -28,6 +29,15 @@ export default {
     font-weight: bold;
 }
 
+.trainings-counter {
+    background: #db8157;
+    color: white;
+    width: 30px;
+    border-radius: 50%;
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+}
 
 @media screen and (max-width: 590px) {
     .day {
