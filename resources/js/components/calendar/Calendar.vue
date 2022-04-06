@@ -25,6 +25,12 @@
             </div>
             <div v-if="!isCalendarLoading">
                 <Day
+                    v-for="day in fakeDates"
+                    :day="day"
+                    :key="day.id"
+                    class="calendar--day hidden"
+                ></Day>
+                <Day
                     v-for="day in dates"
                     :day="day"
                     :key="day.id"
@@ -40,7 +46,10 @@
             <day-view
                 v-bind:year="currentYear"
                 v-bind:month="currentMonth"
-                v-bind:day="currentDay">
+                v-bind:day="currentDay"
+                @add-new-training="addNewTraining"
+                @remove-training="removeTraining"
+            >
             </day-view>
         </my-dialog>
 
@@ -60,8 +69,9 @@ export default {
     components: {DayView, Day},
     data() {
         return {
-            dates: [
-            ],
+            // массив фейковых дней для заполнения календаря, если месяц начинается не с понедельника
+            fakeDates: [],
+            dates: [],
             // данные с запланнированными/проведёнными на выбранный период днями с тренировками
             activities: [],
             isCalendarLoading: true,
@@ -81,11 +91,10 @@ export default {
                 this.activities = response.data;
 
                 this.dates = [];
+                this.fakeDates = [];
 
-                let fakeDays = (new Date(this.currentYear, this.currentMonth - 1, 1).getDay()) + 1;
-
-                for (let i = -1 * fakeDays; i < 0; i++) {
-                    this.dates.push({id: i, day: i});
+                for (let i = 0; i < (new Date(this.currentYear, this.currentMonth - 1, 0).getDay()); i++) {
+                    this.fakeDates.push({id: i, day: i});
                 }
 
                 for (let i = 1; i <= new Date(this.currentYear, this.currentMonth, 0).getDate(); i++) {
@@ -99,11 +108,12 @@ export default {
                     );
 
                     if (this.activities[i]) {
-                        this.dates[fakeDays + i - 1].trainings = this.activities[i].trainings
+                        this.dates[i - 1].trainings = this.activities[i].trainings
                     }
                 }
 
             } catch (e) {
+                console.log(e);
                 alert('Ошибка');
             } finally {
                 this.isCalendarLoading = false;
@@ -133,6 +143,15 @@ export default {
             this.dialogVisible = false;
             this.currentDay = null;
         },
+        addNewTraining(t) {
+            if (!this.dates[t.day- 1].trainings) {
+                this.dates[t.day - 1].trainings = 0;
+            }
+            this.dates[t.day - 1].trainings++;
+        },
+        removeTraining(t) {
+            this.dates[new Date(t.start_at).getDate() - 1].trainings--;
+        }
     },
     mounted() {
         this.fetchCalendarDays();

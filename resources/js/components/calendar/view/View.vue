@@ -177,7 +177,7 @@ export default {
                             this.trainings.push(t);
                             this.newTrainingShow = false;
                             this.clearTrainingForm();
-
+                            this.$emit('addNewTraining', t);
                         }
                     });
             } else {
@@ -225,6 +225,7 @@ export default {
                     })
                     .then(response => {
                         this.trainings = this.trainings.filter(a => a.id !== training.id)
+                        this.$emit('removeTraining', training);
                     });
             }
         },
