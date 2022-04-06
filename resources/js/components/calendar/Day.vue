@@ -1,5 +1,5 @@
 <template>
-    <div class="calendar--day" :class="dayClass" @click="$emit('showDayModal', day.day)">
+    <div :class="dayClass" @click="$emit('showDayModal', day.day)">
         <span class="day">{{ day.day }}</span>
     </div>
 </template>
@@ -22,30 +22,26 @@ export default {
 </script>
 
 <style scoped>
-    .calendar--day {
-        display: inline-block;
-        border:1px solid black;
-        border-radius: 3px;
-        width:100px;
-        height: 100px;
-        margin-right: 10px;
-        margin-bottom: 10px;
-        box-sizing: border-box;
-        padding: 5px 10px;
-        cursor: pointer;
-    }
+.day {
+    font-size: 30px;
+    font-style: italic;
+    font-weight: bold;
+}
 
-    .calendar--day.hidden {
-        visibility: hidden;
-    }
 
-    .calendar--day.currentDay {
-        background: #e1e1e1;
-    }
-
+@media screen and (max-width: 590px) {
     .day {
-        font-size: 30px;
-        font-style: italic;
-        font-weight: bold;
+        font-size: 20px;
     }
+}
+@media screen and (max-width: 460px) {
+    .day {
+        font-size: 15px;
+    }
+}
+@media screen and (max-width: 400px) {
+    .day {
+        font-size: 12px;
+    }
+}
 </style>

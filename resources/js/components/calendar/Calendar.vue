@@ -29,6 +29,7 @@
                     :day="day"
                     :key="day.id"
                     @showDayModal="openModal"
+                    class="calendar--day"
                 ></Day>
             </div>
             <div v-else class="callendar--loader">Идёт загрузка</div>
@@ -155,6 +156,7 @@ export default {
     .days-wrapper {
         margin-top: 30px;
     }
+
     .callendar--loader {
         text-align: center;
         padding: 100px 0;
@@ -172,4 +174,37 @@ export default {
         border:1px solid #212529;
         text-align: center;
     }
+
+    .calendar--day {
+        display: inline-block;
+        border:1px solid black;
+        border-radius: 3px;
+        width:100px;
+        height: 100px;
+        margin-right: 10px;
+        margin-bottom: 10px;
+        box-sizing: border-box;
+        padding: 5px 10px;
+        cursor: pointer;
+    }
+
+    .calendar--day.hidden {
+        visibility: hidden;
+    }
+
+    .calendar--day.currentDay {
+        background: #e1e1e1;
+    }
+
+    @media screen and (max-width: 810px) {
+        .calendar {
+        }
+        .calendar--daysname div {
+            width: calc(100% / 7 - 10px);
+        }
+        .calendar--day {
+            width: calc(100% / 7 - 10px);
+        }
+    }
+
 </style>
