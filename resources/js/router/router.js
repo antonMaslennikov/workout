@@ -1,5 +1,5 @@
 import Main from "../pages/Main";
-import ActivitiesStore from "../pages/ActivitiesStore";
+import Activities from "../pages/Activities";
 import CalendarPage from "../pages/CalendarPage";
 import Login from "../components/Login";
 import Register from "../components/Register";
@@ -42,7 +42,7 @@ const routes = [
     {
         path: '/activities/:page(\\d+)*',
         name: 'activities',
-        component: ActivitiesStore,
+        component: Activities,
         meta: {
             requiresAuth: true
         }

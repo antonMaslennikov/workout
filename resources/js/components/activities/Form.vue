@@ -99,4 +99,9 @@ form {
     flex-direction: column;
     width: 500px;
 }
+@media screen and (max-width: 570px) {
+    form {
+        width: 100%;
+    }
+}
 </style>

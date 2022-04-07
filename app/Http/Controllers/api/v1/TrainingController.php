@@ -163,16 +163,4 @@ class TrainingController extends Controller
         $t = Training::find($id);
         $t->delete();
     }
-
-    public function addset(Request $request)
-    {
-        $Set = new Set();
-        $Set->training_id = (int) $request->training_id;
-        $Set->save();
-
-        return [
-            'status' => 'ok',
-            'set' => $Set,
-        ];
-    }
 }

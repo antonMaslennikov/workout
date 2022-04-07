@@ -29,7 +29,10 @@
                             <div class="accordion-body">
                                 <div class="training-sets--list"
                                      v-for="(set, set_index) in training.sets">
-                                    Сет: {{ set_index + 1 }}. <a href="#" @click="showNewActivitieForm(set)" v-if="!currentSet || set.id != currentSet.id"><i class="bi bi-plus-circle"></i></a>
+                                    Сет: {{ set_index + 1 }}.
+                                    <a href="#" @click="showNewActivitieForm(set)" v-if="!currentSet || set.id != currentSet.id"><i class="bi bi-plus-circle"></i></a>
+                                    &nbsp;
+                                    <a href="#" @click="removeSet(set)"><i class="bi bi-trash"></i></a>
 
                                     <div class="training-activities--list"
                                          v-for="(activitie, a_index) in set.activities">
@@ -231,7 +234,7 @@ export default {
         },
         addSet(training) {
             axios
-                .post('/api/v1/trainings/addset', {
+                .post('/api/v1/trainings/sets', {
                     training_id: training.id,
                 })
                 .then(response => {
@@ -240,6 +243,21 @@ export default {
                     }
                     training.sets.push(response.data.set);
                 });
+        },
+        removeSet(set) {
+            if (confirm('Вы уверены что хотите удалить сет?')) {
+                axios
+                    .post('/api/v1/trainings/sets/' + set.id, {
+                        _method: 'DELETE'
+                    })
+                    .then(response => {
+                        this.trainings.forEach(function(item, kt) {
+                            if (item.id == set.training_id) {
+                                item.sets = item.sets.filter(s => s.id != set.id);
+                            }
+                        });
+                    });
+            }
         },
         showNewActivitieForm(set) {
             this.currentSet = set;

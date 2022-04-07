@@ -25,6 +25,7 @@ export default {
     background: rgba(0, 0, 0, 0.5);
     position: fixed;
     display: flex;
+    z-index: 99999;
 }
 
 .dialog__content {
@@ -40,6 +41,13 @@ export default {
 
 .dialog.-large .dialog__content {
     min-width: 1000px;
+}
+
+@media screen and (max-width: 1000px) {
+    .dialog.-large .dialog__content {
+        min-width: unset;
+        width: 98%;
+    }
 }
 
 .dialog--hidebutton {

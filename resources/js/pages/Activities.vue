@@ -8,8 +8,8 @@
     <my-dialog v-model:show="dialogVisible">
         <activitie-form
             v-model:a="currentItem"
-            @create="createActivitie"
-            @update="updateActivitie"
+            @create="createActivitie1"
+            @update="updateActivitie1"
         />
     </my-dialog>
 
@@ -24,91 +24,34 @@
 </template>
 
 <script>
-import axios from "axios";
 import ActivitiesList from "../components/activities/List";
 import ActivitieForm from "../components/activities/Form";
+import { mapState, mapActions, mapGetters, mapMutations } from "vuex";
 
 export default {
-    name: "Activities",
+    name: "ActivitiesStore",
     components: {ActivitieForm, ActivitiesList},
     data() {
         return {
-            activities: [],
-            isLoading: true,
             dialogVisible: false,
             currentItem: null,
         }
     },
     methods: {
-        async fetchActivities() {
-            try {
-                this.isLoading = true;
-                const response = await axios.get('/api/v1/activities', {});
-                this.activities = response.data;
-            } catch (e) {
-                alert('Ошибка');
-            } finally {
-                this.isLoading = false;
-            }
-        },
+
+        ...mapActions({
+            fetchActivities: 'activitie/fetchActivities',
+            createActivitie: 'activitie/createActivitie',
+            updateActivitie: 'activitie/updateActivitie',
+            removeActivitie: 'activitie/removeActivitie',
+            saveSort: 'activitie/saveSort',
+        }),
+
         openModal() {
             this.dialogVisible = true;
         },
         closeModal() {
             this.dialogVisible = false;
-        },
-        createActivitie(activitie) {
-            axios
-                .post('/api/v1/activities', activitie, {
-                    headers: {
-                        'Content-type':'application/json'
-                    }
-                })
-                .then(res => {
-                    if (res.data.status == 'ok') {
-                        activitie.id = res.data.a.id;
-                        this.activities.push(activitie);
-                        this.closeModal();
-                    }
-                });
-        },
-        updateActivitie(activitie) {
-            axios
-                .post('/api/v1/activities/' + activitie.id, {
-                    name : activitie.name,
-                    description : activitie.description,
-                    body_part : activitie.body_part,
-                    _method: 'PUT'
-                })
-                .then(res => {
-                    if (res.data.status == 'ok') {
-                        this.activities = this.activities.map(item => {
-                            if (item.id == activitie.id) {
-                                return activitie;
-                            } else {
-                                return item;
-                            }
-                        });
-                        this.closeModal();
-                    }
-                });
-        },
-        removeActivitie(activitie) {
-            if (confirm('Подтверждаете удаление?')) {
-                axios
-                    .post('/api/v1/activities/' + activitie.id, {
-                        _method: 'DELETE'
-                    })
-                    .then(response => {
-                        this.activities = this.activities.filter(a => a.id !== activitie.id)
-                    });
-            }
-        },
-        saveSort(order) {
-            axios
-                .post('/api/v1/activities/savesort', {'order' : order})
-                .then(response => {
-                });
         },
         openClearModal() {
             this.currentItem = null;
@@ -118,11 +61,23 @@ export default {
             this.currentItem = activitie;
             this.openModal();
         },
+        createActivitie1(activitie) {
+            this.createActivitie(activitie);
+            this.closeModal();
+        },
+        updateActivitie1(activitie) {
+            // this.$store.dispatch('updateActivitie', activitie);
+            this.updateActivitie(activitie);
+            this.closeModal();
+        },
     },
     mounted() {
-        this.fetchActivities();
+        this.$store.dispatch('activitie/setPage', this.$route.params.page[0] ?? 1);
     },
     computed: {
+        ...mapGetters({
+            activities: 'activitie/list'
+        }),
     },
 }
 </script>
