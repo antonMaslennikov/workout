@@ -90,6 +90,13 @@ class ActivitiesController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $a = Activitie::findOrFail($id);
+
+        if ($a->set->training->user_id == auth()->user()->id) {
+            $a->delete();
+            return ['status' => 'ok'];
+        } else {
+            return response()->json(['error' => 'Доступ запрещён'], 403);
+        }
     }
 }

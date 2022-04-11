@@ -11,6 +11,15 @@ class Activitie extends Model
 
     protected $fillable = ['name', 'description', 'body_part', 'sort'];
 
+    public static $body_parts = [
+        ['id' => 1, 'name' => 'Руки'],
+        ['id' => 2, 'name' => 'Ноги'],
+        ['id' => 3, 'name' => 'Спина'],
+        ['id' => 4, 'name' => 'Грудь'],
+        ['id' => 5, 'name' => 'Плечи'],
+        ['id' => 6, 'name' => 'Живот'],
+    ];
+
     public static function getMaxSort() {
         $last = self::select('sort')
             ->orderByDesc('sort')

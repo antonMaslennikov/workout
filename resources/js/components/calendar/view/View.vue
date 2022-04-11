@@ -27,16 +27,20 @@
                         </h2>
                         <div v-bind:id="'collapse' + training.id" class="accordion-collapse collapse" v-bind:aria-labelledby="'heading' + training.id" data-bs-parent="#accordionExample">
                             <div class="accordion-body">
-                                <div class="training-sets--list"
-                                     v-for="(set, set_index) in training.sets">
-                                    Сет: {{ set_index + 1 }}.
-                                    <a href="#" @click="showNewActivitieForm(set)" v-if="!currentSet || set.id != currentSet.id"><i class="bi bi-plus-circle"></i></a>
-                                    &nbsp;
-                                    <a href="#" @click="removeSet(set)"><i class="bi bi-trash"></i></a>
+                                <div class="training-sets--list">
+                                    <div v-for="(set, set_index) in training.sets">
+                                        Сет: {{ set_index + 1 }}.
+                                        <a href="#" @click="showNewActivitieForm(set)" v-if="!currentSet || set.id != currentSet.id"><i class="bi bi-plus-circle"></i></a>
+                                        &nbsp;
+                                        <a href="#" @click="removeSet(set)"><i class="bi bi-trash"></i></a>
 
-                                    <div class="training-activities--list"
-                                         v-for="(activitie, a_index) in set.activities">
-                                        {{ a_index + 1 }}: {{ activitie.activitie.name }} ({{ activitie.quantity }} раз) {{ activitie.comment }}
+                                        <div class="training-activities--list ps-3">
+                                            <div v-for="(activitie, a_index) in set.activities">
+                                                {{ a_index + 1 }}: {{ activitie.activitie.name }} ({{ activitie.quantity }} раз) {{ activitie.comment }}
+                                                <a href="#" style="margin-right: 10px;"><i class="bi bi-pen"></i></a>
+                                                <a href="#" @click="removeActivitie(activitie)"><i class="bi bi-trash"></i></a>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -279,6 +283,24 @@ export default {
                     this.currentSet.activities.push(response.data.a);
                     this.hideNewActivitieForm();
                 });
+        },
+        removeActivitie(activitie) {
+
+            if (confirm('Вы уверены что хотите удалить упражнение?')) {
+                axios
+                    .post(this.$store.state.api_url + '/trainings/activities/' + activitie.id, {
+                        _method: 'DELETE'
+                    })
+                    .then(response => {
+                        this.trainings.forEach(function(item, kt) {
+                            item.sets.forEach(function(itemA, ks) {
+                                if (itemA.id == activitie.set_id) {
+                                    itemA.activities = itemA.activities.filter(a => a.id != activitie.id);
+                                }
+                            });
+                        });
+                    });
+            }
         }
     },
     mounted() {

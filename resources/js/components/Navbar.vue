@@ -18,9 +18,9 @@
 <!--                    <li class="nav-item">-->
 <!--                        <a class="nav-link" href="#" @click="$router.push('/activities-composition')">Упражнения (composition Api)</a>-->
 <!--                    </li>-->
-                    <li class="nav-item" v-if="isLoggedIn">
-                        <a class="nav-link" href="#" @click="$router.push('/activities')">Упражнения</a>
-                    </li>
+<!--                    <li class="nav-item" v-if="isLoggedIn">-->
+<!--                        <a class="nav-link" href="#" @click="$router.push('/activities')">Упражнения</a>-->
+<!--                    </li>-->
                     <li class="nav-item" v-if="isLoggedIn">
                         <a class="nav-link" href="#" @click="$router.push('/plans')">Тренировочные планы</a>
                     </li>
@@ -28,11 +28,18 @@
                         <a class="nav-link" href="#" @click="$router.push('/food')">Питание</a>
                     </li>
                     <template v-if="isLoggedIn">
-                        <li class="nav-item">
-                            <a class="nav-link" href="#" @click="$router.push('/profile')">Профиль ({{ $store.getters.userLogin }})</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#" @click="logout">Выход</a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle"
+                               href="#"
+                               id="navbarDropdownMenuLink"
+                               role="button"
+                               data-bs-toggle="dropdown"
+                               aria-expanded="false">{{ $store.getters.userLogin }}</a>
+                            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdownMenuLink">
+                                <li><a class="dropdown-item" href="#" @click="$router.push('/profile')">Профиль</a></li>
+                                <li><a class="dropdown-item" href="/admin" v-if="$store.state.user.id == 1">Админская панель</a></li>
+                                <li><a class="dropdown-item" href="#" @click="logout">Выход</a></li>
+                            </ul>
                         </li>
                     </template>
                     <template v-else>

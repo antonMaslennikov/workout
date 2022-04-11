@@ -40,6 +40,10 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        'admin' => [
+            'driver' => 'session',
+            'provider' => 'admin_users',
+        ],
         'api' => [
             'driver' => 'jwt',
             'provider' => 'users',
@@ -67,6 +71,12 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
+            'model' => App\Models\User::class,
+        ],
+
+        'admin_users' => [
+            'driver' => 'eloquent',
+            // при желании можно использовать отдельную таблицу для админов
             'model' => App\Models\User::class,
         ],
 
