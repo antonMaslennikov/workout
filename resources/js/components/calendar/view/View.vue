@@ -16,7 +16,7 @@
                                 <div class="row" style="width: 90%">
                                     <div class="col-10">
                                         {{ training.name ? training.name : 'Тренировка #' + (index + 1) }}
-                                        {{ training.hour && training.hour !== '00' && training.minute && training.minute !== '00' ? '(' + training.hour + ':' + training.minute + ')' : '' }}
+                                        {{ training.hour && training.hour !== '00' ? '(' + training.hour + ':' + (training.minute == '' ? '00' : training.minute)  + ')' : '' }}
                                     </div>
                                     <div class="col-2 -actions">
                                         <a href="#" @click.stop.prevent="editTraining(training)" style="margin-right: 10px;"><i class="bi bi-pen"></i></a>
