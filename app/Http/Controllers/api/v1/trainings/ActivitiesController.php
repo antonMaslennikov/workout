@@ -60,17 +60,6 @@ class ActivitiesController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -79,7 +68,38 @@ class ActivitiesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'set_id' => ['required', 'integer'],
+                'activitie_id' => ['required', 'integer'],
+            ]
+        );
+
+        if ($validator->fails()) {
+            return [
+                'status' => 'errors',
+                'messages' => $validator->messages()
+            ];
+        }
+
+        $a = Activitie::find($id);
+
+        if ($a->set->training->user_id != auth()->user()->id) {
+            return response()->json(['error' => 'Доступ запрещён'], 403);
+        }
+
+        $a->activitie_id = $request->activitie_id;
+        $a->quantity = (int)$request->quantity;
+        $a->comment = $request->comment;
+        $a->save();
+
+        $a->activitie->name;
+
+        return [
+            'status' => 'ok',
+            'a' => $a,
+        ];
     }
 
     /**

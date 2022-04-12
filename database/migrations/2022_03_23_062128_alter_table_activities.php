@@ -14,7 +14,7 @@ class AlterTableActivities extends Migration
     public function up()
     {
         Schema::table('activities', function (Blueprint $table) {
-            $table->integer('sort')->after('description');
+            $table->integer('sort')->after('description')->nullable();
         });
     }
 

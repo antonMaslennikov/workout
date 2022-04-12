@@ -37,7 +37,7 @@
                                         <div class="training-activities--list ps-3">
                                             <div v-for="(activitie, a_index) in set.activities">
                                                 {{ a_index + 1 }}: {{ activitie.activitie.name }} ({{ activitie.quantity }} раз) {{ activitie.comment }}
-                                                <a href="#" style="margin-right: 10px;"><i class="bi bi-pen"></i></a>
+                                                <a href="#" @click="showEditActivitieForm(set, activitie)" style="margin-right: 10px;"><i class="bi bi-pen"></i></a>
                                                 <a href="#" @click="removeActivitie(activitie)"><i class="bi bi-trash"></i></a>
                                             </div>
                                         </div>
@@ -89,8 +89,10 @@
                 <NewActivitieForm
                     v-if="addActivitieForm"
                     :set="currentSet"
+                    :activitie="currentActivitie"
                     @hideNewActivitieForm="hideNewActivitieForm"
                     @saveNewActivitie="saveNewActivitie"
+                    @updateActivitie="updateActivitie"
                 ></NewActivitieForm>
             </div>
         </div>
@@ -106,6 +108,7 @@ export default {
     data() {
         return {
             currentSet: null,
+            currentActivitie: null,
             isTrainingsLoading: false,
             newTrainingShow: false,
             newTrainingForm: {
@@ -268,8 +271,15 @@ export default {
             this.addActivitieForm = true;
             this.newTrainingShow = false;
         },
+        showEditActivitieForm(set, activitie) {
+            this.currentSet = set;
+            this.currentActivitie = activitie;
+            this.addActivitieForm = true;
+            this.newTrainingShow = false;
+        },
         hideNewActivitieForm() {
             this.currentSet = null;
+            this.currentActivitie = null;
             this.addActivitieForm = false;
         },
         saveNewActivitie(form) {
@@ -283,6 +293,22 @@ export default {
                     this.currentSet.activities.push(response.data.a);
                     this.hideNewActivitieForm();
                 });
+        },
+        updateActivitie(form) {
+            form.set_id = this.currentSet.id;
+
+            axios
+                .post('/api/v1/trainings/activities/' + form.id, {
+                ...form,
+                _method: 'PUT'
+            })
+            .then(response => {
+                this.currentActivitie.activitie_id = response.data.a.activitie_id;
+                this.currentActivitie.quantity = response.data.a.quantity;
+                this.currentActivitie.comment = response.data.a.comment;
+                this.currentActivitie.activitie.name = response.data.a.activitie.name;
+                this.hideNewActivitieForm();
+            });
         },
         removeActivitie(activitie) {
 

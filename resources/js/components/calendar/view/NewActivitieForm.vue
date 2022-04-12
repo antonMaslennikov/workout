@@ -46,6 +46,9 @@ export default {
     props: {
         set: {
             type: Object
+        },
+        activitie: {
+            type: Object
         }
     },
     data() {
@@ -53,6 +56,7 @@ export default {
             isLoading: false,
             activities: [],
             form: {
+                id: 0,
                 activitie_id: 0,
                 quantity: 1,
                 comment: '',
@@ -76,11 +80,33 @@ export default {
             }
         },
         saveActivitie() {
-            this.$emit('saveNewActivitie', this.form);
+            if (!this.form.id) {
+                this.$emit('saveNewActivitie', this.form);
+            } else {
+                this.$emit('updateActivitie', this.form)
+            }
+
+            this.clearForm();
         },
+        clearForm() {
+            this.aa = {
+                id: '',
+                activitie_id: '',
+                quantity: '',
+                comment: ''
+            };
+        }
     },
     mounted() {
         this.fetchActivities();
+        if (this.activitie) {
+            this.form.id = this.activitie.id;
+            this.form.activitie_id = this.activitie.activitie_id;
+            this.form.quantity = this.activitie.quantity;
+            this.form.comment = this.activitie.comment;
+        } else {
+            this.clearForm();
+        }
     }
 }
 </script>
