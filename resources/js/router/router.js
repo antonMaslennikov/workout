@@ -1,8 +1,8 @@
 import Main from "../pages/Main";
 import Activities from "../pages/Activities";
 import CalendarPage from "../pages/CalendarPage";
-import Login from "../components/Login";
-import Register from "../components/Register";
+import Login from "../components/auth/Login";
+import Register from "../components/auth/Register";
 import RegisterVerify from "../components/auth/RegisterVerify";
 import store from "../store";
 
@@ -61,7 +61,7 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
     if (to.matched.some(record => record.meta.requiresAuth)) {
-        if (store.getters.isLoggedIn) {
+        if (store.getters["auth/isLoggedIn"]) {
             next()
             return
         }

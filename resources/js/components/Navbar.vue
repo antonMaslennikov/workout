@@ -34,10 +34,10 @@
                                id="navbarDropdownMenuLink"
                                role="button"
                                data-bs-toggle="dropdown"
-                               aria-expanded="false">{{ $store.getters.userLogin }}</a>
+                               aria-expanded="false">{{ $store.getters['auth/userLogin'] }}</a>
                             <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdownMenuLink">
                                 <li><a class="dropdown-item" href="#" @click="$router.push('/profile')">Профиль</a></li>
-                                <li><a class="dropdown-item" href="/admin" v-if="$store.state.user.id == 1">Админская панель</a></li>
+                                <li><a class="dropdown-item" href="/admin" v-if="$store.state.auth.user.id == 1">Админская панель</a></li>
                                 <li><a class="dropdown-item" href="#" @click="logout">Выход</a></li>
                             </ul>
                         </li>
@@ -58,11 +58,11 @@
 export default {
   name: "Navbar",
     computed : {
-        isLoggedIn : function(){ return this.$store.getters.isLoggedIn}
+        isLoggedIn : function(){ return this.$store.getters['auth/isLoggedIn'] }
     },
     methods: {
         logout: function () {
-            this.$store.dispatch('logout')
+            this.$store.dispatch('auth/logout')
                 .then(() => {
                     this.$router.push('/login')
                 })

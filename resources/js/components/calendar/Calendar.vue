@@ -114,7 +114,6 @@ export default {
 
             } catch (e) {
                 console.log(e);
-                alert('Ошибка');
             } finally {
                 this.isCalendarLoading = false;
             }

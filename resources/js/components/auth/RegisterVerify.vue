@@ -27,7 +27,7 @@ export default {
         }
     },
     mounted() {
-        this.$store.dispatch('verify', this.$route.params.token)
+        this.$store.dispatch('auth/verify', this.$route.params.token)
             .then(() => {
                 this.$router.push('/')
             })
