@@ -4,6 +4,7 @@ import CalendarPage from "../pages/CalendarPage";
 import Login from "../components/auth/Login";
 import Register from "../components/auth/Register";
 import RegisterVerify from "../components/auth/RegisterVerify";
+import ProfilePage from "../pages/ProfilePage";
 import store from "../store";
 
 import {createRouter, createWebHistory} from "vue-router";
@@ -43,6 +44,13 @@ const routes = [
         path: '/activities/:page(\\d+)*',
         name: 'activities',
         component: Activities,
+        meta: {
+            requiresAuth: true
+        }
+    },
+    {
+        path: '/profile',
+        component: ProfilePage,
         meta: {
             requiresAuth: true
         }

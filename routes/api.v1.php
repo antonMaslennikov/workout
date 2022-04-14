@@ -24,7 +24,6 @@ Route::group([
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/refresh', [AuthController::class, 'refresh']);
     Route::post('/verify', [AuthController::class, 'verify']);
-    Route::get('/user-profile', [AuthController::class, 'userProfile']);
 });
 
 //Route::group([
@@ -41,4 +40,7 @@ Route::group([
     Route::resource('trainings/activities', \App\Http\Controllers\api\v1\trainings\ActivitiesController::class);
 
     Route::get('/days/{y?}/{m?}', [\App\Http\Controllers\api\v1\Days::class, 'index']);
+
+
+    Route::get('/profile', [\App\Http\Controllers\api\v1\ProfileController::class, 'index'])->name('profile');
 //});

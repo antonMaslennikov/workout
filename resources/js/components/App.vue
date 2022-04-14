@@ -16,12 +16,14 @@ export default {
 
         let store = this.$store;
         let router = this.$router;
+
         // проверка не протух ли токен
+        // перехватываем все не прошедшие запросы через аксиос
         axios.interceptors.response.use(undefined, function (err) {
             return new Promise(function (resolve, reject) {
                 if ((err.status === 401 || err == 'Error: Request failed with status code 401') && err.config && !err.config.__isRetryRequest) {
                     router.push('login')
-                    store.dispatch('logout');
+                    store.dispatch('auth/logout');
                 }
                 throw err;
             });
