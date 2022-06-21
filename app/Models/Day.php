@@ -9,5 +9,11 @@ class Day extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['date'];
+    protected $fillable = ['date', 'training_id', 'start_at', 'end_at'];
+
+
+    public function training()
+    {
+        return $this->belongsTo(Training::class);
+    }
 }

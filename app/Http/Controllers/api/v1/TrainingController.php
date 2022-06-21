@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\api\v1;
 
 use App\Http\Controllers\Controller;
+use App\Models\Day;
 use App\Models\Training;
 use App\Models\training\Activitie;
 use App\Models\training\Set;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class TrainingController extends Controller
@@ -22,11 +24,12 @@ class TrainingController extends Controller
      */
     public function index($y, $m, $d)
     {
-        $trainings = Training::
-            with('sets.activities.activitie')
-            ->whereBetween('start_at', ["$y-$m-$d 00:00:00", "$y-$m-$d 23:59:59"])
+        $trainings = Training::with('sets.activities.activitie')
             ->where(['user_id' => auth()->user()->id])
+            ->join('days', 'trainings.id', '=', 'days.training_id')
             ->orderBy('start_at')
+            ->whereBetween('days.start_at', ["$y-$m-$d 00:00:00", "$y-$m-$d 23:59:59"])
+            ->select(['trainings.*', 'days.start_at', 'days.end_at'])
             ->get();
 
         foreach ($trainings AS $k => $t) {
@@ -79,6 +82,11 @@ class TrainingController extends Controller
         $t = Training::create([
             'name' => $request->name,
             'user_id' => auth()->user()->id,
+        ]);
+
+        $d = Day::create([
+            'training_id' => $t->id,
+            'date' => $d->format('Y-m-d'),
             'start_at' => $d->format('Y-m-d H:i:00'),
             'end_at' => null,
         ]);

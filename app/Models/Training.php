@@ -10,11 +10,17 @@ class Training extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'start_at', 'end_at', 'complited', 'user_id'];
+    protected $fillable = ['name', 'user_id'];
 
     public function sets()
     {
         return $this->hasMany(Set::class);
+    }
+
+
+    public function day()
+    {
+        return $this->hasOne(Day::class);
     }
 
     public function user()

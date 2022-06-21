@@ -66,4 +66,12 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
     {
         return $this->hasMany(Training::class);
     }
+
+    public function roles() {
+        return $this
+            ->belongsToMany(Role::class)
+//            ->using(UserRole::class)
+//            ->withTimestamps()
+            ;
+    }
 }

@@ -43,4 +43,5 @@ Route::group([
 
 
     Route::get('/profile', [\App\Http\Controllers\api\v1\ProfileController::class, 'index'])->name('profile');
+    Route::post('/profile', [\App\Http\Controllers\api\v1\ProfileController::class, 'store']);
 //});

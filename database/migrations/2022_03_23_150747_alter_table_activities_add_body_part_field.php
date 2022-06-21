@@ -14,7 +14,9 @@ class AlterTableActivitiesAddBodyPartField extends Migration
     public function up()
     {
         Schema::table('activities', function (Blueprint $table) {
-            $table->string('body_part', 70)->after('description');
+            $table->string('body_part', 70)
+                ->after('description')
+                ->nullable();
         });
     }
 

@@ -6,9 +6,16 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ActivitieFormRequest;
 use App\Models\Activitie;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class ActivitiesController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->authorizeResource(Activitie::class, 'activity');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -50,28 +57,23 @@ class ActivitiesController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  Activitie  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Activitie $activity)
     {
-        $a = Activitie::findOrFail($id);
+        if (!Gate::allows('update-activitie', $activity)) {
+            abort(403);
+        }
+        // анналогично предыдущему
+//        if (!auth('admin')->user()->can('update-activitie', $a)) {
+//        abort(403);
+//        }
 
         return view('admin.activities.create', [
-            'a' => $a,
+            'a' => $activity,
             'body_parts' => Activitie::$body_parts,
         ]);
     }
@@ -80,16 +82,14 @@ class ActivitiesController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  Activitie  $a
      * @return \Illuminate\Http\Response
      */
-    public function update(ActivitieFormRequest $request, $id)
+    public function update(ActivitieFormRequest $request, Activitie $activity)
     {
-        $post = Activitie::findOrFail($id);
-
         $data = $request->validated();
 
-        $post->update($data);
+        $activity->update($data);
 
         return redirect(route('admin.activities.index'));
     }
@@ -100,9 +100,12 @@ class ActivitiesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Activitie $activity)
     {
-        Activitie::destroy($id);
+        $this->authorize('delete-activitie');
+
+        $activity->delete();
+
         return redirect(route('admin.activities.index'));
     }
 }

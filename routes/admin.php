@@ -12,6 +12,7 @@ Route::middleware("auth:admin")->group(function(){
     Route::get('logout', [\App\Http\Controllers\Admin\AuthController::class, 'logout'])->name('logout');
 
     Route::resource('activities', \App\Http\Controllers\Admin\ActivitiesController::class);
+    Route::resource('users', \App\Http\Controllers\Admin\UsersController::class);
 });
 
 

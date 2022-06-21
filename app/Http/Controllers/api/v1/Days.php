@@ -21,9 +21,15 @@ class Days extends Controller
      */
     public function index($y = null, $m = null)
     {
-        $trainings = DB::table('trainings')
+//        $trainings = DB::table('trainings')
+//            ->whereBetween('start_at', ["$y-$m-01 00:00:00", "$y-$m-31 23:59:59"])
+//            ->where(['user_id' => auth()->user()->id])
+//            ->get();
+        $trainings = DB::table('days')
+            ->join('trainings', 'trainings.id', '=',  'days.training_id')
             ->whereBetween('start_at', ["$y-$m-01 00:00:00", "$y-$m-31 23:59:59"])
-            ->where(['user_id' => auth()->user()->id])
+            ->where(['trainings.user_id' => auth()->user()->id])
+            ->select('days.*')
             ->get();
 
         $data = [];

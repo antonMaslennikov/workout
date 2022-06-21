@@ -31,12 +31,17 @@
                             </td>
 
                             <td class="px-6 py-4 whitespace-no-wrap text-right border-b border-gray-200 text-sm leading-5 font-medium">
-                                <a href="{{ route('admin.activities.edit', $a->id) }}" class="text-indigo-600 hover:text-indigo-900">Редактировать</a>
-                                <form action="{{ route('admin.activities.destroy', $a->id) }}" method="post">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button class="text-red-600 hover:text-red-900">Удалить</button>
-                                </form>
+                                @can('update-activitie', $a)
+                                    <a href="{{ route('admin.activities.edit', $a->id) }}" class="text-indigo-600 hover:text-indigo-900">Редактировать</a>
+                                @endcan
+
+                                @can('delete-activitie', $a)
+                                    <form action="{{ route('admin.activities.destroy', $a->id) }}" method="post">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="text-red-600 hover:text-red-900">Удалить</button>
+                                    </form>
+                                @endcan
                             </td>
                         </tr>
                         @endforeach

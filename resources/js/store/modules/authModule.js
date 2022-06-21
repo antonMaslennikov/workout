@@ -36,6 +36,10 @@ export default {
         }
     },
     mutations: {
+        userName(state, name) {
+            state.user.name = name;
+            localStorage.setItem('user', JSON.stringify(state.user));
+        },
         auth_request(state) {
             state.status = 'loading'
         },
