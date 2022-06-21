@@ -9,6 +9,7 @@ import store from "../store";
 
 import {createRouter, createWebHistory} from "vue-router";
 import Page404 from "../pages/Page404";
+import PlansPage from "../pages/PlansPage";
 
 const routes = [
     {
@@ -35,6 +36,13 @@ const routes = [
         path: '/register',
         name: 'register',
         component: Register,
+    },
+    {
+        path: '/plans',
+        component: PlansPage,
+        meta: {
+            requiresAuth: true
+        }
     },
     // {
     //     path: '/activities',

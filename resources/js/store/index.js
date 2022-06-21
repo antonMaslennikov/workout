@@ -3,6 +3,7 @@ import {activitieModule} from "./modules/activitieModule";
 import calendarModule from "./modules/calendarModule";
 import authModule from "./modules/authModule";
 import profileModule from "./modules/profileModule";
+import trainingsModule from "./modules/trainingsModule";
 
 export default createStore({
     state: {
@@ -45,6 +46,7 @@ export default createStore({
         auth: authModule,
         activitie: activitieModule,
         calendar: calendarModule,
-        profile: profileModule
+        profile: profileModule,
+        trainings: trainingsModule
     }
 })

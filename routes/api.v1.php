@@ -34,6 +34,7 @@ Route::group([
     Route::resource('activities', \App\Http\Controllers\api\v1\Activities::class);
 
     Route::get('/trainings/{y}/{m}/{d}', [\App\Http\Controllers\api\v1\TrainingController::class, 'index']);
+    Route::get('/trainings/my', [\App\Http\Controllers\api\v1\TrainingController::class, 'my']);
 
     Route::resource('trainings', \App\Http\Controllers\api\v1\TrainingController::class);
     Route::resource('trainings/sets', \App\Http\Controllers\api\v1\trainings\SetsController::class);

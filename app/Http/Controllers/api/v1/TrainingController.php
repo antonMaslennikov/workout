@@ -43,6 +43,17 @@ class TrainingController extends Controller
         return $trainings;
     }
 
+    public function my()
+    {
+        $trainings = Training::with('sets.activities.activitie')
+            ->where(['user_id' => auth()->user()->id])
+            ->paginate(50);
+
+        //dd($trainings);
+
+        return $trainings;
+    }
+
     /**
      * Show the form for creating a new resource.
      *
