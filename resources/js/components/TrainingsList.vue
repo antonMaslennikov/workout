@@ -57,6 +57,29 @@ export default {
             type: Object
         }
     },
+    methods: {
+        addSet(training) {
+            this.$emit('addSet', training);
+        },
+        removeSet(set) {
+            this.$emit('removeSet', set);
+        },
+        showEditActivitieForm(set, activitie) {
+            this.$emit('showEditActivitieForm', set, activitie);
+        },
+        removeActivitie(activitie) {
+            this.$emit('removeActivitie', activitie);
+        },
+        showNewActivitieForm(set) {
+            this.$emit('showNewActivitieForm', set);
+        },
+        editTraining(training) {
+            this.$emit('editTraining', training);
+        },
+        removeTraining(training) {
+            this.$emit('removeTraining', training);
+        }
+    }
 }
 </script>
 

@@ -8,6 +8,13 @@
                 <trainings-list
                     :trainings="trainings"
                     :isTrainingsLoading="isTrainingsLoading"
+                    @addSet=addSet
+                    @showNewActivitieForm=showNewActivitieForm
+                    @showEditActivitieForm=showEditActivitieForm
+                    @removeActivitie=removeActivitie
+                    @removeSet=removeSet
+                    @editTraining=editTraining
+                    @removeTraining=removeTraining
                 ></trainings-list>
 
                 <div class="mb-3">

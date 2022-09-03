@@ -162,7 +162,7 @@ class TrainingController extends Controller
         $a = Training::find($id);
 
         $a->name = $request->name;
-        $a->start_at = $d->format('Y-m-d H:i:00');
+//        $a->start_at = $d->format('Y-m-d H:i:00');
         $a->save();
 
         return [
