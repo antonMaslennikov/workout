@@ -90,7 +90,7 @@ class ActivitiesController extends Controller
         }
 
         $a->activitie_id = $request->activitie_id;
-        $a->quantity = (int)$request->quantity;
+        $a->quantity = trim($request->quantity);
         $a->comment = $request->comment;
         $a->save();
 
