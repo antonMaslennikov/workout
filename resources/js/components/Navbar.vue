@@ -37,7 +37,7 @@
                                aria-expanded="false">{{ $store.getters['auth/userLogin'] }}</a>
                             <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdownMenuLink">
                                 <li><a class="dropdown-item" href="#" @click="$router.push('/profile')">Профиль</a></li>
-                                <li><a class="dropdown-item" href="/admin" v-if="$store.state.auth.user.id == 1">Админская панель</a></li>
+                                <li><a class="dropdown-item" href="/admin" v-if="$store.state.auth.user.id == 1 || $store.state.auth.user.email == 'anton.maslennikov@gmail.com'">Админская панель</a></li>
                                 <li><a class="dropdown-item" href="#" @click="logout">Выход</a></li>
                             </ul>
                         </li>
