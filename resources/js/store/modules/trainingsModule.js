@@ -82,25 +82,6 @@ export default {
             }
         },
 
-        async fetchMy({state, commit}) {
-            commit('setLoading', true);
-
-            const response = await axios.get(store.state.api_url + '/trainings/my', {
-                params: {
-                    limit: state.limit,
-                    page: state.page,
-                },
-                headers: {
-                    'Content-type':'application/json'
-                }
-            });
-
-            commit('setTotalPages', Math.ceil(response.data.total / state.limit));
-            commit('setList', response.data.data);
-            commit('setLoading', false);
-        },
-
-
         saveTraining({state, commit}, form) {
             if (!form.id || form.id == 0) {
                 axios
@@ -125,8 +106,7 @@ export default {
                     })
                     .then(res => {
                         if (res.data.status == 'ok') {
-
-                            this.trainings = this.trainings.map(item => {
+                            state.list = state.list.map(item => {
                                 if (item.id == form.id) {
                                     item.training.name = form.name;
                                     item.hour = form.hour;

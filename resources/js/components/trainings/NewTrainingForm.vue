@@ -62,7 +62,6 @@ export default {
             this.$store
                 .dispatch('trainings/saveTraining', this.form)
                 .then(res => {
-                    // this.clearForm();
                     if (!this.form.id) {
                         this.$emit('addNewTraining', this.form);
                     } else {

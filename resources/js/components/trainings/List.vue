@@ -24,22 +24,12 @@
                     <div class="training-sets--list">
                         <div v-for="(set, set_index) in training.training.sets">
                             Сет: {{ set_index + 1 }}.
-                            <a href="#" @click="showNewActivitieForm(set)" v-if="!currentSet || set.id != currentSet.id"><i class="bi bi-plus-circle"></i></a>
-                            &nbsp;
-                            <a href="#" @click="removeSet(set)"><i class="bi bi-trash"></i></a>
-
                             <div class="training-activities--list ps-3">
                                 <div v-for="(activitie, a_index) in set.activities">
                                     {{ a_index + 1 }}: {{ activitie.activitie.name }} ({{ activitie.quantity }} раз) {{ activitie.comment }}
-                                    <a href="#" @click="showEditActivitieForm(set, activitie)" style="margin-right: 10px;"><i class="bi bi-pen"></i></a>
-                                    <a href="#" @click="removeActivitie(activitie)"><i class="bi bi-trash"></i></a>
                                 </div>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="mt-3">
-                        <a href="#" @click="addSet(training.training)">Добавить сет</a>
                     </div>
                 </div>
             </div>
@@ -60,21 +50,11 @@ export default {
         }
     },
     methods: {
-        showNewActivitieForm(set) {
-            this.$emit('showNewActivitieForm', set);
-        },
-        showEditActivitieForm(set, activitie) {
-            this.$emit('showEditActivitieForm', set, activitie);
-        },
         editTraining(training) {
             this.$emit('editTraining', training);
         },
-
         ...mapActions({
-            addSet: 'trainings/addSet',
-            removeSet: 'trainings/removeSet',
             removeTraining: 'trainings/removeTraining',
-            removeActivitie: 'trainings/removeActivitie',
         }),
     },
     computed: {
