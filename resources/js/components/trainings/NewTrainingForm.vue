@@ -59,13 +59,16 @@ export default {
     methods: {
 
         saveTraining() {
-            this.$store.dispatch('trainings/saveTraining', this.form);
-            this.clearForm();
-            if (!this.form.id) {
-                this.$emit('addNewTraining', this.form);
-            } else {
-                this.$emit('editTraining');
-            }
+            this.$store
+                .dispatch('trainings/saveTraining', this.form)
+                .then(res => {
+                    // this.clearForm();
+                    if (!this.form.id) {
+                        this.$emit('addNewTraining', this.form);
+                    } else {
+                        this.$emit('editTraining');
+                    }
+            });
         },
 
         clearForm() {
@@ -78,7 +81,7 @@ export default {
     mounted() {
         if (this.training) {
             this.form.id = this.training.id;
-            this.form.name = this.training.name;
+            this.form.name = this.training.training.name;
 
             if (this.training.start_at) {
                 let d = new Date(this.training.start_at);
