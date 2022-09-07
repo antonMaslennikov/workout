@@ -22,7 +22,7 @@
             <div v-bind:id="'collapse' + training.id" class="accordion-collapse collapse" v-bind:aria-labelledby="'heading' + training.id" data-bs-parent="#accordionExample">
                 <div class="accordion-body">
                     <div class="training-sets--list">
-                        <div v-for="(set, set_index) in training.sets">
+                        <div v-for="(set, set_index) in training.training.sets">
                             Сет: {{ set_index + 1 }}.
                             <a href="#" @click="showNewActivitieForm(set)" v-if="!currentSet || set.id != currentSet.id"><i class="bi bi-plus-circle"></i></a>
                             &nbsp;

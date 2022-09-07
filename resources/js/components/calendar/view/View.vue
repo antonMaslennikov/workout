@@ -116,7 +116,7 @@ export default {
             this.newTrainingForm.minute = '';
         },
         saveTraining() {
-            if (!this.newTrainingForm.id) {
+            if (!this.newTrainingForm.id || this.newTrainingForm.id == 0) {
                 axios
                     .post('/api/v1/trainings', this.newTrainingForm, {
                         headers: {

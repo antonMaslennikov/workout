@@ -24,12 +24,12 @@ class TrainingController extends Controller
      */
     public function index($y, $m, $d)
     {
-        $trainings = Training::with('sets.activities.activitie')
-            ->where(['user_id' => auth()->user()->id])
-            ->join('days', 'trainings.id', '=', 'days.training_id')
-            ->orderBy('start_at')
+        $trainings = Day::with('training.sets.activities.activitie')
+            ->join('trainings', 'trainings.id', '=', 'days.training_id')
+            ->where(['trainings.user_id' => auth()->user()->id])
+            ->orderBy('days.start_at')
             ->whereBetween('days.start_at', ["$y-$m-$d 00:00:00", "$y-$m-$d 23:59:59"])
-            ->select(['trainings.*', 'days.start_at', 'days.end_at'])
+            ->select(['days.*', 'trainings.name', 'trainings.user_id'])
             ->get();
 
         foreach ($trainings AS $k => $t) {
@@ -159,15 +159,16 @@ class TrainingController extends Controller
 
         $d = new \DateTimeImmutable($request->year . '-' . $request->month . '-' . $request->day . ' ' . ($request->hour ?? '00') . ':' . ($request->minute ?? '00') . ':00');
 
-        $a = Training::find($id);
+        $D = Day::query()->where(['id' => $id])->firstOrFail();
+        $D->start_at = $d->format('Y-m-d H:i:00');
+        $D->save();
 
-        $a->name = $request->name;
-//        $a->start_at = $d->format('Y-m-d H:i:00');
-        $a->save();
+        $D->training->name = $request->name;
+        $D->training->save();
 
         return [
             'status' => 'ok',
-            'a' => $a,
+            'a' => $D,
         ];
     }
 
