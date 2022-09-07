@@ -3,9 +3,9 @@
 
     <div class="row">
         <div class="col-sm-6">
-            <trainings-list
+            <list
                 :trainings="trainings"
-            ></trainings-list>
+            ></list>
         </div>
         <div class="col-sm-6">
         </div>
@@ -14,11 +14,11 @@
 
 <script>
 import {mapActions, mapGetters} from "vuex";
-import TrainingsList from "../components/TrainingsList";
+import List from "../components/trainings/List";
 
 export default {
     name: "PlansPage",
-    components: {TrainingsList},
+    components: {List},
     data() {
         return {
         }

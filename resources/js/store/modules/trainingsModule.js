@@ -160,6 +160,47 @@ export default {
             }
         },
 
+        saveTraining({state, commit}, form) {
+
+            if (!form.id || form.id == 0) {
+                axios
+                    .post(store.state.api_url + '/trainings', form, {
+                        headers: {
+                            'Content-type': 'application/json'
+                        }
+                    })
+                    .then(res => {
+                        if (res.data.status == 'ok') {
+
+                            res.data.t.hour = form.hour;
+                            res.data.t.minute = form.minute;
+                            state.list.push(res.data.t);
+                        }
+                    });
+            } else {
+                axios
+                    .post(store.state.api_url + '/trainings/' + form.id, {
+                        ...form,
+                        _method: 'PUT'
+                    })
+                    .then(res => {
+                        if (res.data.status == 'ok') {
+
+                            this.trainings = this.trainings.map(item => {
+                                if (item.id == form.id) {
+                                    item.training.name = form.name;
+                                    item.hour = form.hour;
+                                    item.minute = form.minute;
+                                    item.start_at = res.data.a.start_at;
+                                }
+                                return item;
+                            });
+
+                        }
+                    });
+            }
+        },
+
         saveActivitie({state, commit}, form) {
 
             if (!form.id) {
