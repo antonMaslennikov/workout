@@ -50,8 +50,9 @@ class ActivitiesController extends Controller
             'comment' => $request->comment,
         ]);
 
-        // чтобы извлечь данные об упраженении в модель
+        // чтобы извлечь данные об упраженении и тренировке в модель
         $a->activitie;
+        $a->set;
 
         return [
             'status' => 'ok',
@@ -94,7 +95,9 @@ class ActivitiesController extends Controller
         $a->comment = $request->comment;
         $a->save();
 
-        $a->activitie->name;
+        // чтобы извлечь данные об упраженении и тренировке в модель
+        $a->activitie;
+        $a->set;
 
         return [
             'status' => 'ok',

@@ -39,6 +39,7 @@
 
 <script>
 import axios from "axios";
+import {mapActions} from "vuex";
 
 export default {
     name: "new-activitie-form",
@@ -57,6 +58,7 @@ export default {
             activities: [],
             form: {
                 id: 0,
+                set_id: 0,
                 activitie_id: 0,
                 quantity: 1,
                 comment: '',
@@ -80,25 +82,27 @@ export default {
             }
         },
         saveActivitie() {
-            if (!this.form.id) {
-                this.$emit('saveNewActivitie', this.form);
-            } else {
-                this.$emit('updateActivitie', this.form)
-            }
-
+            this.$store.dispatch('trainings/saveActivitie', this.form);
+            this.$emit('hideNewActivitieForm');
             this.clearForm();
         },
         clearForm() {
             this.aa = {
                 id: '',
                 activitie_id: '',
+                set_id: '',
                 quantity: '',
                 comment: ''
             };
-        }
+        },
     },
     mounted() {
         this.fetchActivities();
+
+        if (this.set) {
+            this.form.set_id = this.set.id;
+        }
+
         if (this.activitie) {
             this.form.id = this.activitie.id;
             this.form.activitie_id = this.activitie.activitie_id;

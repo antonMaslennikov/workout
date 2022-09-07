@@ -4,11 +4,14 @@ import store from "../index";
 export default {
     state: () => ({
         list: [],
-        isLoading: true,
+        isLoading: false,
         page: 1,
         limit: 50,
         totalPages: 0,
         searchQuery: '',
+        year: null,
+        month: null,
+        day: null,
     }),
     getters: {
         list(state) {
@@ -19,6 +22,9 @@ export default {
         },
         totalPages(state) {
             return state.totalPages;
+        },
+        isLoading(state) {
+            return state.isLoading;
         }
     },
     mutations: {
@@ -43,9 +49,6 @@ export default {
         setLoading(state, bool) {
             state.isLoading = bool;
         },
-        setSearchQuery(state, searchQuery) {
-            state.searchQuery = searchQuery;
-        },
         setPage(state, page) {
             state.page = page;
         },
@@ -54,10 +57,32 @@ export default {
         },
         setTotalPages(state, totalPages) {
             state.totalPages = totalPages;
+        },
+        setYear(state, year) {
+            state.year = year;
+        },
+        setMonth(state, month) {
+            state.month = month;
+        },
+        setDay(state, day) {
+            state.day = day;
         }
     },
     actions: {
+
         async fetch({state, commit}) {
+            try {
+                commit('setLoading', true);
+                const response = await axios.get(store.state.api_url + '/trainings/' + state.year + '/' + state.month + '/' + state.day, {});
+                commit('setList', response.data);
+            } catch (e) {
+                alert('Ошибка');
+            } finally {
+                commit('setLoading', false);
+            }
+        },
+
+        async fetchMy({state, commit}) {
             commit('setLoading', true);
 
             const response = await axios.get(store.state.api_url + '/trainings/my', {
@@ -72,61 +97,124 @@ export default {
 
             commit('setTotalPages', Math.ceil(response.data.total / state.limit));
             commit('setList', response.data.data);
+            commit('setLoading', false);
         },
 
-        // createActivitie({state, commit}, activitie) {
-        //     axios
-        //         .post('/api/v1/activities', activitie, {
-        //             headers: {
-        //                 'Content-type':'application/json'
-        //             }
-        //         })
-        //         .then(res => {
-        //             if (res.data.status == 'ok') {
-        //                 activitie.id = res.data.a.id;
-        //                 commit('addNewActivitie', activitie);
-        //             }
-        //         });
-        // },
-        //
-        // updateActivitie({state, commit}, activitie) {
-        //     axios
-        //         .post('/api/v1/activities/' + activitie.id, {
-        //             name : activitie.name,
-        //             description : activitie.description,
-        //             body_part : activitie.body_part,
-        //             _method: 'PUT'
-        //         })
-        //         .then(res => {
-        //             if (res.data.status == 'ok') {
-        //                 commit('updateActivitie', activitie);
-        //             }
-        //         });
-        // },
-        //
-        // removeActivitie({state, commit}, activitie) {
-        //     if (confirm('Подтверждаете удаление?')) {
-        //         axios
-        //             .post('/api/v1/activities/' + activitie.id, {
-        //                 _method: 'DELETE'
-        //             })
-        //             .then(response => {
-        //                 commit('removeActivitie', activitie);
-        //             });
-        //     }
-        // },
-        //
-        // saveSort({state}, order) {
-        //     axios
-        //         .post('/api/v1/activities/savesort', {'order' : order})
-        //         .then(response => {
-        //         });
-        // },
-        //
-        // setPage({state, commit, dispatch}, page) {
-        //     commit('setPage', page);
-        //     dispatch('fetchActivities');
-        // }
+        removeTraining({state, commit}, training) {
+            if (confirm('Подтверждаете удаление?')) {
+                axios
+                    .post(store.state.api_url + '/trainings/' + training.id, {
+                        _method: 'DELETE'
+                    })
+                    .then(response => {
+                        state.list = state.list.filter(a => a.id !== training.id)
+                    });
+            }
+        },
+
+        removeActivitie({state, commit}, activitie) {
+
+            if (confirm('Вы уверены что хотите удалить упражнение?')) {
+                axios
+                    .post(store.state.api_url + '/trainings/activities/' + activitie.id, {
+                        _method: 'DELETE'
+                    })
+                    .then(response => {
+                        state.list.forEach(function(item, kt) {
+                            item.sets.forEach(function(itemA, ks) {
+                                if (itemA.id == activitie.set_id) {
+                                    itemA.activities = itemA.activities.filter(a => a.id != activitie.id);
+                                }
+                            });
+                        });
+                    });
+            }
+        },
+
+        addSet({state, commit}, training) {
+            axios
+                .post(store.state.api_url + '/trainings/sets', {
+                    training_id: training.id,
+                })
+                .then(response => {
+                    if (!training.sets) {
+                        training.sets = [];
+                    }
+                    training.sets.push(response.data.set);
+                });
+        },
+
+        removeSet({state, commit}, set) {
+            if (confirm('Вы уверены что хотите удалить сет?')) {
+                axios
+                    .post(store.state.api_url + '/trainings/sets/' + set.id, {
+                        _method: 'DELETE'
+                    })
+                    .then(response => {
+                        state.list.forEach(function(item, kt) {
+                            if (item.id == set.training_id) {
+                                item.sets = item.sets.filter(s => s.id != set.id);
+                            }
+                        });
+                    });
+            }
+        },
+
+        saveActivitie({state, commit}, form) {
+
+            if (!form.id) {
+                axios
+                    .post(store.state.api_url + '/trainings/activities', form)
+                    .then(response => {
+
+                        let a = response.data.a;
+
+                        state.list.forEach(function(item, kt) {
+                            if (item.id == a.set.training_id) {
+                                if (!state.list[kt].sets) {
+                                    state.list[kt].sets = [];
+                                }
+                                item.sets.forEach(function(set, ks) {
+
+                                    if (set.id == a.set.id) {
+                                        if (!state.list[kt].sets[ks].activities) {
+                                            state.list[kt].sets[ks].activities = [];
+                                        }
+                                        state.list[kt].sets[ks].activities.push(a);
+                                    }
+
+                                });
+                            }
+                        });
+
+                    });
+            } else {
+                axios
+                    .post(store.state.api_url + '/trainings/activities/' + form.id, {
+                        ...form,
+                        _method: 'PUT'
+                    })
+                    .then(response => {
+
+                        let a = response.data.a;
+
+                        state.list.forEach(function(item, kt) {
+                            if (item.id == a.set.training_id) {
+                                item.sets.forEach(function(set, ks) {
+                                    if (set.id == a.set.id) {
+                                        set.activities.forEach(function(activitie, ka) {
+                                            if (activitie.id == a.id) {
+                                                state.list[kt].sets[ks].activities[ka] = a;
+                                            }
+                                        });
+                                    }
+
+                                });
+                            }
+                        });
+                    });
+            }
+        },
     },
     namespaced: true
 }

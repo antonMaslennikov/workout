@@ -7,14 +7,9 @@
 
                 <trainings-list
                     :trainings="trainings"
-                    :isTrainingsLoading="isTrainingsLoading"
-                    @addSet=addSet
                     @showNewActivitieForm=showNewActivitieForm
                     @showEditActivitieForm=showEditActivitieForm
-                    @removeActivitie=removeActivitie
-                    @removeSet=removeSet
                     @editTraining=editTraining
-                    @removeTraining=removeTraining
                 ></trainings-list>
 
                 <div class="mb-3">
@@ -49,14 +44,13 @@
                     </div>
                 </div>
 
-                <NewActivitieForm
-                    v-if="addActivitieForm"
-                    :set="currentSet"
-                    :activitie="currentActivitie"
-                    @hideNewActivitieForm="hideNewActivitieForm"
-                    @saveNewActivitie="saveNewActivitie"
-                    @updateActivitie="updateActivitie"
-                ></NewActivitieForm>
+                <template v-if="addActivitieForm">
+                    <NewActivitieForm
+                        :set="currentSet"
+                        :activitie="currentActivitie"
+                        @hideNewActivitieForm="hideNewActivitieForm"
+                    ></NewActivitieForm>
+                </template>
             </div>
         </div>
     </div>
@@ -66,6 +60,7 @@
 import NewActivitieForm from "./NewActivitieForm";
 import axios from "axios";
 import TrainingsList from "../../TrainingsList";
+import {mapGetters} from "vuex";
 export default {
     name: "day-view",
     components: {TrainingsList, NewActivitieForm},
@@ -73,7 +68,6 @@ export default {
         return {
             currentSet: null,
             currentActivitie: null,
-            isTrainingsLoading: false,
             newTrainingShow: false,
             newTrainingForm: {
                 year: this.year,
@@ -84,8 +78,6 @@ export default {
                 minute: '',
             },
             addActivitieForm: false,
-            trainings: [
-            ],
         }
     },
     props: {
@@ -103,17 +95,6 @@ export default {
         }
     },
     methods: {
-        async fetchTrainings() {
-            try {
-                this.isTrainingsLoading = true;
-                const response = await axios.get('/api/v1/trainings/' + this.year + '/' + this.month + '/' + this.day, {});
-                this.trainings = response.data;
-            } catch (e) {
-                alert('Ошибка');
-            } finally {
-                this.isTrainingsLoading = false;
-            }
-        },
         showNewTrainingForm() {
             this.newTrainingShow = true;
             this.addActivitieForm = false;
@@ -191,115 +172,50 @@ export default {
             this.addActivitieForm = false;
             this.newTrainingShow = true;
         },
-        removeTraining(training) {
-            if (confirm('Подтверждаете удаление?')) {
-                axios
-                    .post('/api/v1/trainings/' + training.id, {
-                        _method: 'DELETE'
-                    })
-                    .then(response => {
-                        this.trainings = this.trainings.filter(a => a.id !== training.id)
-                        this.$emit('removeTraining', training);
-                    });
-            }
-        },
-        addSet(training) {
-            axios
-                .post('/api/v1/trainings/sets', {
-                    training_id: training.id,
-                })
-                .then(response => {
-                    if (!training.sets) {
-                        training.sets = [];
-                    }
-                    training.sets.push(response.data.set);
-                });
-        },
-        removeSet(set) {
-            if (confirm('Вы уверены что хотите удалить сет?')) {
-                axios
-                    .post('/api/v1/trainings/sets/' + set.id, {
-                        _method: 'DELETE'
-                    })
-                    .then(response => {
-                        this.trainings.forEach(function(item, kt) {
-                            if (item.id == set.training_id) {
-                                item.sets = item.sets.filter(s => s.id != set.id);
-                            }
-                        });
-                    });
-            }
-        },
         showNewActivitieForm(set) {
-            this.currentSet = set;
-            this.addActivitieForm = true;
-            this.newTrainingShow = false;
+
+            // перемонтируем компонент
+            this.addActivitieForm = false;
+
+            this.$nextTick(() => {
+                this.currentSet = set;
+                this.addActivitieForm = true;
+                this.newTrainingShow = false;
+            });
         },
         showEditActivitieForm(set, activitie) {
-            this.currentSet = set;
-            this.currentActivitie = activitie;
-            this.addActivitieForm = true;
-            this.newTrainingShow = false;
+
+            // перемонтируем компонент
+            this.addActivitieForm = false;
+
+            this.$nextTick(() => {
+                this.currentSet = set;
+                this.currentActivitie = activitie;
+                this.addActivitieForm = true;
+                this.newTrainingShow = false;
+            });
         },
         hideNewActivitieForm() {
             this.currentSet = null;
             this.currentActivitie = null;
             this.addActivitieForm = false;
         },
-        saveNewActivitie(form) {
-            form.set_id = this.currentSet.id;
-            axios
-                .post('/api/v1/trainings/activities', form)
-                .then(response => {
-                    if (!this.currentSet.activities) {
-                        this.currentSet.activities = [];
-                    }
-                    this.currentSet.activities.push(response.data.a);
-                    this.hideNewActivitieForm();
-                });
-        },
-        updateActivitie(form) {
-            form.set_id = this.currentSet.id;
 
-            axios
-                .post('/api/v1/trainings/activities/' + form.id, {
-                ...form,
-                _method: 'PUT'
-            })
-            .then(response => {
-                this.currentActivitie.activitie_id = response.data.a.activitie_id;
-                this.currentActivitie.quantity = response.data.a.quantity;
-                this.currentActivitie.comment = response.data.a.comment;
-                this.currentActivitie.activitie.name = response.data.a.activitie.name;
-                this.hideNewActivitieForm();
-            });
-        },
-        removeActivitie(activitie) {
-
-            if (confirm('Вы уверены что хотите удалить упражнение?')) {
-                axios
-                    .post(this.$store.state.api_url + '/trainings/activities/' + activitie.id, {
-                        _method: 'DELETE'
-                    })
-                    .then(response => {
-                        this.trainings.forEach(function(item, kt) {
-                            item.sets.forEach(function(itemA, ks) {
-                                if (itemA.id == activitie.set_id) {
-                                    itemA.activities = itemA.activities.filter(a => a.id != activitie.id);
-                                }
-                            });
-                        });
-                    });
-            }
-        }
     },
     mounted() {
-        this.fetchTrainings();
+        this.$store.commit('trainings/setYear', this.year);
+        this.$store.commit('trainings/setMonth', this.month);
+        this.$store.commit('trainings/setDay', this.day);
+
+        this.$store.dispatch('trainings/fetch')
     },
     computed: {
         currentDateFormated() {
             return this.day + ' ' + this.$store.state.months[this.month - 1] + ', ' + this.year;
-        }
+        },
+        ...mapGetters({
+            trainings: 'trainings/list'
+        }),
     },
 }
 </script>

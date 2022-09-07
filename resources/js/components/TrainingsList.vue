@@ -1,5 +1,5 @@
 <template>
-    <div class="accordion mb-3" id="accordionExample" v-if="!isTrainingsLoading">
+    <div class="accordion mb-3" id="accordionExample" v-if="!isLoading">
 
         <div class="accordion-item"
              v-for="(training, index) in trainings"
@@ -50,6 +50,8 @@
 </template>
 
 <script>
+import {mapActions, mapGetters} from "vuex";
+
 export default {
     name: "TrainingsList",
     props: {
@@ -58,28 +60,28 @@ export default {
         }
     },
     methods: {
-        addSet(training) {
-            this.$emit('addSet', training);
-        },
-        removeSet(set) {
-            this.$emit('removeSet', set);
+        showNewActivitieForm(set) {
+            this.$emit('showNewActivitieForm', set);
         },
         showEditActivitieForm(set, activitie) {
             this.$emit('showEditActivitieForm', set, activitie);
         },
-        removeActivitie(activitie) {
-            this.$emit('removeActivitie', activitie);
-        },
-        showNewActivitieForm(set) {
-            this.$emit('showNewActivitieForm', set);
-        },
         editTraining(training) {
             this.$emit('editTraining', training);
         },
-        removeTraining(training) {
-            this.$emit('removeTraining', training);
-        }
-    }
+
+        ...mapActions({
+            addSet: 'trainings/addSet',
+            removeSet: 'trainings/removeSet',
+            removeTraining: 'trainings/removeTraining',
+            removeActivitie: 'trainings/removeActivitie',
+        }),
+    },
+    computed: {
+        ...mapGetters({
+            isLoading: 'trainings/isLoading'
+        }),
+    },
 }
 </script>
 

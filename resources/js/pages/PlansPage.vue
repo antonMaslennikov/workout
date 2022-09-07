@@ -5,7 +5,6 @@
         <div class="col-sm-6">
             <trainings-list
                 :trainings="trainings"
-                :isTrainingsLoading="isTrainingsLoading"
             ></trainings-list>
         </div>
         <div class="col-sm-6">
@@ -22,19 +21,14 @@ export default {
     components: {TrainingsList},
     data() {
         return {
-            isTrainingsLoading: false,
         }
     },
     methods: {
         ...mapActions({
-            // fetchTrainings: 'trainings/fetch',
-            // createActivitie: 'activitie/createActivitie',
-            // updateActivitie: 'activitie/updateActivitie',
-            // removeActivitie: 'activitie/removeActivitie',
         }),
     },
     mounted() {
-        this.$store.dispatch('trainings/fetch')
+        this.$store.dispatch('trainings/fetchMy')
     },
     computed: {
         ...mapGetters({
