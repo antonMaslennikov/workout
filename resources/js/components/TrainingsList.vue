@@ -9,7 +9,7 @@
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" aria-expanded="true" v-bind:aria-controls="'collapse' + training.id" v-bind:data-bs-target="'#collapse' + training.id">
                     <div class="row" style="width: 90%">
                         <div class="col-10">
-                            {{ training.name ? training.name : 'Тренировка #' + (index + 1) }}
+                            {{ training.training.name ? training.training.name : 'Тренировка #' + (index + 1) }}
                             {{ training.hour && training.hour !== '00' ? '(' + training.hour + ':' + (training.minute == '' ? '00' : training.minute)  + ')' : '' }}
                         </div>
                         <div class="col-2 -actions">
@@ -39,7 +39,7 @@
                     </div>
 
                     <div class="mt-3">
-                        <a href="#" @click="addSet(training)">Добавить сет</a>
+                        <a href="#" @click="addSet(training.training)">Добавить сет</a>
                     </div>
                 </div>
             </div>

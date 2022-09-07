@@ -129,7 +129,7 @@ export default {
                             Object.assign(t, this.newTrainingForm);
                             t.id = res.data.t.id;
                             t.start_at = res.data.t.start_at;
-                            this.trainings.push(t);
+                            this.trainings.push(res.data.t);
                             this.newTrainingShow = false;
                             this.clearTrainingForm();
                             this.$emit('addNewTraining', t);
@@ -146,7 +146,7 @@ export default {
 
                             this.trainings = this.trainings.map(item => {
                                 if (item.id == this.newTrainingForm.id) {
-                                    item.name = this.newTrainingForm.name;
+                                    item.training.name = this.newTrainingForm.name;
                                     item.hour = this.newTrainingForm.hour;
                                     item.minute = this.newTrainingForm.minute;
                                     item.start_at = res.data.a.start_at;
@@ -160,7 +160,7 @@ export default {
         },
         editTraining(training) {
             this.newTrainingForm.id = training.id;
-            this.newTrainingForm.name = training.name;
+            this.newTrainingForm.name = training.training.name;
 
             if (training.start_at) {
                 let d = new Date(training.start_at);

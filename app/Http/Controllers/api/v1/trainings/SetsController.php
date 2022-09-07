@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\api\v1\trainings;
 
 use App\Http\Controllers\Controller;
+use App\Models\Day;
 use App\Models\training\Set;
 use Illuminate\Http\Request;
 
@@ -30,6 +31,11 @@ class SetsController extends Controller
      */
     public function store(Request $request)
     {
+//        $D = Day::query()->where('id', (int) $request->training_id)->firstOrFail();
+//        $Set = new Set();
+//        $Set->training_id = $D->training_id;
+//        $Set->save();
+
         $Set = new Set();
         $Set->training_id = (int) $request->training_id;
         $Set->save();

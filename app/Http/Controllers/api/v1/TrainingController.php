@@ -102,9 +102,11 @@ class TrainingController extends Controller
             'end_at' => null,
         ]);
 
+        $d->training->sets;
+
         return [
             'status' => 'ok',
-            't' => $t,
+            't' => $d,
         ];
     }
 
@@ -180,7 +182,7 @@ class TrainingController extends Controller
      */
     public function destroy($id)
     {
-        $t = Training::find($id);
+        $t = Day::find($id);
         $t->delete();
     }
 }
