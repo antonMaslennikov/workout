@@ -23,7 +23,7 @@
                 <div class="accordion-body">
                     <div class="training-sets--list">
                         <div v-for="(set, set_index) in training.sets">
-                            <b>Сет:</b> {{ set_index + 1 }}. Подходов: {{ set.quantity }} <span v-if="set.comment">({{ set.comment }}</span>)
+                            <b>Сет:</b> {{ set_index + 1 }}. <span v-if="set.quantity">Подходов: {{ set.quantity }}</span> <span v-if="set.comment">({{ set.comment }})</span>
                             &nbsp;&nbsp;
                             <a href="#" @click="showNewActivitieForm(set)" v-if="!currentSet || set.id != currentSet.id"><i class="bi bi-plus-circle"></i></a>
                             &nbsp;
