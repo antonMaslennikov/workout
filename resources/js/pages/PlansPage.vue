@@ -68,6 +68,7 @@ export default {
             this.$nextTick(() => {
                 this.newTrainingShow = true;
                 this.addActivitieForm = false;
+                this.showSetForm = false;
                 this.currentTraining = null;
                 this.currentSet = null;
             });
@@ -82,6 +83,7 @@ export default {
             this.$nextTick(() => {
                 this.currentTraining = training;
                 this.addActivitieForm = false;
+                this.showSetForm = false;
                 this.newTrainingShow = true;
             });
         },

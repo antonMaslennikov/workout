@@ -165,8 +165,8 @@ export default {
                     })
                     .then(response => {
                         state.list.forEach(function(item, kt) {
-                            if (item.training.id == set.training_id) {
-                                item.training.sets = item.training.sets.filter(s => s.id != set.id);
+                            if (item.id == set.training_id) {
+                                item.sets = item.sets.filter(s => s.id != set.id);
                             }
                         });
                     });
