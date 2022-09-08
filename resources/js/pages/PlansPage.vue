@@ -13,6 +13,8 @@
                 @editTraining="editTraining"
                 @showNewActivitieForm="showNewActivitieForm"
                 @showEditActivitieForm="showEditActivitieForm"
+                @showNewSetForm="showNewSetForm"
+                @showEditSetForm="showEditSetForm"
             ></list>
         </div>
         <div class="col-sm-6">
@@ -24,6 +26,15 @@
                     @hideNewTrainingForm="hideNewTrainingForm"
                 ></NewTrainingForm>
             </div>
+
+            <div class="mb-3 row" v-if="showSetForm">
+                <NewSetForm
+                    :set="currentSet"
+                    @addNewSet="addNewSet"
+                    @updateSet="updateSet"
+                    @hideSetForm="hideSetForm"
+                ></NewSetForm>
+            </div>
         </div>
     </div>
 </template>
@@ -32,16 +43,18 @@
 import {mapActions, mapGetters} from "vuex";
 import List from "../components/plans/List";
 import NewTrainingForm from "../components/plans/NewTrainingForm";
+import NewSetForm from "../components/plans/NewSetForm";
 
 export default {
     name: "PlansPage",
-    components: {NewTrainingForm, List},
+    components: {NewTrainingForm, NewSetForm, List},
     data() {
         return {
             currentTraining: null,
             currentSet: null,
             currentActivitie: null,
             newTrainingShow: false,
+            showSetForm: false,
             addActivitieForm: false,
         }
     },
@@ -75,6 +88,13 @@ export default {
         },
         updateTraining() {
             this.newTrainingShow = false;
+        },
+
+        showNewSetForm(training) {
+            this.showSetForm = true;
+        },
+        hideSetForm() {
+            this.showSetForm = false;
         },
     },
     mounted() {

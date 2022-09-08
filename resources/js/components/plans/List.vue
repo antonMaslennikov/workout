@@ -26,6 +26,7 @@
                             Сет: {{ set_index + 1 }}.
                             <a href="#" @click="showNewActivitieForm(set)" v-if="!currentSet || set.id != currentSet.id"><i class="bi bi-plus-circle"></i></a>
                             &nbsp;
+                            <a href="#" @click="showEditSetForm(training, set)"><i class="bi pen"></i></a>
                             <a href="#" @click="removeSet(set)"><i class="bi bi-trash"></i></a>
 
                             <div class="training-activities--list ps-3">
@@ -39,7 +40,7 @@
                     </div>
 
                     <div class="mt-3">
-                        <a href="#" @click="addSet(training)">Добавить сет</a>
+                        <a href="#" @click="showNewSetForm(training)">Добавить сет</a>
                     </div>
                 </div>
             </div>
@@ -69,8 +70,13 @@ export default {
         editTraining(training) {
             this.$emit('editTraining', training);
         },
+        showNewSetForm(training) {
+            this.$emit('showNewSetForm', training);
+        },
+        showEditSetForm(training, set) {
+            this.$emit('showEditSetForm', training, set);
+        },
         ...mapActions({
-            addSet: 'plans/addSet',
             removeSet: 'plans/removeSet',
             removeTraining: 'plans/removeTraining',
             removeActivitie: 'plans/removeActivitie',
