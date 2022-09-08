@@ -70,7 +70,9 @@ class SetsController extends Controller
             $Set->comment = trim($request->comment);
             $Set->save();
 
-            $Set->activities;
+            foreach ($Set->activities AS &$a) {
+                $a->activitie;
+            }
         }
 
         return [
