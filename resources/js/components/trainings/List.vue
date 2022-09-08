@@ -23,7 +23,7 @@
                 <div class="accordion-body">
                     <div class="training-sets--list">
                         <div v-for="(set, set_index) in training.training.sets">
-                            Сет: {{ set_index + 1 }}.
+                            <b>Сет:</b> {{ set_index + 1 }}. <span v-if="set.quantity">Подходов: {{ set.quantity }}</span> <span v-if="set.comment">({{ set.comment }})</span>
                             <div class="training-activities--list ps-3">
                                 <div v-for="(activitie, a_index) in set.activities">
                                     {{ a_index + 1 }}: {{ activitie.activitie.name }} ({{ activitie.quantity }} раз) {{ activitie.comment }}
