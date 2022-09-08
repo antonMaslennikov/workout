@@ -184,17 +184,17 @@ export default {
                         let a = response.data.a;
 
                         state.list.forEach(function(item, kt) {
-                            if (item.training.id == a.set.training_id) {
-                                if (!state.list[kt].training.sets) {
-                                    state.list[kt].training.sets = [];
+                            if (item.id == a.set.training_id) {
+                                if (!state.list[kt].sets) {
+                                    state.list[kt].sets = [];
                                 }
-                                item.training.sets.forEach(function(set, ks) {
+                                item.sets.forEach(function(set, ks) {
 
                                     if (set.id == a.set.id) {
-                                        if (!state.list[kt].training.sets[ks].activities) {
-                                            state.list[kt].training.sets[ks].activities = [];
+                                        if (!state.list[kt].sets[ks].activities) {
+                                            state.list[kt].sets[ks].activities = [];
                                         }
-                                        state.list[kt].training.sets[ks].activities.push(a);
+                                        state.list[kt].sets[ks].activities.push(a);
                                     }
 
                                 });
@@ -213,12 +213,12 @@ export default {
                         let a = response.data.a;
 
                         state.list.forEach(function(item, kt) {
-                            if (item.training.id == a.set.training_id) {
-                                item.training.sets.forEach(function(set, ks) {
+                            if (item.id == a.set.training_id) {
+                                item.sets.forEach(function(set, ks) {
                                     if (set.id == a.set.id) {
                                         set.activities.forEach(function(activitie, ka) {
                                             if (activitie.id == a.id) {
-                                                state.list[kt].training.sets[ks].activities[ka] = a;
+                                                state.list[kt].sets[ks].activities[ka] = a;
                                             }
                                         });
                                     }

@@ -78,6 +78,7 @@ class TrainingController extends Controller
                 'year' => ['required', 'integer', 'between:' . date('Y') . ',' . (date('Y') + 10)],
                 'month' => ['required', 'integer', 'between:0,12'],
                 'day' => ['required', 'integer', 'between:1,31'],
+                'training_id' => ['required', 'integer'],
             ]
         );
 
@@ -88,21 +89,19 @@ class TrainingController extends Controller
             ];
         }
 
-        $d = new \DateTimeImmutable($request->year . '-' . $request->month . '-' . $request->day . ' ' . ($request->hour ?? '00') . ':' . ($request->minute ?? '00') . ':00');
-
-        $t = Training::create([
-            'name' => $request->name,
-            'user_id' => auth()->user()->id,
-        ]);
+        $day = new \DateTimeImmutable($request->year . '-' . $request->month . '-' . $request->day . ' ' . ($request->hour ?? '00') . ':' . ($request->minute ?? '00') . ':00');
 
         $d = Day::create([
-            'training_id' => $t->id,
-            'date' => $d->format('Y-m-d'),
-            'start_at' => $d->format('Y-m-d H:i:00'),
+            'training_id' => $request->training_id,
+            'date' => $day->format('Y-m-d'),
+            'start_at' => $day->format('Y-m-d H:i:00'),
             'end_at' => null,
         ]);
 
-        $d->training->sets;
+        $d = Day::query()
+                ->where('id', $d->id)
+                ->with('training.sets.activities.activitie')
+                ->first();
 
         return [
             'status' => 'ok',

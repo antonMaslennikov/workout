@@ -28,7 +28,14 @@ class PlansController extends Controller
             ->where(['user_id' => auth()->user()->id])
             ->paginate(50);
 
-        //dd($trainings);
+        return $trainings;
+    }
+
+    public function all()
+    {
+        $trainings = Training::query()
+            ->where(['user_id' => auth()->user()->id])
+            ->get();
 
         return $trainings;
     }

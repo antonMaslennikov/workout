@@ -37,6 +37,14 @@
                     @hideSetForm="hideSetForm"
                 ></NewSetForm>
             </div>
+
+            <div class="mb-3 row" v-if="addActivitieForm">
+                <NewActivitieForm
+                    :set="currentSet"
+                    :activitie="currentActivitie"
+                    @hideNewActivitieForm="hideNewActivitieForm"
+                ></NewActivitieForm>
+            </div>
         </div>
     </div>
 </template>
@@ -46,10 +54,11 @@ import {mapActions, mapGetters} from "vuex";
 import List from "../components/plans/List";
 import NewTrainingForm from "../components/plans/NewTrainingForm";
 import NewSetForm from "../components/plans/NewSetForm";
+import NewActivitieForm from "../components/plans/NewActivitieForm";
 
 export default {
     name: "PlansPage",
-    components: {NewTrainingForm, NewSetForm, List},
+    components: {NewTrainingForm, NewSetForm, NewActivitieForm, List},
     data() {
         return {
             currentTraining: null,
@@ -131,6 +140,38 @@ export default {
             this.showSetForm = false;
             this.currentTraining = null;
             this.currentSet = null;
+        },
+
+
+        showNewActivitieForm(set) {
+
+            // перемонтируем компонент
+            this.addActivitieForm = false;
+
+            this.$nextTick(() => {
+                this.currentSet = set;
+                this.addActivitieForm = true;
+                this.newTrainingShow = false;
+                this.showSetForm = false;
+            });
+        },
+        showEditActivitieForm(set, activitie) {
+
+            // перемонтируем компонент
+            this.addActivitieForm = false;
+
+            this.$nextTick(() => {
+                this.currentSet = set;
+                this.currentActivitie = activitie;
+                this.addActivitieForm = true;
+                this.newTrainingShow = false;
+                this.showSetForm = false;
+            });
+        },
+        hideNewActivitieForm() {
+            this.currentSet = null;
+            this.currentActivitie = null;
+            this.addActivitieForm = false;
         },
     },
     mounted() {

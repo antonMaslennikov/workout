@@ -39,8 +39,10 @@ Route::group([
     Route::resource('trainings/sets', \App\Http\Controllers\api\v1\trainings\SetsController::class);
     Route::resource('trainings/activities', \App\Http\Controllers\api\v1\trainings\ActivitiesController::class);
 
+    Route::get('/plans/all', [\App\Http\Controllers\api\v1\PlansController::class, 'all']);
     Route::resource('plans', \App\Http\Controllers\api\v1\PlansController::class);
     Route::resource('plans/sets', \App\Http\Controllers\api\v1\plans\SetsController::class);
+    Route::resource('plans/activities', \App\Http\Controllers\api\v1\plans\ActivitiesController::class);
 
     Route::get('/days/{y?}/{m?}', [\App\Http\Controllers\api\v1\Days::class, 'index']);
 

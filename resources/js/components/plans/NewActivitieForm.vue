@@ -82,7 +82,7 @@ export default {
             }
         },
         saveActivitie() {
-            this.$store.dispatch('trainings/saveActivitie', this.form);
+            this.$store.dispatch('plans/saveActivitie', this.form);
             this.$emit('hideNewActivitieForm');
             this.clearForm();
         },
