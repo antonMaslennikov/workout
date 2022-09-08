@@ -30,6 +30,7 @@
             <div class="mb-3 row" v-if="showSetForm">
                 <NewSetForm
                     :set="currentSet"
+                    :training="currentTraining"
                     @addNewSet="addNewSet"
                     @updateSet="updateSet"
                     @hideSetForm="hideSetForm"
@@ -92,8 +93,18 @@ export default {
 
         showNewSetForm(training) {
             this.showSetForm = true;
+            this.newTrainingShow = false;
+            this.addActivitieForm = false;
+            this.currentTraining = training;
         },
         hideSetForm() {
+            this.showSetForm = false;
+            this.currentTraining = null;
+        },
+        addNewSet(t) {
+            this.showSetForm = false;
+        },
+        updateSet() {
             this.showSetForm = false;
         },
     },

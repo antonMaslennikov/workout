@@ -40,6 +40,7 @@ Route::group([
     Route::resource('trainings/activities', \App\Http\Controllers\api\v1\trainings\ActivitiesController::class);
 
     Route::resource('plans', \App\Http\Controllers\api\v1\PlansController::class);
+    Route::resource('plans/sets', \App\Http\Controllers\api\v1\plans\SetsController::class);
 
     Route::get('/days/{y?}/{m?}', [\App\Http\Controllers\api\v1\Days::class, 'index']);
 

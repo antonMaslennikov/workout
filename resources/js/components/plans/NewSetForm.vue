@@ -8,6 +8,13 @@
         </div>
 
         <div class="mb-3">
+            <label class="form-label">Комментарий</label>
+            <my-textarea
+                v-model="form.comment"
+            ></my-textarea>
+        </div>
+
+        <div class="mb-3">
             <div class="row">
                 <div class="col-6">
                     <my-button class="btn-success me-2" @click="saveSet"><i class="bi bi-check-lg"></i> сохранить</my-button>
@@ -28,6 +35,9 @@ export default {
     name: "new-set-form",
     components: {},
     props: {
+        set: {
+            type: Object
+        },
         training: {
             type: Object
         }
@@ -36,34 +46,34 @@ export default {
         return {
             form: {
                 name: '',
+                comment: '',
+                training_id: '',
             },
         }
     },
     methods: {
-        saveTraining() {
+        saveSet() {
             this.$store
-                .dispatch('plans/saveTraining', this.form)
+                .dispatch('plans/saveSet', this.form, this.set)
                 .then(res => {
                     if (!this.form.id) {
-                        this.$emit('addNewTraining', this.form);
+                        this.$emit('addNewSet', this.form);
                     } else {
-                        this.$emit('editTraining');
+                        this.$emit('editSet');
                     }
             });
         },
-
-        clearForm() {
-            this.form.id = 0;
-            this.form.name = '';
-        },
     },
     mounted() {
-        if (this.training) {
-            this.form.id = this.training.id;
-            this.form.name = this.training.name;
+        if (this.set) {
+            this.form.id = this.set.id;
+            this.form.quantity = this.set.quantity;
+            this.form.comment = this.set.comment;
         } else {
-            this.clearForm();
+            this.form = {};
         }
+
+        this.form.training_id = this.training.id;
     }
 }
 </script>

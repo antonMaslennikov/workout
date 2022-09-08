@@ -109,17 +109,48 @@ export default {
         },
 
 
-        addSet({state, commit}, training) {
-            axios
-                .post(store.state.api_url + '/plans/sets', {
-                    training_id: training.id,
-                })
-                .then(response => {
-                    if (!training.sets) {
-                        training.sets = [];
-                    }
-                    training.sets.push(response.data.set);
-                });
+        saveSet({state, commit}, form) {
+            if (!form.id || form.id == 0) {
+                axios
+                    .post(store.state.api_url + '/plans/sets', form, {
+                        headers: {
+                            'Content-type': 'application/json'
+                        }
+                    })
+                    .then(res => {
+                        if (res.data.status == 'ok') {
+
+                            let set = res.data.set;
+
+                            state.list.forEach(function(item, kt) {
+                                if (item.id == set.training_id) {
+                                    if (!state.list[kt].sets) {
+                                        state.list[kt].sets = [];
+                                    }
+                                    state.list[kt].sets.push(set);
+                                }
+                            });
+
+                        }
+                    });
+            } else {
+                axios
+                    .post(store.state.api_url + '/plans/' + form.id, {
+                        ...form,
+                        _method: 'PUT'
+                    })
+                    .then(res => {
+                        if (res.data.status == 'ok') {
+                            state.list = state.list.map(item => {
+                                if (item.id == form.id) {
+                                    item.name = form.name;
+                                }
+                                return item;
+                            });
+
+                        }
+                    });
+            }
         },
 
         removeSet({state, commit}, set) {
