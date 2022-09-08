@@ -5,7 +5,8 @@
         <div class="col-sm-6">
 
             <div class="mb-3">
-                <a href="#" class="btn btn-success" @click="showNewTrainingForm" v-if="!newTrainingShow">Новая тренировка</a>
+                <a href="#" class="btn btn-success" @click="showNewTrainingForm" v-if="!newTrainingShow">Новая
+                    тренировка</a>
             </div>
 
             <list
@@ -92,10 +93,28 @@ export default {
         },
 
         showNewSetForm(training) {
-            this.showSetForm = true;
-            this.newTrainingShow = false;
-            this.addActivitieForm = false;
-            this.currentTraining = training;
+            // перемонтируем компонент
+            this.showSetForm = false;
+
+            this.$nextTick(() => {
+                this.showSetForm = true;
+                this.newTrainingShow = false;
+                this.addActivitieForm = false;
+                this.currentTraining = training;
+                this.currentSet = null;
+            });
+        },
+        showEditSetForm(training, set) {
+
+            this.showSetForm = false;
+
+            this.$nextTick(() => {
+                this.showSetForm = true;
+                this.newTrainingShow = false;
+                this.addActivitieForm = false;
+                this.currentTraining = training;
+                this.currentSet = set;
+            });
         },
         hideSetForm() {
             this.showSetForm = false;
@@ -103,9 +122,13 @@ export default {
         },
         addNewSet(t) {
             this.showSetForm = false;
+            this.currentTraining = null;
+            this.currentSet = null;
         },
         updateSet() {
             this.showSetForm = false;
+            this.currentTraining = null;
+            this.currentSet = null;
         },
     },
     mounted() {

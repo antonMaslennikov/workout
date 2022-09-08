@@ -63,7 +63,20 @@ class SetsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $Set = Set::query()->where(['id' => $id])->firstOrFail();
+
+        if ($Set->training->user_id == auth()->user()->id) {
+            $Set->quantity = (int)$request->quantity;
+            $Set->comment = trim($request->comment);
+            $Set->save();
+
+            $Set->activities;
+        }
+
+        return [
+            'status' => 'ok',
+            'set' => $Set,
+        ];
     }
 
     /**

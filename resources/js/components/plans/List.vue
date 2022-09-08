@@ -23,10 +23,12 @@
                 <div class="accordion-body">
                     <div class="training-sets--list">
                         <div v-for="(set, set_index) in training.sets">
-                            Сет: {{ set_index + 1 }}.
+                            <b>Сет:</b> {{ set_index + 1 }}. Подходов: {{ set.quantity }} <span v-if="set.comment">({{ set.comment }}</span>)
+                            &nbsp;&nbsp;
                             <a href="#" @click="showNewActivitieForm(set)" v-if="!currentSet || set.id != currentSet.id"><i class="bi bi-plus-circle"></i></a>
                             &nbsp;
-                            <a href="#" @click="showEditSetForm(training, set)"><i class="bi pen"></i></a>
+                            <a href="#" @click="showEditSetForm(training, set)"><i class="bi bi-pen"></i></a>
+                            &nbsp;
                             <a href="#" @click="removeSet(set)"><i class="bi bi-trash"></i></a>
 
                             <div class="training-activities--list ps-3">

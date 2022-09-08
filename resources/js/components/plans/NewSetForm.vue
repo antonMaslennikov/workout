@@ -59,7 +59,7 @@ export default {
                     if (!this.form.id) {
                         this.$emit('addNewSet', this.form);
                     } else {
-                        this.$emit('editSet');
+                        this.$emit('updateSet');
                     }
             });
         },

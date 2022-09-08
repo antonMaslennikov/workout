@@ -135,19 +135,23 @@ export default {
                     });
             } else {
                 axios
-                    .post(store.state.api_url + '/plans/' + form.id, {
+                    .post(store.state.api_url + '/plans/sets/' + form.id, {
                         ...form,
                         _method: 'PUT'
                     })
                     .then(res => {
                         if (res.data.status == 'ok') {
-                            state.list = state.list.map(item => {
-                                if (item.id == form.id) {
-                                    item.name = form.name;
-                                }
-                                return item;
-                            });
+                            let set = res.data.set;
 
+                            state.list.forEach(function(item, kt) {
+                                if (item.id == set.training_id) {
+                                    item.sets.forEach(function(s, ks) {
+                                        if (s.id == set.id) {
+                                            state.list[kt].sets[ks] = set;
+                                        }
+                                    });
+                                }
+                            });
                         }
                     });
             }
