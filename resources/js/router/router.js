@@ -10,6 +10,7 @@ import store from "../store";
 import {createRouter, createWebHistory} from "vue-router";
 import Page404 from "../pages/Page404";
 import PlansPage from "../pages/PlansPage";
+import TrainingPage from "../pages/TrainingPage";
 
 const routes = [
     {
@@ -62,6 +63,10 @@ const routes = [
         meta: {
             requiresAuth: true
         }
+    },
+    {
+        path: '/training/view/:id',
+        component: TrainingPage
     },
     {
         path: '/:pathMatch(.*)*',

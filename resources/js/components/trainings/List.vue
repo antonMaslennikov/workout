@@ -8,12 +8,13 @@
             <h2 class="accordion-header" id="headingOne">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" aria-expanded="true" v-bind:aria-controls="'collapse' + training.id" v-bind:data-bs-target="'#collapse' + training.id">
                     <div class="row" style="width: 90%">
-                        <div class="col-10">
+                        <div class="col-9">
                             {{ training.training.name ? training.training.name : 'Тренировка #' + (index + 1) }}
                             {{ training.hour && training.hour !== '00' ? '(' + training.hour + ':' + (training.minute == '' ? '00' : training.minute)  + ')' : '' }}
                         </div>
-                        <div class="col-2 -actions">
-                            <a href="#" @click.stop.prevent="editTraining(training)" style="margin-right: 10px;"><i class="bi bi-pen"></i></a>
+                        <div class="col-3 -actions">
+                            <a href="#" @click="$router.push('/training/view/' + training.id)"><i class="bi bi-clock"></i></a>
+                            <a href="#" @click.stop.prevent="editTraining(training)"><i class="bi bi-pen"></i></a>
                             <a href="#" @click.stop.prevent="removeTraining(training)"><i class="bi bi-trash"></i></a>
                         </div>
                     </div>
@@ -66,5 +67,10 @@ export default {
 </script>
 
 <style scoped>
-
+.-actions a {
+    margin-right: 10px;
+}
+.-actions a:last-child {
+    margin-right: 0;
+}
 </style>
