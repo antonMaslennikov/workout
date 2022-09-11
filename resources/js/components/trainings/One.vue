@@ -1,38 +1,46 @@
 <template>
-    <ul class="timeline">
+    <ul class="timeline" v-if="!isLoading">
 
-        <li class="time-label">
-            <span class="bg-red bg-primary text-white">
-                Сет №1
-            </span>
-        </li>
+        <template v-for="(set, index) in training.training.sets"
+                  :key="set.id">
+            <li class="time-label">
+                <span class="bg-red bg-primary text-white">
+                    Сет №{{ index + 1 }} <span v-if="set.quantity">Подходов: {{ set.quantity }}</span> <span v-if="set.comment">({{ set.comment }})</span>
+                </span>
+            </li>
 
-        <li>
-            <i class="fa bi-clock bg-blue"></i>
+            <li v-for="(activitie, index) in set.activities">
+                <i class="fa bi-clock bg-blue"></i>
 
-            <div class="timeline-item">
-<!--                <span class="time"><i class="fa bi bi-clock"></i> 12:05</span>-->
+                <div class="timeline-item">
+    <!--                <span class="time"><i class="fa bi bi-clock"></i> 12:05</span>-->
 
-                <h3 class="timeline-header">Название упражнения</h3>
+                    <h3 class="timeline-header">{{ activitie.activitie.name }}</h3>
 
-                <div class="timeline-body">
-                    Комментарий
+                    <div class="timeline-body">
+                        <div>Повторений: {{ activitie.quantity }}</div>
+                        <div v-if="activitie.comment">{{ activitie.comment }}</div>
+                        <div v-if="activitie.activitie.description">{{ activitie.activitie.description }}</div>
+                    </div>
+
+                    <div class="timeline-footer">
+                        <a class="btn btn-success btn-sm">выполнено</a>
+                    </div>
                 </div>
-
-                <div class="timeline-footer">
-                    <a class="btn btn-success btn-sm">выполнено</a>
-                </div>
-            </div>
-        </li>
+            </li>
+        </template>
 
         <li>
             <i class="fa bi bi-clock bg-gray"></i>
         </li>
 
     </ul>
+    <div v-else>Тренировка загружается</div>
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
     name: "One",
     props: {
@@ -41,8 +49,31 @@ export default {
             required: true
         }
     },
-    mounted() {
+    data() {
+        return {
+            isLoading: true,
+            training: null,
+        }
+    },
+    methods: {
+        async fetch() {
+            try {
+                this.isLoading = true;
+                const response = await axios.get('/api/v1/trainings/' + this.id, {});
 
+                if (response.data.status == 'ok') {
+                    this.training = response.data.t;
+                }
+
+            } catch (e) {
+                alert('Ошибка');
+            } finally {
+                this.isLoading = false;
+            }
+        },
+    },
+    mounted() {
+        this.fetch();
     }
 }
 </script>

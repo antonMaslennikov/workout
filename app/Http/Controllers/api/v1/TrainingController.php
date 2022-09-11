@@ -112,12 +112,21 @@ class TrainingController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Training  $training
+     * @param  \App\Models\Day $training
      * @return \Illuminate\Http\Response
      */
-    public function show(Training $training)
+    public function show(Day $training)
     {
-        //
+        foreach ($training->training->sets as $s) {
+            foreach ($s->activities as $a) {
+                $a->activitie;
+            }
+        };
+
+        return [
+            'status' => 'ok',
+            't' => $training,
+        ];
     }
 
     /**
