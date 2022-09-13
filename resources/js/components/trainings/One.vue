@@ -23,9 +23,9 @@
                         <div v-if="activitie.activitie.description">{{ activitie.activitie.description }}</div>
                     </div>
 
-                    <div class="timeline-footer">
-                        <a class="btn btn-success btn-sm">выполнено</a>
-                    </div>
+<!--                    <div class="timeline-footer">-->
+<!--                        <a class="btn btn-success btn-sm">выполнено</a>-->
+<!--                    </div>-->
                 </div>
             </li>
         </template>
@@ -98,7 +98,6 @@ export default {
 }
 .timeline>li {
     position: relative;
-    margin-right: 10px;
     margin-bottom: 15px;
 }
 .timeline>.time-label>span {
@@ -157,19 +156,6 @@ export default {
 }
 .timeline>li>.timeline-item>.timeline-body, .timeline>li>.timeline-item>.timeline-footer {
     padding: 10px;
-}
-.timeline>li>.fa, .timeline>li>.glyphicon, .timeline>li>.ion {
-    width: 30px;
-    height: 30px;
-    font-size: 13px;
-    line-height: 30px;
-    position: absolute;
-    color: #666;
-    background: #d2d6de;
-    border-radius: 50%;
-    text-align: center;
-    left: 18px;
-    top: 0;
 }
 
 </style>
