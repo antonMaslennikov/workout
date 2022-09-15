@@ -25,7 +25,7 @@ class Activities extends Controller
 
     public function all()
     {
-        return Activitie::orderBy('sort')->get();
+        return Activitie::orderBy('name')->get();
     }
 
     /**
