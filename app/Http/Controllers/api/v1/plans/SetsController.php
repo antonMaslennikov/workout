@@ -33,8 +33,8 @@ class SetsController extends Controller
     {
         $Set = new Set();
         $Set->training_id = (int) $request->training_id;
-        $Set->quantity = (int) $request->quantity;
-        $Set->comment = (int) $request->comment;
+        $Set->quantity = $request->quantity;
+        $Set->comment = $request->comment;
         $Set->save();
 
         return [
@@ -66,7 +66,7 @@ class SetsController extends Controller
         $Set = Set::query()->where(['id' => $id])->firstOrFail();
 
         if ($Set->training->user_id == auth()->user()->id) {
-            $Set->quantity = (int)$request->quantity;
+            $Set->quantity = $request->quantity;
             $Set->comment = trim($request->comment);
             $Set->save();
 
