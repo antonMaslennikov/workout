@@ -239,6 +239,14 @@ export default {
             }
         },
 
+
+        saveResults({state, commit}, form) {
+            axios
+                .post(store.state.api_url + '/trainings/activities/results', form)
+                .then(response => {
+
+                });
+        },
     },
     namespaced: true
 }

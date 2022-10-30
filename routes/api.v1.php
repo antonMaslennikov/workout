@@ -38,6 +38,7 @@ Route::group([
     Route::resource('trainings', \App\Http\Controllers\api\v1\TrainingController::class);
     Route::resource('trainings/sets', \App\Http\Controllers\api\v1\trainings\SetsController::class);
     Route::resource('trainings/activities', \App\Http\Controllers\api\v1\trainings\ActivitiesController::class);
+    Route::post('trainings/activities/results', [\App\Http\Controllers\api\v1\trainings\ActivitiesController::class, 'results']);
 
     Route::get('/plans/all', [\App\Http\Controllers\api\v1\PlansController::class, 'all']);
     Route::resource('plans', \App\Http\Controllers\api\v1\PlansController::class);

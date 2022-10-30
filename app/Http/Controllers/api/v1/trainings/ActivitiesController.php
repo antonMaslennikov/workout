@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\api\v1\trainings;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\trainings\ResultRequest;
 use App\Models\Training;
 use App\Models\training\Activitie;
+use App\Models\training\Result;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -121,5 +123,19 @@ class ActivitiesController extends Controller
         } else {
             return response()->json(['error' => 'Доступ запрещён'], 403);
         }
+    }
+
+    public function results(ResultRequest $request)
+    {
+        $a = Result::create([
+            'training_activitie_id' => $request->activitie_id,
+            'repeats' => $request->repeats,
+            'weight' => $request->weight,
+        ]);
+
+        return [
+            'status' => 'ok',
+            'a' => $a,
+        ];
     }
 }

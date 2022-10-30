@@ -21,6 +21,7 @@
                         <div>Повторений: {{ activitie.quantity }}</div>
                         <div v-if="activitie.comment">{{ activitie.comment }}</div>
                         <div v-if="activitie.activitie.description">{{ activitie.activitie.description }}</div>
+                        <div class="mt-3"><button class="btn btn-sm btn-success" @click="showResultForm(activitie)">выполнено</button></div>
                     </div>
 
 <!--                    <div class="timeline-footer">-->
@@ -36,13 +37,19 @@
 
     </ul>
     <div v-else>Тренировка загружается</div>
+
+    <my-dialog v-model:show="dialogVisible" class="">
+        <result-form :activitie="currentActivitie"></result-form>
+    </my-dialog>
 </template>
 
 <script>
 import axios from "axios";
+import ResultForm from "./ResultForm";
 
 export default {
     name: "One",
+    components: {ResultForm},
     props: {
         id: {
             type: Number,
@@ -53,6 +60,8 @@ export default {
         return {
             isLoading: true,
             training: null,
+            dialogVisible: false,
+            currentActivitie: null,
         }
     },
     methods: {
@@ -70,6 +79,10 @@ export default {
             } finally {
                 this.isLoading = false;
             }
+        },
+        showResultForm(activitie) {
+            this.dialogVisible = true;
+            this.currentActivitie = activitie
         },
     },
     mounted() {
