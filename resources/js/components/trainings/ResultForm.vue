@@ -7,12 +7,14 @@
     </p>
     <p>
         <label>
-            <small>Максимальный вес</small>
+            <small>Вес</small>
             <my-input v-model="form.weight"></my-input>
         </label>
     </p>
     <p>
-        <button class="btn btn-success" @click="save()">Сохранить</button>
+        <button class="btn btn-primary" v-if="!saving && !saved" @click="save()">Сохранить</button>
+        <button class="btn btn-primary" v-if="saving && !saved">Сохраняется</button>
+        <button class="btn btn-success" v-if="!saving && saved">Сохранено</button>
     </p>
 </template>
 
@@ -30,6 +32,8 @@ export default {
     },
     data() {
         return {
+            saving:false,
+            saved:false,
             form: {
                 activitie_id: 0,
                 repeats: '',
@@ -42,14 +46,16 @@ export default {
 
             this.form.activitie_id = this.activitie.id
 
+            this.saving = true
+
             this.$store
                 .dispatch('trainings/saveResults', this.form)
                 .then(res => {
-                    if (!this.form.id) {
-                        this.$emit('addNewTraining', this.form);
-                    } else {
-                        this.$emit('editTraining');
-                    }
+                    this.saved = true;
+                    this.saving = false;
+                    setTimeout(() => {
+                        this.$emit('savedSuccess', this.form);
+                        }, 1000)
                 });
         }
     }

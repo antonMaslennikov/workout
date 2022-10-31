@@ -39,7 +39,9 @@
     <div v-else>Тренировка загружается</div>
 
     <my-dialog v-model:show="dialogVisible" class="">
-        <result-form :activitie="currentActivitie"></result-form>
+        <result-form
+            :activitie="currentActivitie"
+            @savedSuccess="resultSavedSuccess"></result-form>
     </my-dialog>
 </template>
 
@@ -84,6 +86,10 @@ export default {
             this.dialogVisible = true;
             this.currentActivitie = activitie
         },
+        resultSavedSuccess() {
+            this.dialogVisible = false;
+            this.currentActivitie = null
+        }
     },
     mounted() {
         this.fetch();
