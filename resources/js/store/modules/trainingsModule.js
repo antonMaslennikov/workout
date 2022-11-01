@@ -12,6 +12,7 @@ export default {
         year: null,
         month: null,
         day: null,
+        save_results_error: null,
     }),
     getters: {
         list(state) {
@@ -31,21 +32,6 @@ export default {
         setList(state, list) {
             state.list = list;
         },
-        // addNewActivitie(state, activitie) {
-        //     state.activities.push(activitie);
-        // },
-        // updateActivitie(state, activitie) {
-        //     state.activities = state.activities.map(item => {
-        //         if (item.id == activitie.id) {
-        //             return activitie;
-        //         } else {
-        //             return item;
-        //         }
-        //     });
-        // },
-        // removeActivitie(state, activitie) {
-        //     state.activities = state.activities.filter(a => a.id !== activitie.id)
-        // },
         setLoading(state, bool) {
             state.isLoading = bool;
         },
@@ -66,7 +52,10 @@ export default {
         },
         setDay(state, day) {
             state.day = day;
-        }
+        },
+        save_results_error(state, errors) {
+            state.save_results_error = errors
+        },
     },
     actions: {
 
@@ -237,15 +226,6 @@ export default {
                         });
                     });
             }
-        },
-
-
-        saveResults({state, commit}, form) {
-            axios
-                .post(store.state.api_url + '/trainings/activities/results', form)
-                .then(response => {
-
-                });
         },
     },
     namespaced: true

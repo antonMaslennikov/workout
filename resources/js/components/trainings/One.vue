@@ -21,7 +21,10 @@
                         <div>Повторений: {{ activitie.quantity }}</div>
                         <div v-if="activitie.comment">{{ activitie.comment }}</div>
                         <div v-if="activitie.activitie.description">{{ activitie.activitie.description }}</div>
-                        <div class="mt-3"><button class="btn btn-sm btn-success" @click="showResultForm(activitie)">выполнено</button></div>
+                        <div class="mt-3">
+                            <button class="btn btn-sm btn-success" @click="showResultForm(activitie)">выполнено</button>
+                            <button v-if="activitie.results.length > 0" class="btn btn-sm btn-warning ms-2" @click="showResultList(activitie)">записано</button>
+                        </div>
                     </div>
 
 <!--                    <div class="timeline-footer">-->
@@ -38,20 +41,27 @@
     </ul>
     <div v-else>Тренировка загружается</div>
 
-    <my-dialog v-model:show="dialogVisible" class="">
+    <my-dialog v-model:show="addResultsDialogVisible">
         <result-form
             :activitie="currentActivitie"
             @savedSuccess="resultSavedSuccess"></result-form>
+    </my-dialog>
+
+    <my-dialog v-model:show="showResultsDialogVisible">
+        <result-list
+            :activitie="currentActivitie"></result-list>
     </my-dialog>
 </template>
 
 <script>
 import axios from "axios";
 import ResultForm from "./ResultForm";
+import ResultList from "./ResultList";
+import {mapActions, mapGetters} from "vuex";
 
 export default {
     name: "One",
-    components: {ResultForm},
+    components: {ResultForm, ResultList},
     props: {
         id: {
             type: Number,
@@ -60,39 +70,39 @@ export default {
     },
     data() {
         return {
-            isLoading: true,
-            training: null,
-            dialogVisible: false,
-            currentActivitie: null,
+            addResultsDialogVisible: false,
+            showResultsDialogVisible: false,
         }
     },
     methods: {
-        async fetch() {
-            try {
-                this.isLoading = true;
-                const response = await axios.get('/api/v1/trainings/' + this.id, {});
 
-                if (response.data.status == 'ok') {
-                    this.training = response.data.t;
-                }
+        ...mapActions({
+            fetch: 'training/fetch',
+        }),
 
-            } catch (e) {
-                alert('Ошибка');
-            } finally {
-                this.isLoading = false;
-            }
-        },
         showResultForm(activitie) {
-            this.dialogVisible = true;
-            this.currentActivitie = activitie
+            this.addResultsDialogVisible = true;
+            this.$store.commit('training/setCurrentActivitie', activitie);
+        },
+        showResultList(activitie) {
+            this.showResultsDialogVisible = true;
+            this.$store.commit('training/setCurrentActivitie', activitie);
         },
         resultSavedSuccess() {
-            this.dialogVisible = false;
-            this.currentActivitie = null
+            this.addResultsDialogVisible = false;
+            this.$store.commit('training/setCurrentActivitie', null);
         }
     },
+    computed: {
+        ...mapGetters({
+            training: 'training/training',
+            isLoading: 'training/isLoading',
+            currentActivitie: 'training/currentActivitie',
+        }),
+    },
     mounted() {
-        this.fetch();
+        this.$store.commit('training/setId', this.id);
+        this.$store.dispatch('training/fetch')
     }
 }
 </script>

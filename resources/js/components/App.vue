@@ -22,8 +22,8 @@ export default {
         axios.interceptors.response.use(undefined, function (err) {
             return new Promise(function (resolve, reject) {
                 if ((err.status === 401 || err == 'Error: Request failed with status code 401') && err.config && !err.config.__isRetryRequest) {
-                    router.push('login')
                     store.dispatch('auth/logout');
+                    next('/login');
                 }
                 throw err;
             });

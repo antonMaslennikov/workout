@@ -27,4 +27,9 @@ class Activitie extends Model
     {
         return $this->belongsTo(\App\Models\Activitie::class);
     }
+
+    public function results()
+    {
+        return $this->hasMany(Result::class, 'training_activitie_id');
+    }
 }

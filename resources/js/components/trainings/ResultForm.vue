@@ -1,16 +1,18 @@
 <template>
-    <p>
-        <label>
+    <div class="mb-3">
+        <div>
             <small>Повторений</small>
             <my-input v-model="form.repeats"></my-input>
-        </label>
-    </p>
-    <p>
-        <label>
+            <div class="text-danger">{{ $store.getters['training/resultRepeatsError'] }}</div>
+        </div>
+    </div>
+    <div class="mb-3">
+        <div>
             <small>Вес</small>
             <my-input v-model="form.weight"></my-input>
-        </label>
-    </p>
+            <div class="text-danger">{{ $store.getters['training/resultWeightError'] }}</div>
+        </div>
+    </div>
     <p>
         <button class="btn btn-primary" v-if="!saving && !saved" @click="save()">Сохранить</button>
         <button class="btn btn-primary" v-if="saving && !saved">Сохраняется</button>
@@ -49,15 +51,22 @@ export default {
             this.saving = true
 
             this.$store
-                .dispatch('trainings/saveResults', this.form)
+                .dispatch('training/saveResults', this.form)
                 .then(res => {
                     this.saved = true;
                     this.saving = false;
                     setTimeout(() => {
                         this.$emit('savedSuccess', this.form);
                         }, 1000)
-                });
+                })
+                .catch(err => {
+
+                })
+            ;
         }
+    },
+    mounted() {
+        this.$store.commit('training/saveResultsError', null);
     }
 }
 </script>

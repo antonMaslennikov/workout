@@ -110,7 +110,7 @@ class TrainingController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Страница выполнения тренировки
      *
      * @param  \App\Models\Day $training
      * @return \Illuminate\Http\Response
@@ -119,6 +119,7 @@ class TrainingController extends Controller
     {
         foreach ($training->training->sets as $s) {
             foreach ($s->activities as $a) {
+                $a->results;
                 $a->activitie;
             }
         };

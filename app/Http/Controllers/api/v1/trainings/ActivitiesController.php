@@ -133,9 +133,9 @@ class ActivitiesController extends Controller
             'weight' => $request->weight,
         ]);
 
-        return [
+        return response()->json([
             'status' => 'ok',
             'a' => $a,
-        ];
+        ], 200);
     }
 }

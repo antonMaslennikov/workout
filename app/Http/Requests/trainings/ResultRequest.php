@@ -24,8 +24,8 @@ class ResultRequest extends FormRequest
     public function rules()
     {
         return [
-            'weight' => 'required|integer',
-            'repeats' => 'integer|nullable',
+            'weight' => 'required|integer|min:0',
+            'repeats' => 'integer|nullable|min:0|max:127',
         ];
     }
 }
