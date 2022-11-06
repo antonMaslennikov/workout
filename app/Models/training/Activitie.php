@@ -9,6 +9,8 @@ class Activitie extends Model
 {
     use HasFactory;
 
+//    public $results = [];
+
     /**
      * Таблица БД, ассоциированная с моделью.
      *
@@ -28,8 +30,14 @@ class Activitie extends Model
         return $this->belongsTo(\App\Models\Activitie::class);
     }
 
-    public function results()
+    public function results($day_id = null)
     {
-        return $this->hasMany(Result::class, 'training_activitie_id');
+        $q = $this->hasMany(Result::class, 'training_activitie_id');
+
+        if ($day_id) {
+            $q->where('days_id', '=', $day_id);
+        }
+
+        return $q->get();
     }
 }

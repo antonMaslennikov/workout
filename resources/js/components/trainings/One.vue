@@ -23,7 +23,7 @@
                         <div v-if="activitie.activitie.description">{{ activitie.activitie.description }}</div>
                         <div class="mt-3">
                             <button class="btn btn-sm btn-success" @click="showResultForm(activitie)">выполнено</button>
-                            <button v-if="activitie.results.length > 0" class="btn btn-sm btn-warning ms-2" @click="showResultList(activitie)">записано</button>
+                            <button v-if="activitie.results && activitie.results.length > 0" class="btn btn-sm btn-warning ms-2" @click="showResultList(activitie)">записано</button>
                         </div>
                     </div>
 
@@ -43,6 +43,7 @@
 
     <my-dialog v-model:show="addResultsDialogVisible">
         <result-form
+            :training_id="id"
             :activitie="currentActivitie"
             @savedSuccess="resultSavedSuccess"></result-form>
     </my-dialog>

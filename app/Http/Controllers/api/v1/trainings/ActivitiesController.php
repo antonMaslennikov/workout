@@ -128,6 +128,7 @@ class ActivitiesController extends Controller
     public function results(ResultRequest $request)
     {
         $a = Result::create([
+            'days_id' => $request->training_id,
             'training_activitie_id' => $request->activitie_id,
             'repeats' => $request->repeats,
             'weight' => $request->weight,

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Day;
 use App\Models\Training;
 use App\Models\training\Activitie;
+use App\Models\training\Result;
 use App\Models\training\Set;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -117,10 +118,19 @@ class TrainingController extends Controller
      */
     public function show(Day $training)
     {
+//        $results = Result::query()->where(['days_id' => $training->id])->get();
+
         foreach ($training->training->sets as $s) {
             foreach ($s->activities as $a) {
-                $a->results;
                 $a->activitie;
+
+                $a->results = $a->results($training->id);
+
+//                foreach ($results AS $r) {
+//                    if ($a->id == $r->training_activitie_id) {
+//                        $a->results[] = $r;
+//                    }
+//                }
             }
         };
 

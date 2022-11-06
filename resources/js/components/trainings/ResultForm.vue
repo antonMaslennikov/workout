@@ -26,17 +26,21 @@ export default {
     name: "ResultForm",
     components: {MyInput},
     props: {
+        training_id: {
+            type: Number,
+            required: true
+        },
         activitie: {
             type: Object,
             required: true
         },
-
     },
     data() {
         return {
             saving:false,
             saved:false,
             form: {
+                training_id: 0,
                 activitie_id: 0,
                 repeats: '',
                 weight: '',
@@ -46,6 +50,7 @@ export default {
     methods: {
         save() {
 
+            this.form.training_id = this.training_id
             this.form.activitie_id = this.activitie.id
 
             this.saving = true
