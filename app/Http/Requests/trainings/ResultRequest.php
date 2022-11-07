@@ -26,8 +26,8 @@ class ResultRequest extends FormRequest
         return [
             'training_id' => 'required',
             'activitie_id' => 'required',
-            'weight' => 'required|integer|min:0',
-            'repeats' => 'integer|nullable|min:0|max:127',
+            'weight' => 'required|numeric|min:0',
+            'repeats' => 'required|integer|min:0|max:127',
         ];
     }
 }
