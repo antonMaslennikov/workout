@@ -94,6 +94,7 @@ class TrainingController extends Controller
 
         $d = Day::create([
             'training_id' => $request->training_id,
+            'user_id' => auth()->user()->id,
             'date' => $day->format('Y-m-d'),
             'start_at' => $day->format('Y-m-d H:i:00'),
             'end_at' => null,
@@ -124,7 +125,11 @@ class TrainingController extends Controller
             foreach ($s->activities as $a) {
                 $a->activitie;
 
+                // результаты по данному упражнению сегодня
                 $a->results = $a->results($training->id);
+
+                // лучшие результаты по данному упражнению за всё время
+                $a->best_result = $a->best_results;
 
 //                foreach ($results AS $r) {
 //                    if ($a->id == $r->training_activitie_id) {

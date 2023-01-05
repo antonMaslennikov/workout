@@ -9,7 +9,7 @@ class Day extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['date', 'training_id', 'start_at', 'end_at'];
+    protected $fillable = ['date', 'training_id', 'user_id', 'start_at', 'end_at'];
 
 
     public function training()
