@@ -23,10 +23,10 @@
                         <div>Повторений: {{ activitie.quantity }}</div>
                         <div v-if="activitie.comment">{{ activitie.comment }}</div>
                         <div v-if="activitie.activitie.description">{{ activitie.activitie.description }}</div>
-                        <div>Лучший подход: 5 / 3</div>
+                        <div v-if="activitie.best_result">Лучший подход: {{ activitie.best_result.repeats }} / {{ activitie.best_result.weight }}</div>
                         <div class="mt-3">
                             <button class="btn btn-sm btn-success" @click="showResultForm(activitie)">выполнено</button>
-                            <button v-if="activitie.results && activitie.results.length > 0" class="btn btn-sm btn-warning ms-2" @click="showResultList(activitie)">записано</button>
+                            <button v-if="activitie.results && activitie.results.length > 0" class="btn btn-sm btn-warning ms-2" @click="showResultList(activitie)">записано ({{activitie.results.length}})</button>
                         </div>
                     </div>
 

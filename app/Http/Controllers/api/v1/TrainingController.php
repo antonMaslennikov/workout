@@ -129,7 +129,7 @@ class TrainingController extends Controller
                 $a->results = $a->results($training->id);
 
                 // лучшие результаты по данному упражнению за всё время
-                $a->best_result = $a->best_results;
+                $a->best_result = $a->best_results($training->id);
 
 //                foreach ($results AS $r) {
 //                    if ($a->id == $r->training_activitie_id) {

@@ -41,14 +41,23 @@ class Activitie extends Model
         return $q->get();
     }
 
-//    public function best_results()
-//    {
-//        Result::query()->where('training_activitie_id', $this->id)
-//
-//        if ($day_id) {
-//            $q->where('days_id', '=', $day_id);
-//        }
-//
-//        return $q->get();
-//    }
+    /**
+     * лучший результат по упражнению
+     * @return \Illuminate\Database\Eloquent\Builder|Model|object|null
+     */
+    public function best_results()
+    {
+        $q = Result::query()
+            ->whereHas('training', function($query) { $query->where('user_id', auth()->user()->id); })
+            ->where('training_activitie_id', $this->id)
+            ->where('created_at', '<', date('Y-m-d 00:00:00'))
+            ->where('repeats', '>', 0)
+            ->orderBy('weight', 'desc')
+            ->orderBy('repeats', 'desc')
+        ;
+
+//        dd($q->toSql(), auth()->user()->id);
+
+        return $q->first();
+    }
 }

@@ -21,7 +21,7 @@ export default {
         // перехватываем все не прошедшие запросы через аксиос
         axios.interceptors.response.use(undefined, function (err) {
             return new Promise(function (resolve, reject) {
-                if ((err.status === 401 || err == 'Error: Request failed with status code 401') && err.config && !err.config.__isRetryRequest) {
+                if (err.response.status === 401 && err.config && !err.config.__isRetryRequest) {
                     store.dispatch('auth/logout');
                     next('/login');
                 }
