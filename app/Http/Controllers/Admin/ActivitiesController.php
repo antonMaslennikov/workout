@@ -23,10 +23,16 @@ class ActivitiesController extends Controller
      */
     public function index()
     {
-        $activities = Activitie::orderBy('created_at', 'DESC')->paginate(50);
+        $query = Activitie::orderBy('created_at', 'DESC');
+
+        
+
+
+        $activities = $query->paginate(10);
 
         return view('admin.activities.index', [
             'activities' => $activities,
+            'body_parts' => Activitie::$body_parts,
         ]);
     }
 

@@ -6,9 +6,29 @@
     <div class="container mx-auto px-6 py-8">
         <h3 class="text-gray-700 text-3xl font-medium">Упражнения</h3>
 
-        <div class="mt-8">
+        <div class="mt-8 mb-4">
             <a href="{{ route('admin.activities.create') }}" class="text-indigo-600 hover:text-indigo-900">Добавить</a>
         </div>
+
+        <form action="{{ route('admin.activities.index') }}" method="get">
+
+            <div class="row">
+                <div class="col-4">
+                    <label>Поиск</label>
+                    <input type="text" name="search" class="w-full h-12 border border-gray-800 rounded px-3">
+                </div>
+                <div class="col-4">
+                    <label>Часть тела</label>
+                    <select name="body_part" class="w-full h-12 border border-gray-800 rounded px-3 @error('body_part') border-red-500 @enderror">
+                        <option value="">-</option>
+                        @foreach($body_parts AS $bp)
+                            <option value="{{ $bp['id']  }}" {{ 1 == 2 ? 'selected="selected"' : '' }}>{{ $bp['name']  }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+
+        </form>
 
         <div class="flex flex-col mt-8">
             <div class="-my-2 py-2 overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
@@ -50,7 +70,7 @@
                     </table>
 
                     <div class="px-2 py-2">
-                    {{ $activities->links()  }}
+                    {{ $activities->withQueryString()->links()  }}
                     </div>
                 </div>
             </div>

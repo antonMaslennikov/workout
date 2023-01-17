@@ -17,19 +17,19 @@ export default {
             }
         },
         nameError(state) {
-            if (typeof state.register_errors.name !== 'undefined')
+            if (typeof state.register_errors !== '' && typeof state.register_errors !== 'undefined' && typeof state.register_errors.name !== 'undefined')
                 return state.register_errors.name.join(',')
             else
                 return '';
         },
         emailError(state) {
-            if (typeof state.register_errors.email !== 'undefined')
+            if (typeof state.register_errors !== '' && typeof state.register_errors !== 'undefined' && typeof state.register_errors.email !== 'undefined')
                 return state.register_errors.email.join(',')
             else
                 return '';
         },
         passwordError(state) {
-            if (typeof state.register_errors.password !== 'undefined')
+            if (typeof state.register_errors !== '' && typeof state.register_errors !== 'undefined' && typeof state.register_errors.password !== 'undefined')
                 return state.register_errors.password.join(',')
             else
                 return '';
