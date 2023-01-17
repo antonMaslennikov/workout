@@ -40,4 +40,15 @@ class Activitie extends Model
 
         return $q->get();
     }
+
+//    public function best_results()
+//    {
+//        Result::query()->where('training_activitie_id', $this->id)
+//
+//        if ($day_id) {
+//            $q->where('days_id', '=', $day_id);
+//        }
+//
+//        return $q->get();
+//    }
 }
