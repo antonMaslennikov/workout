@@ -23,7 +23,7 @@ export default {
             return new Promise(function (resolve, reject) {
                 if (err.response.status === 401 && err.config && !err.config.__isRetryRequest) {
                     store.dispatch('auth/logout');
-                    next('/login');
+                    router.push('/login')
                 }
                 throw err;
             });
