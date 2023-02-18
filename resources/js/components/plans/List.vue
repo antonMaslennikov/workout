@@ -13,6 +13,7 @@
                             {{ training.hour && training.hour !== '00' ? '(' + training.hour + ':' + (training.minute == '' ? '00' : training.minute)  + ')' : '' }}
                         </div>
                         <div class="col-2 -actions">
+                            <a href="#" @click.stop.prevent="planTraining(training)" style="margin-right: 10px;" title="Начать сейчас"><i class="bi bi-clock"></i></a>
                             <a href="#" @click.stop.prevent="editTraining(training)" style="margin-right: 10px;"><i class="bi bi-pen"></i></a>
                             <a href="#" @click.stop.prevent="removeTraining(training)"><i class="bi bi-trash"></i></a>
                         </div>
@@ -82,6 +83,7 @@ export default {
             removeSet: 'plans/removeSet',
             removeTraining: 'plans/removeTraining',
             removeActivitie: 'plans/removeActivitie',
+            planTraining: 'plans/planTraining',
         }),
     },
     computed: {

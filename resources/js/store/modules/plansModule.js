@@ -1,5 +1,6 @@
 import axios from "axios";
 import store from "../index";
+import router from "../../router/router";
 
 export default {
     state: () => ({
@@ -108,6 +109,32 @@ export default {
             }
         },
 
+        planTraining({state, commit}, training) {
+
+            if (!confirm('Провести эту тренировку сейчас?')) {
+                return;
+            }
+
+            let now = new Date();
+
+            let form = {}
+            form.training_id = training.id;
+            form.year = now.getFullYear();
+            form.month = now.getMonth() + 1;
+            form.day = now.getDate();
+
+            axios
+                .post(store.state.api_url + '/trainings', form, {
+                    headers: {
+                        'Content-type': 'application/json'
+                    }
+                })
+                .then(res => {
+                    if (res.data.status == 'ok') {
+                        router.push('/training/view/' + res.data.t.id)
+                    }
+                });
+        },
 
         saveSet({state, commit}, form) {
             if (!form.id || form.id == 0) {
