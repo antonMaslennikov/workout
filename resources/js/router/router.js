@@ -66,7 +66,10 @@ const routes = [
     },
     {
         path: '/training/view/:id',
-        component: TrainingPage
+        component: TrainingPage,
+        meta: {
+            requiresAuth: true
+        }
     },
     {
         path: '/:pathMatch(.*)*',

@@ -15,15 +15,18 @@
                 <div class="timeline-item">
     <!--                <span class="time"><i class="fa bi bi-clock"></i> 12:05</span>-->
 
-                    <h3 class="timeline-header">{{ activitie.activitie.name }}</h3>
+                    <h3 class="timeline-header">
+                        {{ activitie.activitie.name }}
+                    </h3>
 
                     <div class="timeline-body">
                         <div>Повторений: {{ activitie.quantity }}</div>
                         <div v-if="activitie.comment">{{ activitie.comment }}</div>
                         <div v-if="activitie.activitie.description">{{ activitie.activitie.description }}</div>
+                        <div v-if="activitie.best_result">Лучший подход: {{ activitie.best_result.repeats }} / {{ activitie.best_result.weight }}</div>
                         <div class="mt-3">
                             <button class="btn btn-sm btn-success" @click="showResultForm(activitie)">выполнено</button>
-                            <button v-if="activitie.results && activitie.results.length > 0" class="btn btn-sm btn-warning ms-2" @click="showResultList(activitie)">записано</button>
+                            <button v-if="activitie.results && activitie.results.length > 0" class="btn btn-sm btn-warning ms-2" @click="showResultList(activitie)">записано ({{activitie.results.length}})</button>
                         </div>
                     </div>
 

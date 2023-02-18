@@ -66,7 +66,7 @@ export default {
                 }
 
             } catch (e) {
-                alert('Ошибка');
+                //alert('Ошибка');
             } finally {
                 commit('setLoading', false);
             }

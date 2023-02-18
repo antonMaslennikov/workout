@@ -65,7 +65,7 @@ export default {
                 const response = await axios.get(store.state.api_url + '/trainings/' + state.year + '/' + state.month + '/' + state.day, {});
                 commit('setList', response.data);
             } catch (e) {
-                alert('Ошибка');
+                //alert('Ошибка');
             } finally {
                 commit('setLoading', false);
             }

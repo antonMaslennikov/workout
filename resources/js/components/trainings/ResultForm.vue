@@ -42,8 +42,8 @@ export default {
             form: {
                 training_id: 0,
                 activitie_id: 0,
-                repeats: '',
-                weight: '',
+                repeats: this.activitie.results.length > 0 ? this.activitie.results[this.activitie.results.length - 1].repeats : '',
+                weight: this.activitie.results.length > 0 ? this.activitie.results[this.activitie.results.length - 1].weight : '',
             }
         }
     },
