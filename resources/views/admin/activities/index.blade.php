@@ -15,16 +15,20 @@
             <div class="row">
                 <div class="col-4">
                     <label>Поиск</label>
-                    <input type="text" name="search" class="w-full h-12 border border-gray-800 rounded px-3">
+                    <input type="text" name="search" class="w-full h-12 border border-gray-800 rounded px-3" value="{{ Request::get("search") }}">
                 </div>
                 <div class="col-4">
                     <label>Часть тела</label>
                     <select name="body_part" class="w-full h-12 border border-gray-800 rounded px-3 @error('body_part') border-red-500 @enderror">
                         <option value="">-</option>
                         @foreach($body_parts AS $bp)
-                            <option value="{{ $bp['id']  }}" {{ 1 == 2 ? 'selected="selected"' : '' }}>{{ $bp['name']  }}</option>
+                            <option value="{{ $bp['id'] }}" {{ Request::get("body_part") == $bp['id'] ? 'selected="selected"' : '' }}>{{ $bp['name']  }}</option>
                         @endforeach
                     </select>
+                </div>
+                <div class="col-4">
+                    <label>&nbsp;</label>
+                    <button class="text-center w-full bg-blue-900 rounded-md text-white h-12 px-3 font-medium">Искать</button>
                 </div>
             </div>
 
@@ -38,7 +42,9 @@
                         <thead>
                         <tr>
                             <th class="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                                Заголовок</th>
+                                Название</th>
+                            <th class="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                                Часть тела</th>
                             <th class="px-6 py-3 border-b border-gray-200 bg-gray-50"></th>
                         </tr>
                         </thead>
@@ -48,6 +54,10 @@
                         <tr>
                             <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
                                 <div class="text-sm leading-5 text-gray-900">{{ $a->name }}</div>
+                            </td>
+
+                            <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                                <div class="text-sm leading-5 text-gray-900">{{ $a->body_part }}</div>
                             </td>
 
                             <td class="px-6 py-4 whitespace-no-wrap text-right border-b border-gray-200 text-sm leading-5 font-medium">

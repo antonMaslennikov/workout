@@ -21,14 +21,23 @@ class ActivitiesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $query = Activitie::orderBy('created_at', 'DESC');
 
-        
+        if ($request->has('body_part') && $request->body_part) {
+            $query->where('body_part', $request->body_part);
+        }
 
+        if ($request->has('search') && $request->search) {
+            $query->where('name', 'like', '%' . $request->search . '%')
+                //   ->orWhere('description', 'like', '%' . $request->search . '%')
+                  ;
+        }
 
         $activities = $query->paginate(10);
+
+        //dd($activities);
 
         return view('admin.activities.index', [
             'activities' => $activities,
